@@ -410,6 +410,18 @@ model ChatMessage {
 - **Language switcher:** compact dropdown or EN/IT/DE buttons
 - **Command palette:** discreet `⌘K` hint in nav on desktop
 
+## design refences
+ ### Screenshots / mockups
+    Refer to the screenshots below is the base for the design direction. The final implementation may differ slightly, but the overall aesthetic and layout should remain consistent.
+references: [Screenshots]
+    - @context/screenshots/aboutSection.png
+    - @context/screenshots/experienceSection.png
+    - @context/screenshots/educationSection.png
+    - @context/screenshots/skills.png
+    - @context/screenshots/startSection.png
+    - @context/screenshots/contactSection.png
+    - @context/screenshots/searchWithCommandK.png
+
 ---
 
 ## 8. 📂 Repo Structure & Docs
