@@ -1,10 +1,21 @@
-export function Section({ id, title }: { id: string; title: string }) {
-  return (
-    <section
-      id={id}
-      className="mx-auto flex min-h-[60vh] max-w-6xl scroll-mt-16 items-center px-4 sm:px-6 lg:px-8"
-    >
-      <h2 className="text-3xl font-semibold sm:text-4xl">{title}</h2>
-    </section>
-  );
-}
+import type { ReactNode } from "react";
+import { cn } from "@/lib/utils";
+
+type SectionProps = {
+  id: string;
+  className?: string;
+  children: ReactNode;
+};
+
+/** Shared section shell: centered max-width, consistent padding + scroll offset. */
+export const Section = ({ id, className, children }: SectionProps) => (
+  <section
+    id={id}
+    className={cn(
+      "mx-auto max-w-6xl scroll-mt-16 px-4 py-20 sm:px-6 sm:py-28 lg:px-8",
+      className
+    )}
+  >
+    {children}
+  </section>
+);
