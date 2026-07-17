@@ -4,41 +4,15 @@
 
 <!-- Not Started|In Progress|Completed -->
 
-In Progress
+Not Started
 
 ## Goals
 
 <!-- Goals & requirements -->
 
-**Phase 2 of 3 — fill each section with real content + build the animated
-experience timeline.** Still display-only (no functional forms or i18n yet).
-Match the reference screenshots and the dark-by-default theme from Phase 1.
-
-- All content read from `src/data/portfolio-data.ts` — no hardcoded copy in components
-- **Hero** — name (Samuele La Fleur), role (Full Stack Developer), tagline from
-  the CV summary, primary CTA (contact / download CV)
-- **About** — 2–3 paragraph bio ending with the discreet personal line
-  ("Off the keyboard: gym & training, music across genres, AC Milan.")
-- **Experience** — vertical timeline: thin teal line, dotted milestones, one
-  entry per experience (company, role, location, dates, highlights, stack chips).
-  Subtle on-scroll fade/slide animations with Framer Motion
-- **Education** — SUPSI + CPT entries, clean and minimal
-- **Skills** — categorized (Languages, Frontend, Backend, Databases,
-  DevOps & Cloud, Tools, Methodologies) rendered as tags/chips
-- **Contact** — display-only form UI (Name, Email, Message) + direct links
-  (email, phone, LinkedIn, GitHub) + Download CV button
-- **Footer** — social links + optional lite GitHub activity signal (static for now)
-- Stack chips / tags styled consistently with the teal accent
-- Keep everything responsive
-
 ## Notes
 
 <!-- Any extra notes -->
-
-- Full spec: `context/features/portfolio-phase-2.spec.md`
-- Reference screenshots: `startSection`, `aboutSection`, `experienceSection`,
-  `educationSection`, `skills`, `contactSection` under `context/screenshots/`
-- Forms, i18n, and GitHub live-fetch remain deferred to a later phase
 
 ## History
 
@@ -55,3 +29,24 @@ Match the reference screenshots and the dark-by-default theme from Phase 1.
   (Hero, About, Experience, Education, Skills, Contact). Verified with
   `npm run build`, `npm run lint`, and a live browser pass (desktop + a
   simulated mobile breakpoint) in both themes.
+- **Completed Phase 2 content + animated timeline** on
+  `feature/portfolio-phase-2` (merged to `main`, branch deleted). Filled every
+  section with real content sourced from `src/data/portfolio-data.ts` (extended
+  with profile/about/contact/section-intro copy — no hardcoded strings in
+  components): Hero (tagline with emphasized keywords + Get in touch / Download
+  CV CTAs), About (bio + personal line + Quick facts card), Experience (vertical
+  teal timeline with milestone dots, per-role cards, monospace date ranges,
+  teal-bulleted highlights and stack chips, staggered on-scroll fade/slide via
+  Framer Motion / `motion`), Education (SUPSI + CPT cards), Skills (7 category
+  cards with chips), Contact (display-only Name/Email/Message form + email /
+  phone / LinkedIn / GitHub links + Download CV), and a Footer (copyright, static
+  GitHub signal, social icon links). Added reusable `Section` shell,
+  `SectionHeading`, `Chip`, `Reveal` (client motion wrapper), inline GitHub /
+  LinkedIn brand icons (this lucide build ships no brand glyphs), and a
+  `lib/dates.ts` month/range formatter. All React components written as arrow
+  functions (new coding-standards rule). Fixed the GitHub link to
+  `github.com/semlafleur`. Verified with `npm run build`, `npm run lint`, and a
+  live browser pass across all sections in light + dark themes and a 390px
+  mobile breakpoint. Deferred to a later phase: real i18n, functional contact
+  form (Resend), live GitHub fetch, and per-locale CV PDFs (links point at
+  `/cv-en.pdf`, not yet added).
