@@ -1,0 +1,89 @@
+{
+  "metadata": {
+    "title": "Samuele La Fleur — Full Stack Developer",
+    "description": "Portfolio personale di Samuele La Fleur, Full Stack Developer con sede in Svizzera. TypeScript, React, Next.js, Node.js, AWS."
+  },
+  "nav": {
+    "about": "Chi sono",
+    "experience": "Esperienza",
+    "education": "Formazione",
+    "skills": "Competenze",
+    "contact": "Contatti",
+    "downloadCv": "Scarica CV",
+    "openMenu": "Apri menu"
+  },
+  "hero": {
+    "role": "Full Stack Developer",
+    "tagline": "Oltre 4 anni a costruire applicazioni web e mobile scalabili in ambito <b>healthcare</b>, <b>Web3</b> e <b>SaaS</b>. TypeScript, React, Node.js, cloud-native su AWS.",
+    "ctaPrimary": "Contattami",
+    "ctaSecondary": "Scarica il CV"
+  },
+  "about": {
+    "eyebrow": "Chi sono",
+    "heading": "Uno sviluppatore che consegna.",
+    "p1": "Sono uno sviluppatore full-stack che vive tra il Ticino e Basilea, concentrato sul creare prodotti su cui le persone contano davvero — da sistemi EHR di livello ospedaliero a marketplace Web3 e piattaforme SaaS serverless.",
+    "p2": "Il mio lavoro si colloca all'incrocio tra un frontend pulito e un backend solido: TypeScript ovunque, React e Next.js sopra, Node.js, NestJS o Spring Boot sotto, il tutto distribuito su AWS con CI/CD che gestisco end-to-end.",
+    "personalLine": "Lontano dalla tastiera: palestra e allenamento, musica di ogni genere, il Milan.",
+    "quickFactsTitle": "In breve",
+    "factBasedLabel": "Sede",
+    "factBasedValue": "Ticino / Basilea",
+    "factExperienceLabel": "Esperienza",
+    "factExperienceValue": "4+ anni",
+    "factFocusLabel": "Focus",
+    "factFocusValue": "TypeScript · React · AWS",
+    "factLanguagesLabel": "Lingue",
+    "factLanguagesValue": "🇮🇹 IT · 🇬🇧 EN · 🇩🇪 DE"
+  },
+  "experience": {
+    "eyebrow": "Esperienza",
+    "heading": "Dove ho lavorato."
+  },
+  "education": {
+    "eyebrow": "Formazione",
+    "heading": "Come sono arrivato qui."
+  },
+  "skills": {
+    "eyebrow": "Competenze",
+    "heading": "Lo stack che scelgo."
+  },
+  "contact": {
+    "eyebrow": "Contatti",
+    "heading": "Parliamone.",
+    "intro": "Hai una posizione aperta, un progetto o vuoi solo salutare? Il modo più veloce per raggiungermi è proprio qui — o tramite uno dei canali qui sotto.",
+    "nameLabel": "Nome",
+    "namePlaceholder": "Mario Rossi",
+    "emailLabel": "Email",
+    "emailPlaceholder": "mario@azienda.com",
+    "messageLabel": "Messaggio",
+    "messagePlaceholder": "Raccontami qualcosa sul ruolo o sul progetto...",
+    "send": "Invia messaggio",
+    "sending": "Invio in corso...",
+    "success": "Grazie — il tuo messaggio è in arrivo.",
+    "error": "Qualcosa è andato storto. Riprova o scrivimi direttamente.",
+    "downloadCv": "Scarica il CV (PDF)"
+  },
+  "footer": {
+    "rights": "© {year} Samuele La Fleur",
+    "openSource": "Sviluppo in pubblico @semlafleur",
+    "githubActivity": "{repos} repository pubbliche · {stars}★ · ultimo push {date}",
+    "github": "GitHub",
+    "linkedin": "LinkedIn",
+    "email": "Email"
+  },
+  "palette": {
+    "placeholder": "Digita un comando o cerca...",
+    "empty": "Nessun risultato.",
+    "groupNavigate": "Naviga",
+    "groupActions": "Azioni",
+    "groupLanguage": "Lingua",
+    "toggleTheme": "Cambia tema",
+    "downloadCv": "Scarica il CV",
+    "copyEmail": "Copia email",
+    "emailCopied": "Email copiata negli appunti",
+    "openLinkedin": "Apri LinkedIn",
+    "openGithub": "Apri GitHub",
+    "languageEnglish": "English",
+    "languageItalian": "Italiano",
+    "languageGerman": "Deutsch"
+  }
+}

@@ -1,7 +1,11 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import { notFound } from "next/navigation";
+import { hasLocale, NextIntlClientProvider } from "next-intl";
+import { getTranslations, setRequestLocale } from "next-intl/server";
 import { ThemeProvider } from "@/components/theme-provider";
-import { locales } from "@/lib/i18n";
+import { routing } from "@/i18n/routing";
+import { siteName } from "@/data/portfolio-data";
 import "../globals.css";
 
 const geistSans = Geist({
@@ -14,24 +18,58 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-export const metadata: Metadata = {
-  title: "Samuele La Fleur — Full Stack Developer",
-  description:
-    "Personal portfolio of Samuele La Fleur, Full Stack Developer based in Switzerland.",
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
+
+export const generateStaticParams = () =>
+  routing.locales.map((locale) => ({ locale }));
+
+export const generateMetadata = async ({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> => {
+  const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: "metadata" });
+
+  return {
+    metadataBase: new URL(siteUrl),
+    title: t("title"),
+    description: t("description"),
+    alternates: {
+      canonical: `/${locale}`,
+      languages: Object.fromEntries(
+        routing.locales.map((l) => [l, `/${l}`])
+      ),
+    },
+    openGraph: {
+      title: t("title"),
+      description: t("description"),
+      url: `/${locale}`,
+      siteName,
+      locale,
+      type: "website",
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: t("title"),
+      description: t("description"),
+    },
+  };
 };
 
-export function generateStaticParams() {
-  return locales.map((locale) => ({ locale }));
-}
-
-export default async function RootLayout({
+const RootLayout = async ({
   children,
   params,
 }: {
   children: React.ReactNode;
   params: Promise<{ locale: string }>;
-}) {
+}) => {
   const { locale } = await params;
+
+  if (!hasLocale(routing.locales, locale)) notFound();
+
+  // Enable static rendering for this locale.
+  setRequestLocale(locale);
 
   return (
     <html
@@ -40,15 +78,19 @@ export default async function RootLayout({
       className={`${geistSans.variable} ${geistMono.variable}`}
     >
       <body>
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="dark"
-          enableSystem={false}
-          disableTransitionOnChange
-        >
-          {children}
-        </ThemeProvider>
+        <NextIntlClientProvider>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="dark"
+            enableSystem={false}
+            disableTransitionOnChange
+          >
+            {children}
+          </ThemeProvider>
+        </NextIntlClientProvider>
       </body>
     </html>
   );
-}
+};
+
+export default RootLayout;

@@ -1,18 +1,18 @@
 import { MapPin } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { Section } from "@/components/section";
 import { SectionHeading } from "@/components/section-heading";
 import { Reveal } from "@/components/reveal";
 import { Chip } from "@/components/chip";
-import { experiences, experienceIntro } from "@/data/portfolio-data";
+import { experiences } from "@/data/portfolio-data";
 import { formatRange } from "@/lib/dates";
 
 export const Experience = () => {
+  const t = useTranslations("experience");
+
   return (
     <Section id="experience">
-      <SectionHeading
-        eyebrow={experienceIntro.eyebrow}
-        heading={experienceIntro.heading}
-      />
+      <SectionHeading eyebrow={t("eyebrow")} heading={t("heading")} />
 
       <ol className="relative ml-1.5 space-y-6 border-l border-primary/30 pl-8 sm:pl-10">
         {experiences.map((exp, index) => (

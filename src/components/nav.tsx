@@ -1,6 +1,7 @@
 "use client";
 
 import { Command, Download, Menu } from "lucide-react";
+import { useLocale, useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -10,19 +11,29 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { ThemeToggle } from "@/components/theme-toggle";
+import { useCommandPalette } from "@/components/command-palette-provider";
+import { usePathname, useRouter } from "@/i18n/navigation";
+import { locales, type Locale } from "@/lib/i18n";
+import { cvHref, siteName } from "@/data/portfolio-data";
 import { cn } from "@/lib/utils";
 
-const sectionLinks = [
-  { href: "#about", label: "About" },
-  { href: "#experience", label: "Experience" },
-  { href: "#education", label: "Education" },
-  { href: "#skills", label: "Skills" },
-  { href: "#contact", label: "Contact" },
-];
+export const Nav = () => {
+  const t = useTranslations("nav");
+  const locale = useLocale();
+  const router = useRouter();
+  const pathname = usePathname();
+  const { setOpen } = useCommandPalette();
 
-const languages = ["EN", "IT", "DE"] as const;
+  const sectionLinks = [
+    { href: "#about", label: t("about") },
+    { href: "#experience", label: t("experience") },
+    { href: "#education", label: t("education") },
+    { href: "#skills", label: t("skills") },
+    { href: "#contact", label: t("contact") },
+  ];
 
-export function Nav() {
+  const switchLocale = (next: Locale) => router.replace(pathname, { locale: next });
+
   return (
     <header className="sticky top-0 z-50 border-b border-border/60 bg-background/80 backdrop-blur-sm">
       <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4 sm:px-6 lg:px-8">
@@ -30,7 +41,7 @@ export function Nav() {
           <span className="flex size-8 shrink-0 items-center justify-center rounded-full bg-primary text-sm font-bold text-primary-foreground">
             SL
           </span>
-          <span className="hidden sm:inline">Samuele La Fleur</span>
+          <span className="hidden sm:inline">{siteName}</span>
         </a>
 
         <nav
@@ -49,31 +60,33 @@ export function Nav() {
         </nav>
 
         <div className="hidden items-center gap-3 md:flex">
-          <span
-            className="flex items-center gap-1 rounded-md border border-border px-2 py-1 text-xs text-muted-foreground"
-            aria-hidden="true"
+          <button
+            type="button"
+            onClick={() => setOpen(true)}
+            className="flex items-center gap-1 rounded-md border border-border px-2 py-1 text-xs text-muted-foreground transition-colors hover:text-foreground"
           >
             <Command className="size-3.5" />K
-          </span>
+          </button>
 
           <div
             role="group"
             aria-label="Language"
             className="flex items-center rounded-full border border-border p-0.5"
           >
-            {languages.map((lang, index) => (
+            {locales.map((lang) => (
               <button
                 key={lang}
                 type="button"
-                aria-pressed={index === 0}
+                aria-pressed={lang === locale}
+                onClick={() => switchLocale(lang)}
                 className={cn(
                   "rounded-full px-2.5 py-1 text-xs font-medium transition-colors",
-                  index === 0
+                  lang === locale
                     ? "bg-primary text-primary-foreground"
                     : "text-muted-foreground hover:text-foreground"
                 )}
               >
-                {lang}
+                {lang.toUpperCase()}
               </button>
             ))}
           </div>
@@ -84,10 +97,10 @@ export function Nav() {
             variant="outline"
             size="sm"
             nativeButton={false}
-            render={<a href="#contact" />}
+            render={<a href={cvHref(locale)} download />}
           >
             <Download />
-            Download CV
+            {t("downloadCv")}
           </Button>
         </div>
 
@@ -96,7 +109,7 @@ export function Nav() {
           <DropdownMenu>
             <DropdownMenuTrigger
               render={
-                <Button variant="outline" size="icon" aria-label="Open menu" />
+                <Button variant="outline" size="icon" aria-label={t("openMenu")} />
               }
             >
               <Menu />
@@ -108,9 +121,15 @@ export function Nav() {
                 </DropdownMenuItem>
               ))}
               <DropdownMenuSeparator />
-              <DropdownMenuItem render={<a href="#contact" />}>
+              {locales.map((lang) => (
+                <DropdownMenuItem key={lang} onClick={() => switchLocale(lang)}>
+                  {lang === locale ? `● ${lang.toUpperCase()}` : lang.toUpperCase()}
+                </DropdownMenuItem>
+              ))}
+              <DropdownMenuSeparator />
+              <DropdownMenuItem render={<a href={cvHref(locale)} download />}>
                 <Download />
-                Download CV
+                {t("downloadCv")}
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
@@ -118,4 +137,4 @@ export function Nav() {
       </div>
     </header>
   );
-}
+};

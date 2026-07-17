@@ -1,20 +1,12 @@
-import { NextResponse } from "next/server";
-import type { NextRequest } from "next/server";
-import { defaultLocale, locales } from "@/lib/i18n";
+import createMiddleware from "next-intl/middleware";
+import { routing } from "@/i18n/routing";
 
-export function proxy(request: NextRequest) {
-  const { pathname } = request.nextUrl;
-  const hasLocale = locales.some(
-    (locale) => pathname === `/${locale}` || pathname.startsWith(`/${locale}/`)
-  );
-
-  if (hasLocale) return;
-
-  const url = request.nextUrl.clone();
-  url.pathname = `/${defaultLocale}${pathname}`;
-  return NextResponse.redirect(url);
-}
+// Next.js 16 renamed Middleware to Proxy; next-intl's request handler is
+// compatible. It adds locale-prefix routing plus browser-locale detection and
+// a locale cookie on first visit.
+export default createMiddleware(routing);
 
 export const config = {
-  matcher: ["/((?!_next|api|.*\\..*).*)"],
+  // Skip API routes, Next internals, and anything with a file extension.
+  matcher: ["/((?!api|_next|_vercel|.*\\..*).*)"],
 };
