@@ -217,23 +217,139 @@ export type SkillCategory = {
 };
 ```
 
-### Phase 2 — persistence introduced
+### Persistence — Prisma 7 + Neon PostgreSQL
 
-When the AI Assistant and Analytics dashboard land, a real datastore enters. The models below are illustrative Prisma schemas for the analytics backend and the RAG vector store — the vector store may instead be handled by a managed service (Upstash Vector) or pre-computed JSON embeddings for a dataset this small.
+Persistence is introduced as a standalone step (built after the front-end is live). The datastore is **Neon** (serverless PostgreSQL) with **Prisma 7** as the ORM. The schema is rolled out in three sub-phases so the database can grow with the features that need it, rather than all at once.
+
+> **⚠️ Prisma 7 note.** Prisma 7 has significant breaking changes vs 6. The generator provider is now `prisma-client` (not `prisma-client-js`) with an explicit `output` path; the client ships as an **ES module** and requires a **driver adapter** for every database (for Neon: `@prisma/adapter-neon`); the `url` field is **no longer allowed in the schema** — connection URLs move to `prisma.config.ts`; and automatic seeding during migrations was removed (seed is invoked explicitly). Always read the [official upgrade guide](https://www.prisma.io/docs/orm/more/upgrade-guides/upgrading-versions/upgrading-to-prisma-7) before starting.
+
+**Schema roll-out sub-phases:**
+
+| Sub-phase | Adds | Enables |
+|-----------|------|---------|
+| **DB-1 · Foundation + CMS** | Prisma/Neon setup, NextAuth models, portfolio content models (`Profile`, `Experience`, `Education`, `SkillCategory`) | Content served from DB instead of `portfolio-data.ts`; authenticated admin editing |
+| **DB-2 · Analytics** | `AnalyticsEvent`, `DailyMetric` | Usage tracking + analytics dashboard |
+| **DB-3 · AI / RAG** | `PortfolioChunk` (pgvector), `ChatSession`, `ChatMessage` | AI assistant with retrieval over portfolio content |
+
+Connection URLs live in `prisma.config.ts`, not in the schema. A **development branch** (in `DATABASE_URL`) is worked on separately from a **production branch**; changes always go through migrations, never a direct `db push` unless explicitly stated.
 
 ```prisma
-// prisma/schema.prisma
+// prisma/schema.prisma  — illustrative full schema (evolves per sub-phase)
 generator client {
-  provider = "prisma-client-js"
+  provider = "prisma-client"          // v7: was "prisma-client-js"
+  output   = "../src/generated/prisma" // v7: explicit output path required
 }
 
 datasource db {
   provider   = "postgresql"
-  url        = env("DATABASE_URL")
-  extensions = [pgvector(map: "vector")]
+  // NOTE (v7): no `url` here — connection URLs live in prisma.config.ts
+  extensions = [vector]                // pgvector, enabled in DB-3
 }
 
-/// ── Analytics ──────────────────────────────
+/// ── DB-1 · Auth (NextAuth / Auth.js) ───────
+
+model User {
+  id            String    @id @default(cuid())
+  name          String?
+  email         String?   @unique
+  emailVerified DateTime?
+  image         String?
+  accounts      Account[]
+  sessions      Session[]
+  createdAt     DateTime  @default(now())
+}
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+  user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+  @@index([userId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
+
+/// ── DB-1 · Portfolio content (CMS) ─────────
+
+/// Single-row profile (name, role, tagline, bio, contact info)
+model Profile {
+  id           String   @id @default(cuid())
+  name         String
+  role         String
+  tagline      String
+  bio          String
+  personalLine String?  // "Off the keyboard: gym & training, music, AC Milan."
+  email        String
+  phone        String?
+  linkedin     String?
+  github       String?
+  updatedAt    DateTime @updatedAt
+}
+
+model Experience {
+  id         String    @id @default(cuid())
+  company    String
+  role       String
+  location   String
+  startDate  DateTime
+  endDate    DateTime? // null = present
+  highlights String[]
+  stack      String[]
+  order      Int       @default(0) // controls render sequence
+  createdAt  DateTime  @default(now())
+
+  @@index([order])
+}
+
+model Education {
+  id          String   @id @default(cuid())
+  institution String
+  degree      String
+  location    String
+  startDate   DateTime
+  endDate     DateTime?
+  order       Int      @default(0)
+
+  @@index([order])
+}
+
+model SkillCategory {
+  id       String   @id @default(cuid())
+  category String   // "Frontend", "Backend", ...
+  items    String[]
+  order    Int      @default(0)
+
+  @@index([order])
+}
+
+/// ── DB-2 · Analytics ───────────────────────
 
 enum EventType {
   PAGE_VIEW
@@ -260,22 +376,22 @@ model AnalyticsEvent {
 
 /// Optional daily rollups for fast dashboard reads
 model DailyMetric {
-  id        String    @id @default(cuid())
-  date      DateTime  @db.Date
-  type      EventType
-  count     Int       @default(0)
+  id    String    @id @default(cuid())
+  date  DateTime  @db.Date
+  type  EventType
+  count Int       @default(0)
 
   @@unique([date, type])
 }
 
-/// ── RAG vector store (pgvector) ────────────
+/// ── DB-3 · RAG vector store (pgvector) ─────
 
 model PortfolioChunk {
-  id        String                      @id @default(cuid())
+  id        String                       @id @default(cuid())
   source    String   // "experience" | "cv" | "skills" | "about"
   content   String   // the chunked text
   embedding Unsupported("vector(1536)")?
-  createdAt DateTime                    @default(now())
+  createdAt DateTime                     @default(now())
 
   @@index([source])
 }
@@ -298,6 +414,8 @@ model ChatMessage {
   @@index([sessionId, createdAt])
 }
 ```
+
+> Once DB-1 lands, `portfolio-data.ts` becomes the **seed source**, and the Phase 2 section components are refactored to read content from the DB (via server components / Prisma queries) rather than importing the static file — so content isn't sourced from two places.
 
 ---
 
@@ -336,17 +454,17 @@ model ChatMessage {
 │  (Vercel)    │───────►│  → Groq / Gemini /    │
 │              │        │    Cloudflare AI      │
 │   AI chat UI │◄───────│  + RAG retrieval      │
-│              │        └──────────┬───────────┘
-│   Analytics  │                   │ embeddings
-│   dashboard  │                   ▼
-│   (Recharts) │        ┌──────────────────────┐
-└──────┬───────┘        │ Vector store         │
-      │ events         │ (pgvector / Upstash) │
-      ▼                 └──────────────────────┘
-┌──────────────────────┐
-│  Spring Boot API     │───► PostgreSQL
-│  (Railway / Render)  │     (events + rollups)
-└──────────────────────┘
+│   Analytics  │        └──────────┬───────────┘
+│   dashboard  │                   │ embeddings
+│   Admin CMS  │                   │
+│   (NextAuth) │                   ▼
+└──────┬───────┘        ┌──────────────────────┐
+      │  Prisma 7       │  Neon PostgreSQL     │
+      │  (@adapter-neon)│  • CMS content       │
+      └────────────────►│  • auth (NextAuth)   │
+         content /      │  • analytics events  │
+         events /       │  • pgvector (RAG)    │
+         chat / auth    └──────────────────────┘
 ```
 
 ---
@@ -377,9 +495,11 @@ model ChatMessage {
 
 | Concern | Choice |
 |---------|--------|
+| **Database** | [Neon](https://neon.tech) (serverless PostgreSQL) + [Prisma 7](https://prisma.io) ORM with `@prisma/adapter-neon` |
+| **Auth** | NextAuth / Auth.js (for the admin CMS write access) |
 | **AI** | Vercel AI SDK abstraction + free provider (Groq / Gemini Flash / Cloudflare Workers AI) |
-| **RAG** | Portfolio embeddings (pre-computed or via provider), lightweight vector store (pgvector or Upstash Vector) |
-| **Analytics backend** | Spring Boot + PostgreSQL on Railway / Render / VPS |
+| **RAG** | Portfolio embeddings (pre-computed or via provider), `pgvector` on Neon (or Upstash Vector) |
+| **Analytics** | Events persisted to Neon via Prisma; dashboard UI with Recharts |
 | **Playground** | Sandpack or react-live |
 | **PWA** | next-pwa |
 

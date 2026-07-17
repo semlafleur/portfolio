@@ -18,6 +18,46 @@ Not Started
 
 <!-- Keep this updated. Earliest to latest -->
 
+- **Completed Prisma 7 + Neon PostgreSQL setup (DB-1)** on
+  `feature/db-prisma-neon-setup`. Installed
+  `prisma@7.8.0`, `@prisma/client@7.8.0`, `@prisma/adapter-neon`,
+  `@neondatabase/serverless`, `ws` (+ `@types/ws`, `dotenv` dev deps). Ran
+  `npx prisma init` and read the actual CLI-generated output rather than
+  relying on training-data knowledge of Prisma 7 (WebFetch to the docs was
+  unavailable this session) — confirmed the breaking changes already noted in
+  `project-overview.md`: generator provider is `prisma-client` with an
+  explicit `output` (`src/generated/prisma`, gitignored, auto-added by
+  `prisma init`); `datasource` has no `url` in `schema.prisma`; the
+  connection string lives in `prisma.config.ts` (`datasource.url`, loaded via
+  `dotenv/config`) for the CLI, while the generated `PrismaClient` requires an
+  explicit driver `adapter` at runtime — `prisma.config.ts`'s url is only
+  consulted by the CLI (migrate/introspect), not by the app. Wrote DB-1 scope
+  only (Foundation + CMS, per the sub-phase table): NextAuth models (`User`,
+  `Account`, `Session`, `VerificationToken`) and portfolio content models
+  (`Profile`, `Experience`, `Education`, `SkillCategory`) — DB-2 (analytics)
+  and DB-3 (pgvector/RAG) deferred until those features are built. Added
+  `src/lib/prisma.ts`: a dev-hot-reload-safe singleton using `PrismaNeon`
+  (`@prisma/adapter-neon`) over a WebSocket (`ws`), matching the adapter's own
+  README example. Ran `prisma migrate dev --name init` against the user's
+  real Neon dev-branch database (pooled connection string, `-pooler` host —
+  worked fine for DDL + advisory locks, no direct/unpooled URL needed).
+  Notable bug hit and fixed during verification: `prisma migrate dev` does
+  **not** automatically re-run `prisma generate` in v7 — after hand-editing
+  `schema.prisma` to add the real models (post `prisma init`, which only
+  scaffolds an empty schema), the generated client in
+  `src/generated/prisma/internal/class.ts` still had the stale empty
+  `inlineSchema`/`runtimeDataModel`, so every model accessor
+  (`prisma.user`, etc.) was `undefined` until an explicit `npx prisma
+  generate` was re-run. Added `scripts/test-db.ts` (run via `npx tsx
+  scripts/test-db.ts`) as a standing sanity check — instantiates the real
+  adapter-backed client and prints `.count()` for all 8 models against the
+  live Neon DB (all returned 0 on the fresh database). `tsx` itself was left
+  uninstalled (resolved on demand via `npx`) rather than added as a
+  devDependency. Verified with `npm run build` and `npm run lint`. Deferred /
+  out of scope: DB-2/DB-3 schema, seeding `portfolio-data.ts` into the DB,
+  NextAuth wiring, and the production Neon branch (only the dev branch
+  `DATABASE_URL` was configured, per the documented dev/prod branch split).
+
 - Project setup and boilerplate cleanup
 - Implemented Phase 1 UI shell on `feature/portfolio-phase-1-ui`: shadcn/ui init
   (button, dropdown-menu, dialog), teal accent token + dark-mode-default theme
