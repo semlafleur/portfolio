@@ -18,6 +18,27 @@ Not Started
 
 <!-- Keep this updated. Earliest to latest -->
 
+- **Seeded the dev Neon DB (`prisma/seed.ts`)** on `feature/db-seed-data`, per
+  `context/features/seed-spec.md`. Populates real portfolio content sourced
+  from `src/data/portfolio-data.ts` and `messages/en.json` — no fabricated
+  data: an admin `User` row (name + email + `emailVerified`; the model has no
+  password field, auth is OAuth-only via `Account`), a single `Profile` row
+  (tagline/bio assembled from `messages/en.json`'s `hero`/`about` keys, HTML
+  `<b>` emphasis tags stripped since the DB value is plain text), 4
+  `Experience` rows, 2 `Education` rows, and 7 `SkillCategory` rows, each with
+  `order` set from array index. Followed `scripts/test-db.ts`'s existing
+  pattern (standalone `PrismaClient` + `PrismaNeon` adapter + `dotenv/config`)
+  rather than importing the app's `src/lib/prisma.ts` singleton, since that
+  singleton relies on Next.js's automatic env loading and `DATABASE_URL` is
+  undefined without an explicit `dotenv/config` import when run standalone via
+  `tsx`. Idempotent: `User`/`Profile` use `upsert`, `Experience`/`Education`/
+  `SkillCategory` use `deleteMany` + `createMany` (no natural unique key to
+  upsert against) — verified safe to re-run by running it twice and confirming
+  row counts stay stable via `scripts/test-db.ts`. Verified with `npm run
+  build` and `npm run lint`. Deferred / out of scope: wiring the app's
+  components to read from the DB instead of `portfolio-data.ts` (still the
+  Phase 2 static-import path), and seeding the production Neon branch.
+
 - **Completed Prisma 7 + Neon PostgreSQL setup (DB-1)** on
   `feature/db-prisma-neon-setup`. Installed
   `prisma@7.8.0`, `@prisma/client@7.8.0`, `@prisma/adapter-neon`,
