@@ -13,6 +13,20 @@
 - Use hooks for state and side effects
 - Keep components focused - one job per component
 - Extract reusable logic into custom hooks
+- **Always use arrow-function syntax** for components and functions — never the `function` keyword:
+  - With logic: `const Component = () => { return (...) }`
+  - Without logic (pure markup): `const Component = () => <>...</>`
+
+```tsx
+// With logic
+const UserCard = ({ user }: UserCardProps) => {
+  const initials = getInitials(user.name);
+  return <div>{initials}</div>;
+};
+
+// Without logic
+const Divider = () => <hr className="border-border" />;
+```
 
 ## Next.js
 

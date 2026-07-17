@@ -1,24 +1,25 @@
 import { Nav } from "@/components/nav";
-import { Section } from "@/components/section";
+import { Footer } from "@/components/footer";
+import { Hero } from "@/components/sections/hero";
+import { About } from "@/components/sections/about";
+import { Experience } from "@/components/sections/experience";
+import { Education } from "@/components/sections/education";
+import { Skills } from "@/components/sections/skills";
+import { Contact } from "@/components/sections/contact";
 
-const sections = [
-  { id: "hero", title: "Hero" },
-  { id: "about", title: "About" },
-  { id: "experience", title: "Experience" },
-  { id: "education", title: "Education" },
-  { id: "skills", title: "Skills" },
-  { id: "contact", title: "Contact" },
-];
+const Home = () => (
+  <>
+    <Nav />
+    <main>
+      <Hero />
+      <About />
+      <Experience />
+      <Education />
+      <Skills />
+      <Contact />
+    </main>
+    <Footer />
+  </>
+);
 
-export default function Home() {
-  return (
-    <>
-      <Nav />
-      <main>
-        {sections.map((section) => (
-          <Section key={section.id} id={section.id} title={section.title} />
-        ))}
-      </main>
-    </>
-  );
-}
+export default Home;
