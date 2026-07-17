@@ -1,24 +1,43 @@
 import { Mail } from "lucide-react";
+import { useLocale, useTranslations } from "next-intl";
 import { GithubIcon, LinkedinIcon } from "@/components/icons/brand";
-import { contact, profile } from "@/data/portfolio-data";
+import { contactChannels } from "@/data/portfolio-data";
+import type { GithubActivity } from "@/lib/github";
 
 const socials = [
-  { type: "github" as const, icon: GithubIcon, label: "GitHub" },
-  { type: "linkedin" as const, icon: LinkedinIcon, label: "LinkedIn" },
-  { type: "email" as const, icon: Mail, label: "Email" },
+  { type: "github" as const, icon: GithubIcon },
+  { type: "linkedin" as const, icon: LinkedinIcon },
+  { type: "email" as const, icon: Mail },
 ];
 
-export const Footer = () => {
+export const Footer = ({ activity }: { activity: GithubActivity | null }) => {
+  const t = useTranslations("footer");
+  const locale = useLocale();
   const year = new Date().getFullYear();
-  const githubChannel = contact.channels.find((c) => c.type === "github");
+  const githubChannel = contactChannels.find((c) => c.type === "github");
+  const activityLine = activity
+    ? t("githubActivity", {
+        repos: activity.publicRepos,
+        stars: activity.totalStars,
+        date: activity.lastPushedAt
+          ? new Intl.DateTimeFormat(locale, { dateStyle: "medium" }).format(
+              new Date(activity.lastPushedAt)
+            )
+          : "—",
+      })
+    : t("openSource");
+
+  const socialLabels: Record<(typeof socials)[number]["type"], string> = {
+    github: t("github"),
+    linkedin: t("linkedin"),
+    email: t("email"),
+  };
 
   return (
     <footer className="border-t border-border/60">
       <div className="mx-auto flex max-w-6xl flex-col items-center gap-6 px-4 py-10 sm:flex-row sm:justify-between sm:px-6 lg:px-8">
         <div className="text-center sm:text-left">
-          <p className="text-sm text-muted-foreground">
-            © {year} {profile.name}
-          </p>
+          <p className="text-sm text-muted-foreground">{t("rights", { year })}</p>
           {githubChannel && (
             <a
               href={githubChannel.href}
@@ -27,14 +46,14 @@ export const Footer = () => {
               className="mt-1 inline-flex items-center gap-1.5 text-xs text-muted-foreground transition-colors hover:text-foreground"
             >
               <GithubIcon className="size-3.5" />
-              Building in the open @semlafleur
+              {activityLine}
             </a>
           )}
         </div>
 
         <div className="flex items-center gap-2">
           {socials.map((social) => {
-            const channel = contact.channels.find((c) => c.type === social.type);
+            const channel = contactChannels.find((c) => c.type === social.type);
             if (!channel) return null;
             const external = social.type !== "email";
             const Icon = social.icon;
@@ -44,7 +63,7 @@ export const Footer = () => {
                 href={channel.href}
                 target={external ? "_blank" : undefined}
                 rel={external ? "noopener noreferrer" : undefined}
-                aria-label={social.label}
+                aria-label={socialLabels[social.type]}
                 className="flex size-9 items-center justify-center rounded-lg border border-border text-muted-foreground transition-colors hover:border-primary/50 hover:text-foreground"
               >
                 <Icon className="size-4" />

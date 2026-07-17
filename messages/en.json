@@ -1,0 +1,89 @@
+{
+  "metadata": {
+    "title": "Samuele La Fleur — Full Stack Developer",
+    "description": "Personal portfolio of Samuele La Fleur, Full Stack Developer based in Switzerland. TypeScript, React, Next.js, Node.js, AWS."
+  },
+  "nav": {
+    "about": "About",
+    "experience": "Experience",
+    "education": "Education",
+    "skills": "Skills",
+    "contact": "Contact",
+    "downloadCv": "Download CV",
+    "openMenu": "Open menu"
+  },
+  "hero": {
+    "role": "Full Stack Developer",
+    "tagline": "4+ years building scalable web and mobile applications across <b>healthcare</b>, <b>Web3</b>, and <b>SaaS</b>. TypeScript, React, Node.js, cloud-native on AWS.",
+    "ctaPrimary": "Get in touch",
+    "ctaSecondary": "Download CV"
+  },
+  "about": {
+    "eyebrow": "About",
+    "heading": "A developer who ships.",
+    "p1": "I'm a full-stack developer based between Ticino and Basel, focused on building products people actually rely on — from hospital-grade EHR systems to Web3 marketplaces and serverless SaaS platforms.",
+    "p2": "My work sits at the intersection of a clean frontend and a solid backend: TypeScript everywhere, React and Next.js on top, Node.js, NestJS, or Spring Boot underneath, deployed on AWS with CI/CD I own end-to-end.",
+    "personalLine": "Off the keyboard: gym & training, music across genres, AC Milan.",
+    "quickFactsTitle": "Quick facts",
+    "factBasedLabel": "Based in",
+    "factBasedValue": "Ticino / Basel",
+    "factExperienceLabel": "Experience",
+    "factExperienceValue": "4+ years",
+    "factFocusLabel": "Focus",
+    "factFocusValue": "TypeScript · React · AWS",
+    "factLanguagesLabel": "Languages",
+    "factLanguagesValue": "🇮🇹 IT · 🇬🇧 EN · 🇩🇪 DE"
+  },
+  "experience": {
+    "eyebrow": "Experience",
+    "heading": "Where I've worked."
+  },
+  "education": {
+    "eyebrow": "Education",
+    "heading": "How I got here."
+  },
+  "skills": {
+    "eyebrow": "Skills",
+    "heading": "The stack I reach for."
+  },
+  "contact": {
+    "eyebrow": "Contact",
+    "heading": "Let's talk.",
+    "intro": "Have a role, a project, or just want to say hi? The fastest way to reach me is right here — or through any of the channels below.",
+    "nameLabel": "Name",
+    "namePlaceholder": "Jane Doe",
+    "emailLabel": "Email",
+    "emailPlaceholder": "jane@company.com",
+    "messageLabel": "Message",
+    "messagePlaceholder": "Tell me a bit about the role or project...",
+    "send": "Send message",
+    "sending": "Sending...",
+    "success": "Thanks — your message is on its way.",
+    "error": "Something went wrong. Please try again or email me directly.",
+    "downloadCv": "Download CV (PDF)"
+  },
+  "footer": {
+    "rights": "© {year} Samuele La Fleur",
+    "openSource": "Building in the open @semlafleur",
+    "githubActivity": "{repos} public repos · {stars}★ · pushed {date}",
+    "github": "GitHub",
+    "linkedin": "LinkedIn",
+    "email": "Email"
+  },
+  "palette": {
+    "placeholder": "Type a command or search...",
+    "empty": "No results found.",
+    "groupNavigate": "Navigate",
+    "groupActions": "Actions",
+    "groupLanguage": "Language",
+    "toggleTheme": "Toggle theme",
+    "downloadCv": "Download CV",
+    "copyEmail": "Copy email",
+    "emailCopied": "Email copied to clipboard",
+    "openLinkedin": "Open LinkedIn",
+    "openGithub": "Open GitHub",
+    "languageEnglish": "English",
+    "languageItalian": "Italiano",
+    "languageGerman": "Deutsch"
+  }
+}

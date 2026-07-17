@@ -50,3 +50,37 @@ Not Started
   mobile breakpoint. Deferred to a later phase: real i18n, functional contact
   form (Resend), live GitHub fetch, and per-locale CV PDFs (links point at
   `/cv-en.pdf`, not yet added).
+- **Completed Phase 3 — functional interactivity, i18n, SEO** on
+  `feature/portfolio-phase-3`. Wired real `next-intl` locale-prefix routing
+  (`/en`, `/it`, `/de`) with browser-locale detection via `src/proxy.ts`
+  (renamed from Middleware in Next 16) and a locale cookie; every UI and
+  narrative string moved into `messages/{en,it,de}.json` (`portfolio-data.ts`
+  now holds only locale-independent facts — contact channels, `siteName`, and
+  a `cvHref(locale)` helper). Nav's language pills and mobile menu are now
+  functional (`next-intl`'s `useRouter`/`usePathname` swap locale while
+  preserving scroll position). Built a `cmdk`-based command palette (⌘K, click
+  trigger in Nav) with fuzzy search, keyboard nav, and grouped actions:
+  jump-to-section, toggle theme, switch language, download CV, copy email,
+  open LinkedIn/GitHub — state lifted into a `CommandPaletteProvider` context
+  so Nav and the palette share open/close state. Contact form is now
+  functional: client component posts to a new `/api/contact` Route Handler
+  (Zod validation, honeypot field, in-memory per-IP rate limit, Resend email)
+  with idle/submitting/success/error states; the route degrades gracefully
+  (503 with a clear message) when `RESEND_API_KEY` is unset. Added GitHub
+  integration lite (`src/lib/github.ts`): server-side fetch of public repos /
+  total stars / last push, `revalidate: 3600`, rendered in the Footer with a
+  static fallback line if the fetch fails. Added per-locale SEO via
+  `generateMetadata` (title, description, canonical, hreflang alternates, OG,
+  Twitter card) and a dynamic OG image at `app/[locale]/opengraph-image.tsx`
+  via `next/og`. Notable bug found and fixed: an async Server Component
+  fetching its own data while nested as a direct child of a Client Component
+  boundary broke Turbopack's static prerendering of `/en` ("Expected a
+  suspended thenable"); fixed by lifting the GitHub fetch up to the page-level
+  Server Component and passing the result into `Footer` as a prop. All new
+  components follow the arrow-function coding-standards rule. Verified with
+  `npm run build`, `npm run lint`, and a manual live-browser pass by the user
+  (language switching, command palette, contact form, in both themes).
+  Deferred / out of scope: real `cv-{locale}.pdf` files (must be supplied by
+  the user — not fabricated), the actual Vercel deploy + custom domain +
+  secrets (`RESEND_API_KEY`, optional `GITHUB_TOKEN`, `NEXT_PUBLIC_SITE_URL`),
+  and a formal Lighthouse audit.

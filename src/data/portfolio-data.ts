@@ -21,20 +21,10 @@ export type SkillCategory = {
   items: string[];
 };
 
-export type QuickFact = {
-  label: string;
-  value: string;
-};
-
 export type ContactChannel = {
   type: "email" | "phone" | "linkedin" | "github";
   label: string;
   href: string;
-};
-
-export type SectionIntro = {
-  eyebrow: string;
-  heading: string;
 };
 
 export const experiences: Experience[] = [
@@ -166,72 +156,30 @@ export const skillCategories: SkillCategory[] = [
   },
 ];
 
-// Canonical CV path (per-locale variants land in a later phase)
-export const cvHref = "/cv-en.pdf";
+// Display name, reused where the brand appears (nav, footer aria labels).
+export const siteName = "Samuele La Fleur";
 
-export const profile = {
-  name: "Samuele La Fleur",
-  role: "Full Stack Developer",
-  tagline:
-    "4+ years building scalable web and mobile applications across healthcare, Web3, and SaaS. TypeScript, React, Node.js, cloud-native on AWS.",
-  // Substrings of `tagline` rendered with emphasis
-  taglineHighlights: ["healthcare", "Web3", "SaaS"],
-  primaryCta: { label: "Get in touch", href: "#contact" },
-  secondaryCta: { label: "Download CV", href: cvHref },
-};
+// Locale-aware CV path — resolves to /cv-en.pdf, /cv-it.pdf or /cv-de.pdf.
+// (The narrative copy for each section now lives in messages/{locale}.json.)
+export const cvHref = (locale: string) => `/cv-${locale}.pdf`;
 
-export const about = {
-  eyebrow: "About",
-  heading: "A developer who ships.",
-  paragraphs: [
-    "I'm a full-stack developer based between Ticino and Basel, focused on building products people actually rely on — from hospital-grade EHR systems to Web3 marketplaces and serverless SaaS platforms.",
-    "My work sits at the intersection of a clean frontend and a solid backend: TypeScript everywhere, React and Next.js on top, Node.js, NestJS, or Spring Boot underneath, deployed on AWS with CI/CD I own end-to-end.",
-  ],
-  personalLine: "Off the keyboard: gym & training, music across genres, AC Milan.",
-  quickFacts: [
-    { label: "Based in", value: "Ticino / Basel" },
-    { label: "Experience", value: "4+ years" },
-    { label: "Focus", value: "TypeScript · React · AWS" },
-    { label: "Languages", value: "🇮🇹 IT · 🇬🇧 EN · 🇩🇪 DE" },
-  ] satisfies QuickFact[],
-};
-
-export const experienceIntro: SectionIntro = {
-  eyebrow: "Experience",
-  heading: "Where I've worked.",
-};
-
-export const educationIntro: SectionIntro = {
-  eyebrow: "Education",
-  heading: "How I got here.",
-};
-
-export const skillsIntro: SectionIntro = {
-  eyebrow: "Skills",
-  heading: "The stack I reach for.",
-};
-
-export const contact = {
-  eyebrow: "Contact",
-  heading: "Let's talk.",
-  intro:
-    "Have a role, a project, or just want to say hi? The fastest way to reach me is right here — or through any of the channels below.",
-  channels: [
-    {
-      type: "email",
-      label: "semlafleur@hotmail.com",
-      href: "mailto:semlafleur@hotmail.com",
-    },
-    { type: "phone", label: "+41 78 772 6025", href: "tel:+41787726025" },
-    {
-      type: "linkedin",
-      label: "linkedin.com/in/samuele-la-fleur",
-      href: "https://linkedin.com/in/samuele-la-fleur",
-    },
-    {
-      type: "github",
-      label: "github.com/semlafleur",
-      href: "https://github.com/semlafleur",
-    },
-  ] satisfies ContactChannel[],
-};
+// Locale-independent contact facts (addresses / URLs). The surrounding copy
+// (intro, form labels) is translated in messages/{locale}.json.
+export const contactChannels: ContactChannel[] = [
+  {
+    type: "email",
+    label: "semlafleur@hotmail.com",
+    href: "mailto:semlafleur@hotmail.com",
+  },
+  { type: "phone", label: "+41 78 772 6025", href: "tel:+41787726025" },
+  {
+    type: "linkedin",
+    label: "linkedin.com/in/samuele-la-fleur",
+    href: "https://linkedin.com/in/samuele-la-fleur",
+  },
+  {
+    type: "github",
+    label: "github.com/semlafleur",
+    href: "https://github.com/semlafleur",
+  },
+];

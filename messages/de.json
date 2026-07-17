@@ -1,0 +1,89 @@
+{
+  "metadata": {
+    "title": "Samuele La Fleur — Full Stack Developer",
+    "description": "Persönliches Portfolio von Samuele La Fleur, Full Stack Developer mit Sitz in der Schweiz. TypeScript, React, Next.js, Node.js, AWS."
+  },
+  "nav": {
+    "about": "Über mich",
+    "experience": "Erfahrung",
+    "education": "Ausbildung",
+    "skills": "Fähigkeiten",
+    "contact": "Kontakt",
+    "downloadCv": "Lebenslauf",
+    "openMenu": "Menü öffnen"
+  },
+  "hero": {
+    "role": "Full Stack Developer",
+    "tagline": "Über 4 Jahre Erfahrung im Bau skalierbarer Web- und Mobile-Anwendungen in den Bereichen <b>Healthcare</b>, <b>Web3</b> und <b>SaaS</b>. TypeScript, React, Node.js, cloud-native auf AWS.",
+    "ctaPrimary": "Kontakt aufnehmen",
+    "ctaSecondary": "Lebenslauf herunterladen"
+  },
+  "about": {
+    "eyebrow": "Über mich",
+    "heading": "Ein Entwickler, der liefert.",
+    "p1": "Ich bin ein Full-Stack-Entwickler mit Sitz zwischen dem Tessin und Basel und konzentriere mich darauf, Produkte zu bauen, auf die sich Menschen wirklich verlassen — von EHR-Systemen in Krankenhausqualität bis zu Web3-Marktplätzen und serverlosen SaaS-Plattformen.",
+    "p2": "Meine Arbeit liegt an der Schnittstelle zwischen einem sauberen Frontend und einem soliden Backend: überall TypeScript, oben React und Next.js, darunter Node.js, NestJS oder Spring Boot, bereitgestellt auf AWS mit CI/CD, die ich end-to-end verantworte.",
+    "personalLine": "Abseits der Tastatur: Fitnessstudio und Training, Musik aller Genres, AC Mailand.",
+    "quickFactsTitle": "Kurzprofil",
+    "factBasedLabel": "Standort",
+    "factBasedValue": "Tessin / Basel",
+    "factExperienceLabel": "Erfahrung",
+    "factExperienceValue": "4+ Jahre",
+    "factFocusLabel": "Fokus",
+    "factFocusValue": "TypeScript · React · AWS",
+    "factLanguagesLabel": "Sprachen",
+    "factLanguagesValue": "🇮🇹 IT · 🇬🇧 EN · 🇩🇪 DE"
+  },
+  "experience": {
+    "eyebrow": "Erfahrung",
+    "heading": "Wo ich gearbeitet habe."
+  },
+  "education": {
+    "eyebrow": "Ausbildung",
+    "heading": "Wie ich hierher kam."
+  },
+  "skills": {
+    "eyebrow": "Fähigkeiten",
+    "heading": "Der Stack, zu dem ich greife."
+  },
+  "contact": {
+    "eyebrow": "Kontakt",
+    "heading": "Sprechen wir.",
+    "intro": "Eine offene Stelle, ein Projekt oder einfach nur Hallo sagen? Am schnellsten erreichst du mich direkt hier — oder über einen der Kanäle unten.",
+    "nameLabel": "Name",
+    "namePlaceholder": "Max Mustermann",
+    "emailLabel": "E-Mail",
+    "emailPlaceholder": "max@firma.com",
+    "messageLabel": "Nachricht",
+    "messagePlaceholder": "Erzähl mir kurz von der Stelle oder dem Projekt...",
+    "send": "Nachricht senden",
+    "sending": "Wird gesendet...",
+    "success": "Danke — deine Nachricht ist unterwegs.",
+    "error": "Etwas ist schiefgelaufen. Bitte versuche es erneut oder schreib mir direkt.",
+    "downloadCv": "Lebenslauf herunterladen (PDF)"
+  },
+  "footer": {
+    "rights": "© {year} Samuele La Fleur",
+    "openSource": "Entwicklung im Open @semlafleur",
+    "githubActivity": "{repos} öffentliche Repos · {stars}★ · zuletzt gepusht {date}",
+    "github": "GitHub",
+    "linkedin": "LinkedIn",
+    "email": "E-Mail"
+  },
+  "palette": {
+    "placeholder": "Befehl eingeben oder suchen...",
+    "empty": "Keine Ergebnisse.",
+    "groupNavigate": "Navigation",
+    "groupActions": "Aktionen",
+    "groupLanguage": "Sprache",
+    "toggleTheme": "Thema wechseln",
+    "downloadCv": "Lebenslauf herunterladen",
+    "copyEmail": "E-Mail kopieren",
+    "emailCopied": "E-Mail in die Zwischenablage kopiert",
+    "openLinkedin": "LinkedIn öffnen",
+    "openGithub": "GitHub öffnen",
+    "languageEnglish": "English",
+    "languageItalian": "Italiano",
+    "languageGerman": "Deutsch"
+  }
+}
