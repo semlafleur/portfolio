@@ -1,12 +1,25 @@
+"use client";
+
+import { useSuspenseQuery } from "@tanstack/react-query";
 import { useTranslations } from "next-intl";
 import { Section } from "@/components/section";
 import { SectionHeading } from "@/components/section-heading";
 import { Reveal } from "@/components/reveal";
 import { Chip } from "@/components/chip";
-import { skillCategories } from "@/data/portfolio-data";
+import type { SkillCategory } from "@/data/portfolio-data";
+import { portfolioQueryKeys } from "@/lib/query-client";
+
+const fetchSkillCategories = async (): Promise<SkillCategory[]> => {
+  const res = await fetch("/api/portfolio/skills");
+  return res.json();
+};
 
 export const Skills = () => {
   const t = useTranslations("skills");
+  const { data: skillCategories } = useSuspenseQuery({
+    queryKey: portfolioQueryKeys.skillCategories,
+    queryFn: fetchSkillCategories,
+  });
 
   return (
     <Section id="skills">

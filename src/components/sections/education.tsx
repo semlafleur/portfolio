@@ -1,13 +1,26 @@
+"use client";
+
+import { useSuspenseQuery } from "@tanstack/react-query";
 import { MapPin } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { Section } from "@/components/section";
 import { SectionHeading } from "@/components/section-heading";
 import { Reveal } from "@/components/reveal";
-import { education } from "@/data/portfolio-data";
+import type { Education as EducationEntry } from "@/data/portfolio-data";
 import { formatRange } from "@/lib/dates";
+import { portfolioQueryKeys } from "@/lib/query-client";
+
+const fetchEducation = async (): Promise<EducationEntry[]> => {
+  const res = await fetch("/api/portfolio/education");
+  return res.json();
+};
 
 export const Education = () => {
   const t = useTranslations("education");
+  const { data: education } = useSuspenseQuery({
+    queryKey: portfolioQueryKeys.education,
+    queryFn: fetchEducation,
+  });
 
   return (
     <Section id="education">

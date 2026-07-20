@@ -1,3 +1,4 @@
+import { HydrationBoundary, dehydrate } from "@tanstack/react-query";
 import { setRequestLocale } from "next-intl/server";
 import { CommandPaletteProvider } from "@/components/command-palette-provider";
 import { CommandPalette } from "@/components/command-palette";
@@ -10,6 +11,8 @@ import { Education } from "@/components/sections/education";
 import { Skills } from "@/components/sections/skills";
 import { Contact } from "@/components/sections/contact";
 import { getGithubActivity } from "@/lib/github";
+import { getEducation, getExperiences, getSkillCategories } from "@/lib/db/portfolio";
+import { getQueryClient, portfolioQueryKeys } from "@/lib/query-client";
 
 const Home = async ({ params }: { params: Promise<{ locale: string }> }) => {
   const { locale } = await params;
@@ -18,15 +21,33 @@ const Home = async ({ params }: { params: Promise<{ locale: string }> }) => {
 
   const activity = await getGithubActivity();
 
+  const queryClient = getQueryClient();
+  await Promise.all([
+    queryClient.prefetchQuery({
+      queryKey: portfolioQueryKeys.experiences,
+      queryFn: getExperiences,
+    }),
+    queryClient.prefetchQuery({
+      queryKey: portfolioQueryKeys.education,
+      queryFn: getEducation,
+    }),
+    queryClient.prefetchQuery({
+      queryKey: portfolioQueryKeys.skillCategories,
+      queryFn: getSkillCategories,
+    }),
+  ]);
+
   return (
     <CommandPaletteProvider>
       <Nav />
       <main>
         <Hero />
         <About />
-        <Experience />
-        <Education />
-        <Skills />
+        <HydrationBoundary state={dehydrate(queryClient)}>
+          <Experience />
+          <Education />
+          <Skills />
+        </HydrationBoundary>
         <Contact />
       </main>
       <Footer activity={activity} />
