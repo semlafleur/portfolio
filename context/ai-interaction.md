@@ -25,6 +25,13 @@ This is the common workflow that we will use for every single feature/fix:
 
 Do NOT commit without permission and until the build passes. If build fails, fix the issues first.
 
+## Task Visibility
+
+While implementing any feature/fix, always keep a visible todo list (via the
+task-tracking tool) of the steps in progress, so I have a live overview and
+can stop you if something looks off. Update it as steps complete — don't
+batch updates at the end.
+
 ## Branching
 
 We will create a new branch for every feature/fix. Name branch **feature/[feature]** or **fix[fix]**, etc. Ask to delete the branch once merged.
