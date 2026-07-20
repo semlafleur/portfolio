@@ -181,3 +181,18 @@ Not Started
   the user — not fabricated), the actual Vercel deploy + custom domain +
   secrets (`RESEND_API_KEY`, optional `GITHUB_TOKEN`, `NEXT_PUBLIC_SITE_URL`),
   and a formal Lighthouse audit.
+
+- **Investigated and closed (won't-fix)** the console error reported in
+  `context/bugfix/script-tag-warning-on-locale-switch.md` ("Encountered a
+  script tag while rendering React component", seen on every locale switch).
+  Root cause: `next-themes` 0.4.6 renders its no-flash-of-wrong-theme snippet
+  as a raw JSX `<script>` element; Turbopack's dev server recreates that DOM
+  node client-side on the first post-hydration route transition instead of
+  reusing the server-hydrated one, tripping a React-19 development-only
+  warning. Confirmed via a side-by-side `npm run build` + `npm run start`
+  test (separate port) that the warning never appears in production and
+  theme state applies correctly in both dev and prod across every locale
+  switch tested — no functional impact, cosmetic dev-console noise only.
+  User chose to accept as-is rather than add workaround code (e.g. a custom
+  `next/script`-based no-flash injection) for a purely cosmetic, dev-only
+  issue. No code changed.
