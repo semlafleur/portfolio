@@ -196,3 +196,22 @@ Not Started
   User chose to accept as-is rather than add workaround code (e.g. a custom
   `next/script`-based no-flash injection) for a purely cosmetic, dev-only
   issue. No code changed.
+
+- **Migrated and seeded the production Neon branch**, closing the
+  "seeding the production Neon branch" item deferred since DB-1. Ran
+  `prisma migrate deploy` (schema) and `prisma/seed.ts` (data) against the
+  prod `DATABASE_URL` (from `.env.prod`, gitignored, not committed) — same
+  idempotent seed script already used for dev, no new code. Verified with
+  `scripts/test-db.ts` against prod: 1 `User`, 1 `Profile`, 4 `Experience`,
+  2 `Education`, 7 `SkillCategory`, matching dev's row counts. First
+  attempted a direct `pg_dump --data-only | psql` copy from dev to prod
+  (using derived direct, non-`-pooler` Neon connection strings) but it hit a
+  real blocker: local `pg_dump` is v17.4 (Homebrew) while the Neon server is
+  Postgres 18.4, and `pg_dump` refuses to run against a newer major-version
+  server; Homebrew itself is currently broken on this machine's macOS
+  version (26.5.2, unrecognized by the installed Homebrew, so `brew
+  search`/`install` fail) so a v18 client wasn't readily installable.
+  Fixing Homebrew/installing Postgres 18 client was judged out of scope for
+  this task, so fell back to the Prisma-based path instead — no local
+  binary version dependency, same result. No code changed; only prod DB
+  data.
