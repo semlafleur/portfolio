@@ -18,6 +18,42 @@ Not Started
 
 <!-- Keep this updated. Earliest to latest -->
 
+- **Wired DB → frontend via React Query (DB-1 continued)** on
+  `feature/db-frontend-integration`, per
+  `context/features/db-frontend-integration-spec.md`. The Experience,
+  Education, and Skills sections now read from the seeded Neon DB instead of
+  the static arrays in `src/data/portfolio-data.ts` (those arrays stay in
+  the repo as the seed source, unchanged). Added `src/lib/db/portfolio.ts`
+  (Prisma fetch functions, `Date` fields converted back to the existing
+  `"YYYY-MM"` string shape so the query result types match
+  `portfolio-data.ts`'s `Experience`/`Education`/`SkillCategory` types
+  exactly — no shape drift), `src/lib/query-client.ts` (query keys +
+  per-request `QueryClient` factory, `staleTime: Infinity` since this
+  content only changes via a reseed), and `src/components/query-provider.tsx`
+  mounted in `app/[locale]/layout.tsx`. `page.tsx` prefetches all three
+  queries server-side and wraps the section tree in a `HydrationBoundary` so
+  the client never issues a real network request on first load; the three
+  sections became `"use client"` and read via `useSuspenseQuery`, falling
+  back to new `/api/portfolio/{experience,education,skills}` route handlers
+  only if the hydrated cache ever goes stale (no admin write path exists yet
+  to actually trigger that). `npm run build` confirmed `/en`/`/it`/`/de`
+  still prerender as static (SSG, 1h revalidate) with the Prisma prefetch
+  baked in at build time. Notable bug hit and fixed: the dev server's
+  `src/lib/prisma.ts` hot-reload-safe singleton had cached a broken
+  `PrismaClient` instance on `globalThis` from before an `npx prisma
+  generate` was run (stale generated client, `prisma.experience` etc.
+  `undefined`) — `prefetchQuery` swallows query errors by default, so the
+  cache silently stayed empty and the client fell back to a relative
+  `fetch()` during SSR, crashing with "Failed to parse URL". Fixed by
+  restarting the dev server (the global singleton only resets on process
+  restart, not on file change / HMR). Verified with `npm run build`,
+  `npm run lint`, and a live browser pass (curl + Chrome) confirming real DB
+  content (Goodcode SA, SUPSI, Languages, etc.) renders in the initial SSR
+  HTML. Out of scope / deferred: `Profile` (bio/tagline stay locale-specific
+  in `messages/*.json`, not wired to the DB row), `contactChannels`/
+  `siteName`/`cvHref` (stay static, locale-independent facts), and admin CMS
+  write access to invalidate the query cache.
+
 - **Seeded the dev Neon DB (`prisma/seed.ts`)** on `feature/db-seed-data`, per
   `context/features/seed-spec.md`. Populates real portfolio content sourced
   from `src/data/portfolio-data.ts` and `messages/en.json` — no fabricated
