@@ -1,41 +1,14 @@
-# Current Feature: Animated "neural constellation" hero background
+# Current Feature
 
 ## Status
 
 <!-- Not Started|In Progress|Completed -->
 
-In Progress
+Not Started
 
 ## Goals
 
-- Full spec: `context/features/animation-feature.md`
-- Canvas-based animated background behind the hero name: glowing nodes
-  connected by lines, with pulses traveling along connections
-  ("synaptic signal" effect), subtle depth (variable node size/opacity),
-  and subtle mouse parallax on the whole layer.
-- All colors (node, line, glow, pulse) derived at runtime from the
-  theme's primary color — no hardcoded hex in the component — so it
-  adapts automatically to dark/light mode and future palette changes.
-- New: `src/hooks/use-theme-color.ts`, `src/hooks/use-prefers-reduced-motion.ts`,
-  `src/components/hero-constellation-background.tsx`, mounted behind the
-  hero `<h1>` with `aria-hidden="true"`.
-- Respects `prefers-reduced-motion` (static/disabled), SSR-safe (no
-  `window`/`document` outside `useEffect`), no layout shift, responsive to
-  resize and theme changes, cleans up `requestAnimationFrame`/
-  `ResizeObserver` on unmount.
-
 ## Notes
-
-- Confirmed before implementation: theme toggling uses a `.dark` class on
-  `<html>` (next-themes), not `data-theme`. `--primary` resolves to
-  `--teal`, a **hex** literal (`#14b8a6` light / `#5eead4` dark) in
-  `src/app/globals.css` — not HSL as the spec snippet assumed. The color
-  hook must parse hex → `"r g b"`, and re-read via a `MutationObserver` on
-  `<html class>`.
-- Props: `nodeCount` (55), `connectionDistance` (110), `pulseFrequency`
-  (0.03), `speed` (0.25), `disableOnMobile` (false) — see spec for table.
-- Out of scope this iteration: React Three Fiber/Bloom version, cursor
-  repel/attract interaction, multi-cluster node layout.
 
 ## History
 
@@ -238,3 +211,34 @@ In Progress
   this task, so fell back to the Prisma-based path instead — no local
   binary version dependency, same result. No code changed; only prod DB
   data.
+
+- **Added the animated "neural constellation" hero background** on
+  `feature/hero-constellation-background`, per
+  `context/features/animation-feature.md`. New canvas-based
+  `src/components/hero-constellation-background.tsx`, mounted behind the
+  hero `<h1>` (`aria-hidden="true"`, absolutely positioned, `z-0` under the
+  existing hero content): glowing nodes drifting and bouncing off the
+  container edges, teal connector lines between nodes within
+  `connectionDistance`, occasional "synaptic" pulses traveling along a
+  connection, per-node depth (`radius`/`opacity` varying 0..1) for a subtle
+  3D feel, and a mouse-parallax offset on the whole layer (eased toward the
+  cursor position, capped at 14px). All colors are derived at runtime from
+  `--primary` via new `src/hooks/use-theme-color.ts` (`useSyncExternalStore`
+  + `MutationObserver` on `<html class>`, since `next-themes` toggles a
+  `.dark` class rather than `data-theme`, and `--primary`/`--teal` is a hex
+  literal in `globals.css` rather than HSL — parsed to an `"r g b"` string
+  for use in `rgba(...)`) — no hardcoded color in the component itself, so
+  it follows dark/light mode and any future palette change automatically.
+  New `src/hooks/use-prefers-reduced-motion.ts` (`useSyncExternalStore` over
+  `matchMedia`) freezes the canvas to a single static frame and skips the
+  animation loop entirely when the user has reduced motion enabled. The
+  effect is SSR-safe (canvas sizing, node seeding, and all
+  `window`/`document` access happen inside `useEffect`), resizes via
+  `ResizeObserver` on the container, and cleans up
+  `requestAnimationFrame`/`ResizeObserver`/mouse-listener on unmount.
+  Verified with `npm run build`, `npm run lint`, and a live browser pass in
+  both themes confirming the node color switches from `#14b8a6` (light) to
+  `#5eead4` (dark) when toggling `next-themes`, with no console errors from
+  the app. Out of scope this iteration (per spec): a React Three
+  Fiber/Bloom version, cursor repel/attract interaction, and multi-cluster
+  node layout.
