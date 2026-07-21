@@ -1,119 +1,45 @@
-# Current Feature
+# Current Feature: Animated "neural constellation" hero background
 
 ## Status
 
 <!-- Not Started|In Progress|Completed -->
 
-Not Started
+In Progress
 
 ## Goals
 
-<!-- Goals & requirements -->
+- Full spec: `context/features/animation-feature.md`
+- Canvas-based animated background behind the hero name: glowing nodes
+  connected by lines, with pulses traveling along connections
+  ("synaptic signal" effect), subtle depth (variable node size/opacity),
+  and subtle mouse parallax on the whole layer.
+- All colors (node, line, glow, pulse) derived at runtime from the
+  theme's primary color — no hardcoded hex in the component — so it
+  adapts automatically to dark/light mode and future palette changes.
+- New: `src/hooks/use-theme-color.ts`, `src/hooks/use-prefers-reduced-motion.ts`,
+  `src/components/hero-constellation-background.tsx`, mounted behind the
+  hero `<h1>` with `aria-hidden="true"`.
+- Respects `prefers-reduced-motion` (static/disabled), SSR-safe (no
+  `window`/`document` outside `useEffect`), no layout shift, responsive to
+  resize and theme changes, cleans up `requestAnimationFrame`/
+  `ResizeObserver` on unmount.
 
 ## Notes
 
-<!-- Any extra notes -->
+- Confirmed before implementation: theme toggling uses a `.dark` class on
+  `<html>` (next-themes), not `data-theme`. `--primary` resolves to
+  `--teal`, a **hex** literal (`#14b8a6` light / `#5eead4` dark) in
+  `src/app/globals.css` — not HSL as the spec snippet assumed. The color
+  hook must parse hex → `"r g b"`, and re-read via a `MutationObserver` on
+  `<html class>`.
+- Props: `nodeCount` (55), `connectionDistance` (110), `pulseFrequency`
+  (0.03), `speed` (0.25), `disableOnMobile` (false) — see spec for table.
+- Out of scope this iteration: React Three Fiber/Bloom version, cursor
+  repel/attract interaction, multi-cluster node layout.
 
 ## History
 
 <!-- Keep this updated. Earliest to latest -->
-
-- **Wired DB → frontend via React Query (DB-1 continued)** on
-  `feature/db-frontend-integration`, per
-  `context/features/db-frontend-integration-spec.md`. The Experience,
-  Education, and Skills sections now read from the seeded Neon DB instead of
-  the static arrays in `src/data/portfolio-data.ts` (those arrays stay in
-  the repo as the seed source, unchanged). Added `src/lib/db/portfolio.ts`
-  (Prisma fetch functions, `Date` fields converted back to the existing
-  `"YYYY-MM"` string shape so the query result types match
-  `portfolio-data.ts`'s `Experience`/`Education`/`SkillCategory` types
-  exactly — no shape drift), `src/lib/query-client.ts` (query keys +
-  per-request `QueryClient` factory, `staleTime: Infinity` since this
-  content only changes via a reseed), and `src/components/query-provider.tsx`
-  mounted in `app/[locale]/layout.tsx`. `page.tsx` prefetches all three
-  queries server-side and wraps the section tree in a `HydrationBoundary` so
-  the client never issues a real network request on first load; the three
-  sections became `"use client"` and read via `useSuspenseQuery`, falling
-  back to new `/api/portfolio/{experience,education,skills}` route handlers
-  only if the hydrated cache ever goes stale (no admin write path exists yet
-  to actually trigger that). `npm run build` confirmed `/en`/`/it`/`/de`
-  still prerender as static (SSG, 1h revalidate) with the Prisma prefetch
-  baked in at build time. Notable bug hit and fixed: the dev server's
-  `src/lib/prisma.ts` hot-reload-safe singleton had cached a broken
-  `PrismaClient` instance on `globalThis` from before an `npx prisma
-  generate` was run (stale generated client, `prisma.experience` etc.
-  `undefined`) — `prefetchQuery` swallows query errors by default, so the
-  cache silently stayed empty and the client fell back to a relative
-  `fetch()` during SSR, crashing with "Failed to parse URL". Fixed by
-  restarting the dev server (the global singleton only resets on process
-  restart, not on file change / HMR). Verified with `npm run build`,
-  `npm run lint`, and a live browser pass (curl + Chrome) confirming real DB
-  content (Goodcode SA, SUPSI, Languages, etc.) renders in the initial SSR
-  HTML. Out of scope / deferred: `Profile` (bio/tagline stay locale-specific
-  in `messages/*.json`, not wired to the DB row), `contactChannels`/
-  `siteName`/`cvHref` (stay static, locale-independent facts), and admin CMS
-  write access to invalidate the query cache.
-
-- **Seeded the dev Neon DB (`prisma/seed.ts`)** on `feature/db-seed-data`, per
-  `context/features/seed-spec.md`. Populates real portfolio content sourced
-  from `src/data/portfolio-data.ts` and `messages/en.json` — no fabricated
-  data: an admin `User` row (name + email + `emailVerified`; the model has no
-  password field, auth is OAuth-only via `Account`), a single `Profile` row
-  (tagline/bio assembled from `messages/en.json`'s `hero`/`about` keys, HTML
-  `<b>` emphasis tags stripped since the DB value is plain text), 4
-  `Experience` rows, 2 `Education` rows, and 7 `SkillCategory` rows, each with
-  `order` set from array index. Followed `scripts/test-db.ts`'s existing
-  pattern (standalone `PrismaClient` + `PrismaNeon` adapter + `dotenv/config`)
-  rather than importing the app's `src/lib/prisma.ts` singleton, since that
-  singleton relies on Next.js's automatic env loading and `DATABASE_URL` is
-  undefined without an explicit `dotenv/config` import when run standalone via
-  `tsx`. Idempotent: `User`/`Profile` use `upsert`, `Experience`/`Education`/
-  `SkillCategory` use `deleteMany` + `createMany` (no natural unique key to
-  upsert against) — verified safe to re-run by running it twice and confirming
-  row counts stay stable via `scripts/test-db.ts`. Verified with `npm run
-  build` and `npm run lint`. Deferred / out of scope: wiring the app's
-  components to read from the DB instead of `portfolio-data.ts` (still the
-  Phase 2 static-import path), and seeding the production Neon branch.
-
-- **Completed Prisma 7 + Neon PostgreSQL setup (DB-1)** on
-  `feature/db-prisma-neon-setup`. Installed
-  `prisma@7.8.0`, `@prisma/client@7.8.0`, `@prisma/adapter-neon`,
-  `@neondatabase/serverless`, `ws` (+ `@types/ws`, `dotenv` dev deps). Ran
-  `npx prisma init` and read the actual CLI-generated output rather than
-  relying on training-data knowledge of Prisma 7 (WebFetch to the docs was
-  unavailable this session) — confirmed the breaking changes already noted in
-  `project-overview.md`: generator provider is `prisma-client` with an
-  explicit `output` (`src/generated/prisma`, gitignored, auto-added by
-  `prisma init`); `datasource` has no `url` in `schema.prisma`; the
-  connection string lives in `prisma.config.ts` (`datasource.url`, loaded via
-  `dotenv/config`) for the CLI, while the generated `PrismaClient` requires an
-  explicit driver `adapter` at runtime — `prisma.config.ts`'s url is only
-  consulted by the CLI (migrate/introspect), not by the app. Wrote DB-1 scope
-  only (Foundation + CMS, per the sub-phase table): NextAuth models (`User`,
-  `Account`, `Session`, `VerificationToken`) and portfolio content models
-  (`Profile`, `Experience`, `Education`, `SkillCategory`) — DB-2 (analytics)
-  and DB-3 (pgvector/RAG) deferred until those features are built. Added
-  `src/lib/prisma.ts`: a dev-hot-reload-safe singleton using `PrismaNeon`
-  (`@prisma/adapter-neon`) over a WebSocket (`ws`), matching the adapter's own
-  README example. Ran `prisma migrate dev --name init` against the user's
-  real Neon dev-branch database (pooled connection string, `-pooler` host —
-  worked fine for DDL + advisory locks, no direct/unpooled URL needed).
-  Notable bug hit and fixed during verification: `prisma migrate dev` does
-  **not** automatically re-run `prisma generate` in v7 — after hand-editing
-  `schema.prisma` to add the real models (post `prisma init`, which only
-  scaffolds an empty schema), the generated client in
-  `src/generated/prisma/internal/class.ts` still had the stale empty
-  `inlineSchema`/`runtimeDataModel`, so every model accessor
-  (`prisma.user`, etc.) was `undefined` until an explicit `npx prisma
-  generate` was re-run. Added `scripts/test-db.ts` (run via `npx tsx
-  scripts/test-db.ts`) as a standing sanity check — instantiates the real
-  adapter-backed client and prints `.count()` for all 8 models against the
-  live Neon DB (all returned 0 on the fresh database). `tsx` itself was left
-  uninstalled (resolved on demand via `npx`) rather than added as a
-  devDependency. Verified with `npm run build` and `npm run lint`. Deferred /
-  out of scope: DB-2/DB-3 schema, seeding `portfolio-data.ts` into the DB,
-  NextAuth wiring, and the production Neon branch (only the dev branch
-  `DATABASE_URL` was configured, per the documented dev/prod branch split).
 
 - Project setup and boilerplate cleanup
 - Implemented Phase 1 UI shell on `feature/portfolio-phase-1-ui`: shadcn/ui init
@@ -181,6 +107,103 @@ Not Started
   the user — not fabricated), the actual Vercel deploy + custom domain +
   secrets (`RESEND_API_KEY`, optional `GITHUB_TOKEN`, `NEXT_PUBLIC_SITE_URL`),
   and a formal Lighthouse audit.
+
+- **Completed Prisma 7 + Neon PostgreSQL setup (DB-1)** on
+  `feature/db-prisma-neon-setup`. Installed
+  `prisma@7.8.0`, `@prisma/client@7.8.0`, `@prisma/adapter-neon`,
+  `@neondatabase/serverless`, `ws` (+ `@types/ws`, `dotenv` dev deps). Ran
+  `npx prisma init` and read the actual CLI-generated output rather than
+  relying on training-data knowledge of Prisma 7 (WebFetch to the docs was
+  unavailable this session) — confirmed the breaking changes already noted in
+  `project-overview.md`: generator provider is `prisma-client` with an
+  explicit `output` (`src/generated/prisma`, gitignored, auto-added by
+  `prisma init`); `datasource` has no `url` in `schema.prisma`; the
+  connection string lives in `prisma.config.ts` (`datasource.url`, loaded via
+  `dotenv/config`) for the CLI, while the generated `PrismaClient` requires an
+  explicit driver `adapter` at runtime — `prisma.config.ts`'s url is only
+  consulted by the CLI (migrate/introspect), not by the app. Wrote DB-1 scope
+  only (Foundation + CMS, per the sub-phase table): NextAuth models (`User`,
+  `Account`, `Session`, `VerificationToken`) and portfolio content models
+  (`Profile`, `Experience`, `Education`, `SkillCategory`) — DB-2 (analytics)
+  and DB-3 (pgvector/RAG) deferred until those features are built. Added
+  `src/lib/prisma.ts`: a dev-hot-reload-safe singleton using `PrismaNeon`
+  (`@prisma/adapter-neon`) over a WebSocket (`ws`), matching the adapter's own
+  README example. Ran `prisma migrate dev --name init` against the user's
+  real Neon dev-branch database (pooled connection string, `-pooler` host —
+  worked fine for DDL + advisory locks, no direct/unpooled URL needed).
+  Notable bug hit and fixed during verification: `prisma migrate dev` does
+  **not** automatically re-run `prisma generate` in v7 — after hand-editing
+  `schema.prisma` to add the real models (post `prisma init`, which only
+  scaffolds an empty schema), the generated client in
+  `src/generated/prisma/internal/class.ts` still had the stale empty
+  `inlineSchema`/`runtimeDataModel`, so every model accessor
+  (`prisma.user`, etc.) was `undefined` until an explicit `npx prisma
+  generate` was re-run. Added `scripts/test-db.ts` (run via `npx tsx
+  scripts/test-db.ts`) as a standing sanity check — instantiates the real
+  adapter-backed client and prints `.count()` for all 8 models against the
+  live Neon DB (all returned 0 on the fresh database). `tsx` itself was left
+  uninstalled (resolved on demand via `npx`) rather than added as a
+  devDependency. Verified with `npm run build` and `npm run lint`. Deferred /
+  out of scope: DB-2/DB-3 schema, seeding `portfolio-data.ts` into the DB,
+  NextAuth wiring, and the production Neon branch (only the dev branch
+  `DATABASE_URL` was configured, per the documented dev/prod branch split).
+
+- **Seeded the dev Neon DB (`prisma/seed.ts`)** on `feature/db-seed-data`, per
+  `context/features/seed-spec.md`. Populates real portfolio content sourced
+  from `src/data/portfolio-data.ts` and `messages/en.json` — no fabricated
+  data: an admin `User` row (name + email + `emailVerified`; the model has no
+  password field, auth is OAuth-only via `Account`), a single `Profile` row
+  (tagline/bio assembled from `messages/en.json`'s `hero`/`about` keys, HTML
+  `<b>` emphasis tags stripped since the DB value is plain text), 4
+  `Experience` rows, 2 `Education` rows, and 7 `SkillCategory` rows, each with
+  `order` set from array index. Followed `scripts/test-db.ts`'s existing
+  pattern (standalone `PrismaClient` + `PrismaNeon` adapter + `dotenv/config`)
+  rather than importing the app's `src/lib/prisma.ts` singleton, since that
+  singleton relies on Next.js's automatic env loading and `DATABASE_URL` is
+  undefined without an explicit `dotenv/config` import when run standalone via
+  `tsx`. Idempotent: `User`/`Profile` use `upsert`, `Experience`/`Education`/
+  `SkillCategory` use `deleteMany` + `createMany` (no natural unique key to
+  upsert against) — verified safe to re-run by running it twice and confirming
+  row counts stay stable via `scripts/test-db.ts`. Verified with `npm run
+  build` and `npm run lint`. Deferred / out of scope: wiring the app's
+  components to read from the DB instead of `portfolio-data.ts` (still the
+  Phase 2 static-import path), and seeding the production Neon branch.
+
+- **Wired DB → frontend via React Query (DB-1 continued)** on
+  `feature/db-frontend-integration`, per
+  `context/features/db-frontend-integration-spec.md`. The Experience,
+  Education, and Skills sections now read from the seeded Neon DB instead of
+  the static arrays in `src/data/portfolio-data.ts` (those arrays stay in
+  the repo as the seed source, unchanged). Added `src/lib/db/portfolio.ts`
+  (Prisma fetch functions, `Date` fields converted back to the existing
+  `"YYYY-MM"` string shape so the query result types match
+  `portfolio-data.ts`'s `Experience`/`Education`/`SkillCategory` types
+  exactly — no shape drift), `src/lib/query-client.ts` (query keys +
+  per-request `QueryClient` factory, `staleTime: Infinity` since this
+  content only changes via a reseed), and `src/components/query-provider.tsx`
+  mounted in `app/[locale]/layout.tsx`. `page.tsx` prefetches all three
+  queries server-side and wraps the section tree in a `HydrationBoundary` so
+  the client never issues a real network request on first load; the three
+  sections became `"use client"` and read via `useSuspenseQuery`, falling
+  back to new `/api/portfolio/{experience,education,skills}` route handlers
+  only if the hydrated cache ever goes stale (no admin write path exists yet
+  to actually trigger that). `npm run build` confirmed `/en`/`/it`/`/de`
+  still prerender as static (SSG, 1h revalidate) with the Prisma prefetch
+  baked in at build time. Notable bug hit and fixed: the dev server's
+  `src/lib/prisma.ts` hot-reload-safe singleton had cached a broken
+  `PrismaClient` instance on `globalThis` from before an `npx prisma
+  generate` was run (stale generated client, `prisma.experience` etc.
+  `undefined`) — `prefetchQuery` swallows query errors by default, so the
+  cache silently stayed empty and the client fell back to a relative
+  `fetch()` during SSR, crashing with "Failed to parse URL". Fixed by
+  restarting the dev server (the global singleton only resets on process
+  restart, not on file change / HMR). Verified with `npm run build`,
+  `npm run lint`, and a live browser pass (curl + Chrome) confirming real DB
+  content (Goodcode SA, SUPSI, Languages, etc.) renders in the initial SSR
+  HTML. Out of scope / deferred: `Profile` (bio/tagline stay locale-specific
+  in `messages/*.json`, not wired to the DB row), `contactChannels`/
+  `siteName`/`cvHref` (stay static, locale-independent facts), and admin CMS
+  write access to invalidate the query cache.
 
 - **Investigated and closed (won't-fix)** the console error reported in
   `context/bugfix/script-tag-warning-on-locale-switch.md` ("Encountered a
