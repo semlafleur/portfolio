@@ -137,7 +137,7 @@ export const CommandPalette = () => {
 
           <Command.Item
             className={itemClasses}
-            onSelect={() => runAndClose(() => window.open(cvHref(locale), "_blank"))}
+            onSelect={() => runAndClose(() => window.open(cvHref, "_blank"))}
           >
             <Download className="size-4 text-muted-foreground" />
             {t("downloadCv")}

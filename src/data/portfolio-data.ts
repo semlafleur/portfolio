@@ -159,9 +159,9 @@ export const skillCategories: SkillCategory[] = [
 // Display name, reused where the brand appears (nav, footer aria labels).
 export const siteName = "Samuele La Fleur";
 
-// Locale-aware CV path — resolves to /cv-en.pdf, /cv-it.pdf or /cv-de.pdf.
-// (The narrative copy for each section now lives in messages/{locale}.json.)
-export const cvHref = (locale: string) => `/cv-${locale}.pdf`;
+// Single CV for all locales. Swap to a per-locale map here if translated CVs
+// are added.
+export const cvHref = "/resume.pdf";
 
 // Locale-independent contact facts (addresses / URLs). The surrounding copy
 // (intro, form labels) is translated in messages/{locale}.json.

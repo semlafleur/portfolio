@@ -1,5 +1,5 @@
 import { ArrowUpRight, Download } from "lucide-react";
-import { useLocale, useTranslations } from "next-intl";
+import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
 import { Section } from "@/components/section";
 import { HeroConstellationBackground } from "@/components/hero-constellation-background";
@@ -7,7 +7,6 @@ import { cvHref, siteName } from "@/data/portfolio-data";
 
 export const Hero = () => {
   const t = useTranslations("hero");
-  const locale = useLocale();
 
   return (
     <Section
@@ -39,7 +38,7 @@ export const Hero = () => {
             size="lg"
             className="px-5"
             nativeButton={false}
-            render={<a href={cvHref(locale)} download />}
+            render={<a href={cvHref} download />}
           >
             <Download />
             {t("ctaSecondary")}

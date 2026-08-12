@@ -1,7 +1,7 @@
 "use client";
 
 import { Download, Mail, Phone, Send } from "lucide-react";
-import { useLocale, useTranslations } from "next-intl";
+import { useTranslations } from "next-intl";
 import { useState } from "react";
 import type { ComponentType, FormEvent, SVGProps } from "react";
 import { Section } from "@/components/section";
@@ -29,7 +29,6 @@ type Status = "idle" | "submitting" | "success" | "error";
 
 export const Contact = () => {
   const t = useTranslations("contact");
-  const locale = useLocale();
   const [status, setStatus] = useState<Status>("idle");
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
@@ -96,7 +95,7 @@ export const Contact = () => {
               variant="outline"
               className="mt-6"
               nativeButton={false}
-              render={<a href={cvHref(locale)} download />}
+              render={<a href={cvHref} download />}
             >
               <Download />
               {t("downloadCv")}

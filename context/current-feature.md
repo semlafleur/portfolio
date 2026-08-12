@@ -242,3 +242,22 @@ Not Started
   the app. Out of scope this iteration (per spec): a React Three
   Fiber/Bloom version, cursor repel/attract interaction, and multi-cluster
   node layout.
+
+- **Wired the real CV + made the About location generic** on
+  `feature/real-cv-download-switzerland`. The Download CV button previously
+  pointed at `cvHref(locale)` → `/cv-{en,it,de}.pdf`, none of which existed
+  (`public/` was empty, so every download 404'd). Added the real
+  `public/resume.pdf` (a single English CV — no per-locale PDFs fabricated)
+  and replaced the locale-aware helper with a plain constant
+  `cvHref = "/resume.pdf"` in `src/data/portfolio-data.ts`; updated the five
+  call sites (nav ×2, hero, contact, command palette) from `cvHref(locale)`
+  to `cvHref`. Since the value no longer depends on locale, the now-dead
+  `useLocale()` hook + its `next-intl` import were removed from `hero.tsx`
+  and `contact.tsx` (nav keeps `locale` for the language pills). Also made
+  the About location generic: `about.p1` and the Quick-facts
+  `about.factBasedValue` no longer say "Ticino / Basel" — now
+  "Switzerland" / "Svizzera" / "Schweiz" across `messages/{en,it,de}.json`
+  (the "Based in" / "Sede" / "Standort" labels left untouched). Verified with
+  `npm run build` (clean) and `npm run lint` (0 warnings). Note: the original
+  `resume.pdf` the user dropped at the repo root is left untracked (not
+  deleted, not committed) — only the `public/` copy is versioned.

@@ -97,7 +97,7 @@ export const Nav = () => {
             variant="outline"
             size="sm"
             nativeButton={false}
-            render={<a href={cvHref(locale)} download />}
+            render={<a href={cvHref} download />}
           >
             <Download />
             {t("downloadCv")}
@@ -127,7 +127,7 @@ export const Nav = () => {
                 </DropdownMenuItem>
               ))}
               <DropdownMenuSeparator />
-              <DropdownMenuItem render={<a href={cvHref(locale)} download />}>
+              <DropdownMenuItem render={<a href={cvHref} download />}>
                 <Download />
                 {t("downloadCv")}
               </DropdownMenuItem>
