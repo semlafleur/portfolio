@@ -261,3 +261,61 @@ Not Started
   `npm run build` (clean) and `npm run lint` (0 warnings). Note: the original
   `resume.pdf` the user dropped at the repo root is left untracked (not
   deleted, not committed) — only the `public/` copy is versioned.
+
+- **Brought the site to CV parity and made AI/LLM tooling first-class content**
+  on `feature/cv-parity-ai-tools`. Source of truth was the real
+  `public/resume.pdf`; its text was extracted with macOS PDFKit via
+  `osascript -l JavaScript` (`$.PDFDocument`) because `pdftoppm`/poppler isn't
+  installed and Homebrew is still broken on this machine — worth remembering
+  for any future PDF read here. Five open questions were resolved by the user
+  up front: align the role title *and* English level to the CV, keep Elysium
+  on the site even though the CV omits it, add the SUPSI detail bullet (paying
+  for a migration), and reverse the earlier ❌ decision on a Projects section.
+  **(A) Data + copy:** `skillCategories` went 7 → 11 — new `AI / LLM Tools`
+  (Claude, GitHub Copilot, AI-assisted code review, AI-assisted documentation),
+  `Testing & QA`, `APIs`, `Build Tools` — plus the items missing from existing
+  categories (SQL, Spring WebFlux/Security, Hibernate/JPA, Spring Boot 3.3/6,
+  SQL Server, Azure, Helm). `AI / LLM Tools` is deliberately **first** in the
+  render order rather than buried 9th, since surfacing it was the explicit ask.
+  Experience `highlights` were rewritten from the CV's fuller wording,
+  including the Goodcode Testing & QA bullet, the Goodcode Claude/AI-tooling
+  bullet, and the EOC compliance-testing bullet. Across
+  `messages/{en,it,de}.json`: role → *Full Stack Software Engineer* (title +
+  metadata + OG), English → C1 (Quick facts now reads
+  `🇮🇹 Native · 🇬🇧 C1 · 🇩🇪 A2`), "technology & open source" added to
+  `personalLine`, a new `about.aiLine` paragraph on AI tooling, and a new
+  "AI tooling" quick fact. **(B) Education detail:** added
+  `Education.highlights String[]` (migration `education_highlights`) + seed +
+  `lib/db/portfolio.ts` mapping + a bulleted render in `education.tsx`; SUPSI
+  carries the evening-PAP bullet, CPT's array is intentionally empty (the CV
+  gives it no detail — nothing fabricated). **(C) Projects section:** new
+  `Project` model (title, description, stack, year, nullable `note`, order;
+  migration `add_project`), seeded with the CV's NFT Marketplace course
+  project, plus `getProjects`, a `projects` query key, page-level prefetch
+  inside the existing `HydrationBoundary`, `/api/portfolio/projects` route
+  handler, a `projects.tsx` client section, a nav link, a command-palette
+  jump-to entry (`FolderGit2`), and eyebrow/heading copy in all three locales.
+  It sits between Skills and Contact, matching the CV's order, and ships with
+  a single card in a two-column grid — the user accepted that rather than
+  padding it with invented projects. **(D)** `context/project-overview.md`
+  updated to match: role, C1, refreshed skills table, a new Projects subsection,
+  the decision table flipped ❌ → ✅, and `Education.highlights` + `Project`
+  added to the illustrative schema. Notable snag: the first
+  `prisma migrate dev` for `Project` failed with a Postgres advisory-lock
+  timeout (P1002) on the pooled Neon connection — a plain retry worked, no
+  fix needed. Also re-confirmed the DB-1 lesson that `migrate dev` does not
+  re-run `prisma generate` in v7. Verified with `npm run build` (clean, all
+  three locales still SSG with a 1h revalidate), `npm run lint` (0 warnings),
+  `prisma migrate status` in sync, both the **dev and production** Neon
+  branches migrated (`migrate deploy`) and reseeded to identical counts
+  (1 user, 1 profile, 4 experience, 2 education, 1 project, 11 skill
+  categories — `scripts/test-db.ts` gained a `project` count), and a live
+  browser pass against `next start` in both themes plus SSR-HTML greps
+  confirming no `MISSING_MESSAGE`/`IntlError` in IT or DE. One browser-testing
+  gotcha worth recording: driving a **non-focused** Chrome tab throttles
+  `requestAnimationFrame`, which freezes the `Reveal` (Framer Motion) entrance
+  animations part-way and makes cards look faded or missing in screenshots —
+  the DOM was correct all along, and a `rAF` probe confirmed the throttling
+  rather than an app bug. Copy tweak after review: the `aiLine` phrase
+  "not a line on a CV" (and its IT/DE equivalents) was removed at the user's
+  request. The root `resume.pdf` remains untracked, as in the previous feature.

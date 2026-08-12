@@ -1,6 +1,6 @@
 # 🗂️ Portfolio — Project Overview
 
-**Samuele La Fleur · Full Stack Developer**
+**Samuele La Fleur · Full Stack Software Engineer**
 
 > A modern, product-like personal portfolio. Minimal aesthetic with a teal accent, focused on **skills + experience + education**. Built with Next.js, shipped in two phases: a fast-deployable **MVP** first, then an incremental **post-launch roadmap** of advanced features added while the site is already live.
 
@@ -44,7 +44,7 @@ A professional link to share with recruiters and contacts — showing who you ar
 
 #### Hero
 - **Name:** Samuele La Fleur
-- **Role:** Full Stack Developer
+- **Role:** Full Stack Software Engineer
 - **Tagline** *(from CV Professional Summary)* — e.g. *"4+ years building scalable web and mobile applications across healthcare, Web3, and SaaS. TypeScript, React, Node.js, cloud-native on AWS."*
 - **Primary CTA:** contact / download CV
 
@@ -75,28 +75,39 @@ Faithful to the CV:
 
 #### Education
 - **SUPSI** — BSc in Computer Science · Lugano · *Sep 2021 – Aug 2025*
+  - Evening PAP course (Professional Awareness Program) — degree completed while employed full-time
 - **Centro Professionale Tecnico (CPT)** — AFC Software Developer with Federal Diploma · Locarno · *Sep 2017 – Jun 2021*
+
+#### Projects
+- **NFT Marketplace** *(course project, 2025)* — cross-chain NFT marketplace with listing, bidding/auction, and multi-chain wallet integration. TypeScript · React · Next.js · Solidity (Hardhat) · Web3.js · AWS
 
 #### Skills / Stack
 
+Category order below is the render order of the Skills grid. **AI / LLM Tools**
+is deliberately first — it's a differentiator, not a footnote.
+
 | Category | Technologies |
 |----------|--------------|
-| **Languages** | JavaScript / TypeScript · Java · C++ · C · PHP · Bash |
+| **AI / LLM Tools** | Claude · GitHub Copilot · AI-assisted code review · AI-assisted documentation |
+| **Languages** | JavaScript / TypeScript · Java · C++ · C · PHP · SQL · Bash |
 | **Frontend** | React · Next.js · AngularJS · React Native · Redux Toolkit · Tailwind CSS · Material UI |
-| **Backend** | Node.js · NestJS · Spring Boot · Feathers |
-| **Databases** | PostgreSQL · MongoDB · MySQL · Oracle |
-| **DevOps & Cloud** | AWS · Lambda · AWS SAM · Docker · Kubernetes · Rancher · Jenkins · GitHub Actions |
+| **Backend** | Node.js · NestJS · Spring Boot 3.3/6 · Spring WebFlux · Spring Security · Hibernate/JPA · Feathers |
+| **APIs** | REST · GraphQL |
+| **Databases** | PostgreSQL · MongoDB · MySQL · Oracle · SQL Server |
+| **DevOps & Cloud** | AWS · Lambda · AWS SAM · Azure · Docker · Kubernetes · Helm · Rancher · Jenkins · GitHub Actions |
+| **Testing & QA** | JUnit 5 · Mockito · Jest · TDD · Testing in CI/CD |
+| **Build Tools** | Maven · Gradle |
 | **Tools** | Git · GitHub · Bitbucket · Jira · VS Code · IntelliJ IDEA · Studio 3T |
 | **Methodologies** | Scrum · Agile · CI/CD |
 
 #### Spoken languages
 - 🇮🇹 **Italian** — Native
-- 🇬🇧 **English** — Professional working proficiency (B2)
+- 🇬🇧 **English** — Professional working proficiency (C1)
 - 🇩🇪 **German** — Basic (A2)
 
 #### Personal *(light touch)*
 A discreet line at the end of About:
-> *"Off the keyboard: gym & training, music across genres, AC Milan."*
+> *"Off the keyboard: gym & training, music across genres, technology & open source, AC Milan."*
 
 #### Contact
 Integrated form + direct info:
@@ -165,8 +176,8 @@ Installable, offline mode, manifest, icons, splash screen — via **next-pwa** o
 
 | Decision | Status |
 |----------|--------|
-| **Structure** — single-page scroll, sticky nav (Home · About · Experience · Education · Skills · Contact) | ✅ |
-| **Selected Projects** section | ❌ CV-only showcase (real projects live inside the experience entries) |
+| **Structure** — single-page scroll, sticky nav (Home · About · Experience · Education · Skills · Projects · Contact) | ✅ |
+| **Projects** section | ✅ Reversed the earlier ❌ — a `Project` model + section now renders the CV's side projects (currently just the NFT Marketplace course project). Work done for employers still lives inside the experience entries. |
 | **Contact** — integrated form + direct links | ✅ |
 | **Dark mode** with toggle | ✅ |
 | **Multi-language** EN + IT + DE | ✅ |
@@ -227,7 +238,7 @@ Persistence is introduced as a standalone step (built after the front-end is liv
 
 | Sub-phase | Adds | Enables |
 |-----------|------|---------|
-| **DB-1 · Foundation + CMS** | Prisma/Neon setup, NextAuth models, portfolio content models (`Profile`, `Experience`, `Education`, `SkillCategory`) | Content served from DB instead of `portfolio-data.ts`; authenticated admin editing |
+| **DB-1 · Foundation + CMS** | Prisma/Neon setup, NextAuth models, portfolio content models (`Profile`, `Experience`, `Education`, `Project`, `SkillCategory`) | Content served from DB instead of `portfolio-data.ts`; authenticated admin editing |
 | **DB-2 · Analytics** | `AnalyticsEvent`, `DailyMetric` | Usage tracking + analytics dashboard |
 | **DB-3 · AI / RAG** | `PortfolioChunk` (pgvector), `ChatSession`, `ChatMessage` | AI assistant with retrieval over portfolio content |
 
@@ -335,6 +346,19 @@ model Education {
   location    String
   startDate   DateTime
   endDate     DateTime?
+  highlights  String[]
+  order       Int      @default(0)
+
+  @@index([order])
+}
+
+model Project {
+  id          String   @id @default(cuid())
+  title       String
+  description String
+  stack       String[]
+  year        String
+  note        String?  // e.g. "Course project"
   order       Int      @default(0)
 
   @@index([order])

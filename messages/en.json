@@ -1,19 +1,20 @@
 {
   "metadata": {
-    "title": "Samuele La Fleur — Full Stack Developer",
-    "description": "Personal portfolio of Samuele La Fleur, Full Stack Developer based in Switzerland. TypeScript, React, Next.js, Node.js, AWS."
+    "title": "Samuele La Fleur — Full Stack Software Engineer",
+    "description": "Personal portfolio of Samuele La Fleur, Full Stack Software Engineer based in Switzerland. TypeScript, React, Next.js, Node.js, AWS."
   },
   "nav": {
     "about": "About",
     "experience": "Experience",
     "education": "Education",
     "skills": "Skills",
+    "projects": "Projects",
     "contact": "Contact",
     "downloadCv": "Download CV",
     "openMenu": "Open menu"
   },
   "hero": {
-    "role": "Full Stack Developer",
+    "role": "Full Stack Software Engineer",
     "tagline": "4+ years building scalable web and mobile applications across <b>healthcare</b>, <b>Web3</b>, and <b>SaaS</b>. TypeScript, React, Node.js, cloud-native on AWS.",
     "ctaPrimary": "Get in touch",
     "ctaSecondary": "Download CV"
@@ -21,9 +22,10 @@
   "about": {
     "eyebrow": "About",
     "heading": "A developer who ships.",
-    "p1": "I'm a full-stack developer based in Switzerland, focused on building products people actually rely on — from hospital-grade EHR systems to Web3 marketplaces and serverless SaaS platforms.",
-    "p2": "My work sits at the intersection of a clean frontend and a solid backend: TypeScript everywhere, React and Next.js on top, Node.js, NestJS, or Spring Boot underneath, deployed on AWS with CI/CD I own end-to-end.",
-    "personalLine": "Off the keyboard: gym & training, music across genres, AC Milan.",
+    "p1": "I'm a full-stack software engineer based in Switzerland, focused on building products people actually rely on — from hospital-grade EHR systems to Web3 marketplaces and serverless SaaS platforms.",
+    "p2": "My work sits at the intersection of a clean frontend and a solid backend: TypeScript everywhere, React and Next.js on top, Node.js, NestJS, or Spring Boot underneath, deployed on AWS with CI/CD I own end-to-end — backed by real testing practice (JUnit 5, Mockito, Jest, TDD where it counts).",
+    "aiLine": "AI tooling is part of how I work: Claude and GitHub Copilot are in my daily loop for code review, documentation, and faster iteration — and I've learned where to lean on them and where to verify everything myself.",
+    "personalLine": "Off the keyboard: gym & training, music across genres, technology & open source, AC Milan.",
     "quickFactsTitle": "Quick facts",
     "factBasedLabel": "Based in",
     "factBasedValue": "Switzerland",
@@ -31,8 +33,10 @@
     "factExperienceValue": "4+ years",
     "factFocusLabel": "Focus",
     "factFocusValue": "TypeScript · React · AWS",
+    "factAiLabel": "AI tooling",
+    "factAiValue": "Claude · GitHub Copilot",
     "factLanguagesLabel": "Languages",
-    "factLanguagesValue": "🇮🇹 IT · 🇬🇧 EN · 🇩🇪 DE"
+    "factLanguagesValue": "🇮🇹 Native · 🇬🇧 C1 · 🇩🇪 A2"
   },
   "experience": {
     "eyebrow": "Experience",
@@ -45,6 +49,10 @@
   "skills": {
     "eyebrow": "Skills",
     "heading": "The stack I reach for."
+  },
+  "projects": {
+    "eyebrow": "Projects",
+    "heading": "Things I've built on the side."
   },
   "contact": {
     "eyebrow": "Contact",

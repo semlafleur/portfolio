@@ -9,9 +9,15 @@ import { About } from "@/components/sections/about";
 import { Experience } from "@/components/sections/experience";
 import { Education } from "@/components/sections/education";
 import { Skills } from "@/components/sections/skills";
+import { Projects } from "@/components/sections/projects";
 import { Contact } from "@/components/sections/contact";
 import { getGithubActivity } from "@/lib/github";
-import { getEducation, getExperiences, getSkillCategories } from "@/lib/db/portfolio";
+import {
+  getEducation,
+  getExperiences,
+  getProjects,
+  getSkillCategories,
+} from "@/lib/db/portfolio";
 import { getQueryClient, portfolioQueryKeys } from "@/lib/query-client";
 
 const Home = async ({ params }: { params: Promise<{ locale: string }> }) => {
@@ -35,6 +41,10 @@ const Home = async ({ params }: { params: Promise<{ locale: string }> }) => {
       queryKey: portfolioQueryKeys.skillCategories,
       queryFn: getSkillCategories,
     }),
+    queryClient.prefetchQuery({
+      queryKey: portfolioQueryKeys.projects,
+      queryFn: getProjects,
+    }),
   ]);
 
   return (
@@ -47,6 +57,7 @@ const Home = async ({ params }: { params: Promise<{ locale: string }> }) => {
           <Experience />
           <Education />
           <Skills />
+          <Projects />
         </HydrationBoundary>
         <Contact />
       </main>

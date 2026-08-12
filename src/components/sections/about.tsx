@@ -11,6 +11,7 @@ export const About = () => {
     { label: t("factBasedLabel"), value: t("factBasedValue") },
     { label: t("factExperienceLabel"), value: t("factExperienceValue") },
     { label: t("factFocusLabel"), value: t("factFocusValue") },
+    { label: t("factAiLabel"), value: t("factAiValue") },
     { label: t("factLanguagesLabel"), value: t("factLanguagesValue") },
   ];
 
@@ -22,6 +23,7 @@ export const About = () => {
           <div className="space-y-5 text-base leading-relaxed text-muted-foreground">
             <p>{t("p1")}</p>
             <p>{t("p2")}</p>
+            <p>{t("aiLine")}</p>
             <p className="italic">{t("personalLine")}</p>
           </div>
 

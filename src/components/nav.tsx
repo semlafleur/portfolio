@@ -29,6 +29,7 @@ export const Nav = () => {
     { href: "#experience", label: t("experience") },
     { href: "#education", label: t("education") },
     { href: "#skills", label: t("skills") },
+    { href: "#projects", label: t("projects") },
     { href: "#contact", label: t("contact") },
   ];
 

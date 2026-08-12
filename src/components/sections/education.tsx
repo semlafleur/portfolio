@@ -41,6 +41,23 @@ export const Education = () => {
                 <MapPin className="size-3.5" />
                 {entry.location}
               </p>
+
+              {entry.highlights.length > 0 && (
+                <ul className="mt-4 space-y-1.5">
+                  {entry.highlights.map((highlight) => (
+                    <li
+                      key={highlight}
+                      className="flex gap-2.5 text-sm text-muted-foreground"
+                    >
+                      <span
+                        className="mt-1.5 size-1.5 shrink-0 rounded-full bg-primary"
+                        aria-hidden
+                      />
+                      {highlight}
+                    </li>
+                  ))}
+                </ul>
+              )}
             </article>
           </Reveal>
         ))}

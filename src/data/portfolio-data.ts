@@ -14,11 +14,20 @@ export type Education = {
   location: string;
   startDate: string;
   endDate: string;
+  highlights: string[];
 };
 
 export type SkillCategory = {
   category: string; // "Frontend"
   items: string[];
+};
+
+export type Project = {
+  title: string;
+  description: string;
+  stack: string[];
+  year: string;
+  note: string | null;
 };
 
 export type ContactChannel = {
@@ -35,10 +44,12 @@ export const experiences: Experience[] = [
     startDate: "2024-04",
     endDate: null,
     highlights: [
-      "EdilControl v2 (serverless AWS, multi-tenant, GitHub Actions pipeline)",
-      "Freename (Web3 e-commerce, on-chain minting, PDF invoice pipeline)",
-      "PDF generation microservice",
-      "Mobile app release management",
+      "Architected EdilControl v2 on a serverless AWS stack (Lambda + SAM), with automated multi-tenant deployment via GitHub Actions that removed manual provisioning.",
+      "Contributed to Freename Web3 e-commerce: on-chain custody and multi-chain minting; redesigned the PDF invoice generation pipeline to cut bugs and improve performance.",
+      "Built a standalone microservice for dynamic PDF generation from HTML templates, reused across internal projects.",
+      "Owned release management and ongoing support for the mobile application, ensuring regular updates and stability.",
+      "Testing & QA: unit and integration tests (JUnit 5, Mockito, Jest) wired into CI/CD, with TDD in critical areas.",
+      "AI / LLM tools: Claude used day-to-day for code review assistance and documentation generation.",
     ],
     stack: [
       "TypeScript",
@@ -70,8 +81,10 @@ export const experiences: Experience[] = [
     startDate: "2021-09",
     endDate: "2024-03",
     highlights: [
-      "EHR system, developer tooling web app, custom Flowable BPM client (50+ departments)",
-      "Node.js to Spring Boot migration",
+      "Contributed to the Electronic Health Record (EHR) frontend and backend to improve UX, quality, and performance.",
+      "Developed an internal tooling web app (Next.js) for engineering ticket management and support workflows.",
+      "Designed and implemented the hospital-wide Flowable BPM client (50+ departments); led the backend migration from Node.js to Spring Boot for scale and reliability.",
+      "Automated tests for critical flows to support compliance and reliability in healthcare environments.",
     ],
     stack: [
       "TypeScript",
@@ -95,7 +108,9 @@ export const experiences: Experience[] = [
     location: "Bellinzona",
     startDate: "2017-05",
     endDate: "2021-08",
-    highlights: ["4-year apprenticeship + final thesis on the REGA application"],
+    highlights: [
+      "Four-year apprenticeship; final thesis digitalized REGA emergency rescue reports and integrated them into the EOC infrastructure.",
+    ],
     stack: ["TypeScript", "React", "Node.js", "MongoDB", "Redux", "Feathers", "MUI", "Docker"],
   },
 ];
@@ -107,6 +122,9 @@ export const education: Education[] = [
     location: "Lugano",
     startDate: "2021-09",
     endDate: "2025-08",
+    highlights: [
+      "Evening PAP course (Professional Awareness Program), balancing academics with a full-time job — degree completed while employed.",
+    ],
   },
   {
     institution: "Centro Professionale Tecnico (CPT)",
@@ -114,13 +132,25 @@ export const education: Education[] = [
     location: "Locarno",
     startDate: "2017-09",
     endDate: "2021-06",
+    highlights: [],
   },
 ];
 
+// Order drives the render sequence of the Skills grid. "AI / LLM Tools" is
+// deliberately first — it's the differentiator, not a footnote.
 export const skillCategories: SkillCategory[] = [
   {
+    category: "AI / LLM Tools",
+    items: [
+      "Claude",
+      "GitHub Copilot",
+      "AI-assisted code review",
+      "AI-assisted documentation",
+    ],
+  },
+  {
     category: "Languages",
-    items: ["JavaScript / TypeScript", "Java", "C++", "C", "PHP", "Bash"],
+    items: ["JavaScript / TypeScript", "Java", "C++", "C", "PHP", "SQL", "Bash"],
   },
   {
     category: "Frontend",
@@ -136,15 +166,46 @@ export const skillCategories: SkillCategory[] = [
   },
   {
     category: "Backend",
-    items: ["Node.js", "NestJS", "Spring Boot", "Feathers"],
+    items: [
+      "Node.js",
+      "NestJS",
+      "Spring Boot 3.3/6",
+      "Spring WebFlux",
+      "Spring Security",
+      "Hibernate / JPA",
+      "Feathers",
+    ],
+  },
+  {
+    category: "APIs",
+    items: ["REST", "GraphQL"],
   },
   {
     category: "Databases",
-    items: ["PostgreSQL", "MongoDB", "MySQL", "Oracle"],
+    items: ["PostgreSQL", "MongoDB", "MySQL", "Oracle", "SQL Server"],
   },
   {
     category: "DevOps & Cloud",
-    items: ["AWS", "Lambda", "AWS SAM", "Docker", "Kubernetes", "Rancher", "Jenkins", "GitHub Actions"],
+    items: [
+      "AWS",
+      "Lambda",
+      "AWS SAM",
+      "Azure",
+      "Docker",
+      "Kubernetes",
+      "Helm",
+      "Rancher",
+      "Jenkins",
+      "GitHub Actions",
+    ],
+  },
+  {
+    category: "Testing & QA",
+    items: ["JUnit 5", "Mockito", "Jest", "TDD", "Testing in CI/CD"],
+  },
+  {
+    category: "Build Tools",
+    items: ["Maven", "Gradle"],
   },
   {
     category: "Tools",
@@ -153,6 +214,24 @@ export const skillCategories: SkillCategory[] = [
   {
     category: "Methodologies",
     items: ["Scrum", "Agile", "CI/CD"],
+  },
+];
+
+export const projects: Project[] = [
+  {
+    title: "NFT Marketplace",
+    description:
+      "Cross-chain NFT marketplace with listing, bidding/auction, and multi-chain wallet integration.",
+    stack: [
+      "TypeScript",
+      "React",
+      "Next.js",
+      "Solidity (Hardhat)",
+      "Web3.js",
+      "AWS",
+    ],
+    year: "2025",
+    note: "Course project",
   },
 ];
 

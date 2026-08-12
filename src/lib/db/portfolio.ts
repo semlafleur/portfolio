@@ -2,6 +2,7 @@ import { prisma } from "@/lib/prisma";
 import type {
   Education as EducationEntry,
   Experience as ExperienceEntry,
+  Project as ProjectEntry,
   SkillCategory as SkillCategoryEntry,
 } from "@/data/portfolio-data";
 
@@ -28,6 +29,18 @@ export const getEducation = async (): Promise<EducationEntry[]> => {
     location: row.location,
     startDate: toYearMonth(row.startDate),
     endDate: row.endDate ? toYearMonth(row.endDate) : "",
+    highlights: row.highlights,
+  }));
+};
+
+export const getProjects = async (): Promise<ProjectEntry[]> => {
+  const rows = await prisma.project.findMany({ orderBy: { order: "asc" } });
+  return rows.map((row) => ({
+    title: row.title,
+    description: row.description,
+    stack: row.stack,
+    year: row.year,
+    note: row.note,
   }));
 };
 

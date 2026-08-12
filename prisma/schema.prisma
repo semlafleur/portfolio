@@ -96,7 +96,20 @@ model Education {
   location    String
   startDate   DateTime
   endDate     DateTime?
+  highlights  String[]
   order       Int       @default(0)
+
+  @@index([order])
+}
+
+model Project {
+  id          String   @id @default(cuid())
+  title       String
+  description String
+  stack       String[]
+  year        String
+  note        String? // e.g. "Course project" — context the title alone doesn't give
+  order       Int      @default(0)
 
   @@index([order])
 }

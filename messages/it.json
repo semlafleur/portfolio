@@ -1,19 +1,20 @@
 {
   "metadata": {
-    "title": "Samuele La Fleur — Full Stack Developer",
-    "description": "Portfolio personale di Samuele La Fleur, Full Stack Developer con sede in Svizzera. TypeScript, React, Next.js, Node.js, AWS."
+    "title": "Samuele La Fleur — Full Stack Software Engineer",
+    "description": "Portfolio personale di Samuele La Fleur, Full Stack Software Engineer con sede in Svizzera. TypeScript, React, Next.js, Node.js, AWS."
   },
   "nav": {
     "about": "Chi sono",
     "experience": "Esperienza",
     "education": "Formazione",
     "skills": "Competenze",
+    "projects": "Progetti",
     "contact": "Contatti",
     "downloadCv": "Scarica CV",
     "openMenu": "Apri menu"
   },
   "hero": {
-    "role": "Full Stack Developer",
+    "role": "Full Stack Software Engineer",
     "tagline": "Oltre 4 anni a costruire applicazioni web e mobile scalabili in ambito <b>healthcare</b>, <b>Web3</b> e <b>SaaS</b>. TypeScript, React, Node.js, cloud-native su AWS.",
     "ctaPrimary": "Contattami",
     "ctaSecondary": "Scarica il CV"
@@ -21,9 +22,10 @@
   "about": {
     "eyebrow": "Chi sono",
     "heading": "Uno sviluppatore che consegna.",
-    "p1": "Sono uno sviluppatore full-stack con sede in Svizzera, concentrato sul creare prodotti su cui le persone contano davvero — da sistemi EHR di livello ospedaliero a marketplace Web3 e piattaforme SaaS serverless.",
-    "p2": "Il mio lavoro si colloca all'incrocio tra un frontend pulito e un backend solido: TypeScript ovunque, React e Next.js sopra, Node.js, NestJS o Spring Boot sotto, il tutto distribuito su AWS con CI/CD che gestisco end-to-end.",
-    "personalLine": "Lontano dalla tastiera: palestra e allenamento, musica di ogni genere, il Milan.",
+    "p1": "Sono un full stack software engineer con sede in Svizzera, concentrato sul creare prodotti su cui le persone contano davvero — da sistemi EHR di livello ospedaliero a marketplace Web3 e piattaforme SaaS serverless.",
+    "p2": "Il mio lavoro si colloca all'incrocio tra un frontend pulito e un backend solido: TypeScript ovunque, React e Next.js sopra, Node.js, NestJS o Spring Boot sotto, il tutto distribuito su AWS con CI/CD che gestisco end-to-end — con una pratica di testing reale alle spalle (JUnit 5, Mockito, Jest, TDD dove conta).",
+    "aiLine": "Gli strumenti AI fanno parte di come lavoro: Claude e GitHub Copilot sono nel mio flusso quotidiano per code review, documentazione e iterazioni più rapide — e ho imparato dove appoggiarmi a loro e dove invece verificare tutto di persona.",
+    "personalLine": "Lontano dalla tastiera: palestra e allenamento, musica di ogni genere, tecnologia e open source, il Milan.",
     "quickFactsTitle": "In breve",
     "factBasedLabel": "Sede",
     "factBasedValue": "Svizzera",
@@ -31,8 +33,10 @@
     "factExperienceValue": "4+ anni",
     "factFocusLabel": "Focus",
     "factFocusValue": "TypeScript · React · AWS",
+    "factAiLabel": "Strumenti AI",
+    "factAiValue": "Claude · GitHub Copilot",
     "factLanguagesLabel": "Lingue",
-    "factLanguagesValue": "🇮🇹 IT · 🇬🇧 EN · 🇩🇪 DE"
+    "factLanguagesValue": "🇮🇹 Madrelingua · 🇬🇧 C1 · 🇩🇪 A2"
   },
   "experience": {
     "eyebrow": "Esperienza",
@@ -45,6 +49,10 @@
   "skills": {
     "eyebrow": "Competenze",
     "heading": "Lo stack che scelgo."
+  },
+  "projects": {
+    "eyebrow": "Progetti",
+    "heading": "Cose che ho costruito a parte."
   },
   "contact": {
     "eyebrow": "Contatti",

@@ -17,6 +17,7 @@ const run = async () => {
     profile: await prisma.profile.count(),
     experience: await prisma.experience.count(),
     education: await prisma.education.count(),
+    project: await prisma.project.count(),
     skillCategory: await prisma.skillCategory.count(),
   };
   console.log("Connected to Neon. Row counts:", counts);

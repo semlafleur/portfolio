@@ -1,19 +1,20 @@
 {
   "metadata": {
-    "title": "Samuele La Fleur — Full Stack Developer",
-    "description": "Persönliches Portfolio von Samuele La Fleur, Full Stack Developer mit Sitz in der Schweiz. TypeScript, React, Next.js, Node.js, AWS."
+    "title": "Samuele La Fleur — Full Stack Software Engineer",
+    "description": "Persönliches Portfolio von Samuele La Fleur, Full Stack Software Engineer mit Sitz in der Schweiz. TypeScript, React, Next.js, Node.js, AWS."
   },
   "nav": {
     "about": "Über mich",
     "experience": "Erfahrung",
     "education": "Ausbildung",
     "skills": "Fähigkeiten",
+    "projects": "Projekte",
     "contact": "Kontakt",
     "downloadCv": "Lebenslauf",
     "openMenu": "Menü öffnen"
   },
   "hero": {
-    "role": "Full Stack Developer",
+    "role": "Full Stack Software Engineer",
     "tagline": "Über 4 Jahre Erfahrung im Bau skalierbarer Web- und Mobile-Anwendungen in den Bereichen <b>Healthcare</b>, <b>Web3</b> und <b>SaaS</b>. TypeScript, React, Node.js, cloud-native auf AWS.",
     "ctaPrimary": "Kontakt aufnehmen",
     "ctaSecondary": "Lebenslauf herunterladen"
@@ -21,9 +22,10 @@
   "about": {
     "eyebrow": "Über mich",
     "heading": "Ein Entwickler, der liefert.",
-    "p1": "Ich bin ein Full-Stack-Entwickler mit Sitz in der Schweiz und konzentriere mich darauf, Produkte zu bauen, auf die sich Menschen wirklich verlassen — von EHR-Systemen in Krankenhausqualität bis zu Web3-Marktplätzen und serverlosen SaaS-Plattformen.",
-    "p2": "Meine Arbeit liegt an der Schnittstelle zwischen einem sauberen Frontend und einem soliden Backend: überall TypeScript, oben React und Next.js, darunter Node.js, NestJS oder Spring Boot, bereitgestellt auf AWS mit CI/CD, die ich end-to-end verantworte.",
-    "personalLine": "Abseits der Tastatur: Fitnessstudio und Training, Musik aller Genres, AC Mailand.",
+    "p1": "Ich bin ein Full Stack Software Engineer mit Sitz in der Schweiz und konzentriere mich darauf, Produkte zu bauen, auf die sich Menschen wirklich verlassen — von EHR-Systemen in Krankenhausqualität bis zu Web3-Marktplätzen und serverlosen SaaS-Plattformen.",
+    "p2": "Meine Arbeit liegt an der Schnittstelle zwischen einem sauberen Frontend und einem soliden Backend: überall TypeScript, oben React und Next.js, darunter Node.js, NestJS oder Spring Boot, bereitgestellt auf AWS mit CI/CD, die ich end-to-end verantworte — gestützt auf echte Testpraxis (JUnit 5, Mockito, Jest, TDD wo es zählt).",
+    "aiLine": "KI-Werkzeuge sind Teil meiner Arbeitsweise: Claude und GitHub Copilot gehören zu meinem Alltag für Code-Reviews, Dokumentation und schnellere Iteration — und ich habe gelernt, wo ich mich auf sie stützen kann und wo ich alles selbst prüfe.",
+    "personalLine": "Abseits der Tastatur: Fitnessstudio und Training, Musik aller Genres, Technologie und Open Source, AC Mailand.",
     "quickFactsTitle": "Kurzprofil",
     "factBasedLabel": "Standort",
     "factBasedValue": "Schweiz",
@@ -31,8 +33,10 @@
     "factExperienceValue": "4+ Jahre",
     "factFocusLabel": "Fokus",
     "factFocusValue": "TypeScript · React · AWS",
+    "factAiLabel": "KI-Werkzeuge",
+    "factAiValue": "Claude · GitHub Copilot",
     "factLanguagesLabel": "Sprachen",
-    "factLanguagesValue": "🇮🇹 IT · 🇬🇧 EN · 🇩🇪 DE"
+    "factLanguagesValue": "🇮🇹 Muttersprache · 🇬🇧 C1 · 🇩🇪 A2"
   },
   "experience": {
     "eyebrow": "Erfahrung",
@@ -45,6 +49,10 @@
   "skills": {
     "eyebrow": "Fähigkeiten",
     "heading": "Der Stack, zu dem ich greife."
+  },
+  "projects": {
+    "eyebrow": "Projekte",
+    "heading": "Was ich nebenbei gebaut habe."
   },
   "contact": {
     "eyebrow": "Kontakt",

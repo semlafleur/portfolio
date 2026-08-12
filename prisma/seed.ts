@@ -6,6 +6,7 @@ import { PrismaClient } from "../src/generated/prisma/client";
 import {
   experiences,
   education,
+  projects,
   skillCategories,
   contactChannels,
 } from "../src/data/portfolio-data";
@@ -72,6 +73,19 @@ const run = async () => {
       location: ed.location,
       startDate: toDate(ed.startDate)!,
       endDate: toDate(ed.endDate),
+      highlights: ed.highlights,
+      order,
+    })),
+  });
+
+  await prisma.project.deleteMany();
+  await prisma.project.createMany({
+    data: projects.map((p, order) => ({
+      title: p.title,
+      description: p.description,
+      stack: p.stack,
+      year: p.year,
+      note: p.note,
       order,
     })),
   });
@@ -88,6 +102,7 @@ const run = async () => {
   console.log("Seed complete:", {
     experiences: experiences.length,
     education: education.length,
+    projects: projects.length,
     skillCategories: skillCategories.length,
   });
   await prisma.$disconnect();

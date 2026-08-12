@@ -7,6 +7,7 @@ import {
   Copy,
   Download,
   ExternalLink,
+  FolderGit2,
   GraduationCap,
   Mail,
   Moon,
@@ -69,6 +70,7 @@ export const CommandPalette = () => {
     { id: "experience", label: tNav("experience"), icon: Briefcase },
     { id: "education", label: tNav("education"), icon: GraduationCap },
     { id: "skills", label: tNav("skills"), icon: Wrench },
+    { id: "projects", label: tNav("projects"), icon: FolderGit2 },
     { id: "contact", label: tNav("contact"), icon: Mail },
   ];
 

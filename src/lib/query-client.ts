@@ -3,6 +3,7 @@ import { QueryClient } from "@tanstack/react-query";
 export const portfolioQueryKeys = {
   experiences: ["experiences"] as const,
   education: ["education"] as const,
+  projects: ["projects"] as const,
   skillCategories: ["skill-categories"] as const,
 };
 
