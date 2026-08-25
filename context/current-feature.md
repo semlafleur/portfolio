@@ -319,3 +319,51 @@ Not Started
   rather than an app bug. Copy tweak after review: the `aiLine` phrase
   "not a line on a CV" (and its IT/DE equivalents) was removed at the user's
   request. The root `resume.pdf` remains untracked, as in the previous feature.
+
+- **Made the contact form actually deliver** on `fix/contact-form-delivery`. The
+  form had been shipped "functional" back in Phase 3 but had never sent a single
+  email: `.env` only ever held `DATABASE_URL`, so every submission hit the
+  route's `RESEND_API_KEY` guard and returned 503 ("The contact form isn't
+  configured yet"). The user suspected as much and asked to verify — the code
+  read confirmed it before anything was changed. Mostly a **configuration** fix
+  (the user created the Resend account and generated the key themselves; Claude
+  never handled the credential, only named the variable to paste it into), with
+  one real code fix on top. **The code fix:** `resend.emails.send()` was awaited
+  inside a `try/catch` with its **return value discarded**. Per the Resend docs
+  (fetched via Context7), the SDK "returns a `{ data, error }` object instead of
+  throwing" — try/catch only covers network-level failures. So an API-level
+  rejection left `catch` untouched and the route replied `{ success: true }`:
+  the visitor read "message sent" while nothing arrived. Proven, not assumed, by
+  a throwaway probe script run against the real key, sending to a non-account
+  address: `threw? no` / `403 validation_error`. Fixed by destructuring
+  `const { error } = await resend.emails.send(...)` and returning 502 when set,
+  with a shared `failed()` arrow helper so the network and API paths report
+  identically. **Config:** `RESEND_API_KEY` + `CONTACT_TO_EMAIL` in local `.env`
+  (gitignored — never staged), and the same two added to Vercel
+  (Production + Preview) via `vercel link` + `vercel env add`, reading values
+  out of `.env` without echoing them. `.env.example` gained documentation for
+  `RESEND_FROM_EMAIL` / `CONTACT_TO_EMAIL`, which the route already read but
+  nothing recorded. **Sandbox constraint worth remembering:** on Resend's shared
+  `onboarding@resend.dev` sender, delivery only works to the email the Resend
+  account is registered with (`sam993.lafleur@gmail.com` here) — hence
+  `CONTACT_TO_EMAIL` overriding the route's `semlafleur@hotmail.com` default.
+  Verifying a domain in Resend lifts this with no code change, just the two vars.
+  **Two testing gotchas, both worth recording.** (1) A `curl` test exercises the
+  route but skips the client component entirely, so it does not prove the form
+  works — the real browser pass was only done during `/feature review`, and it
+  was right to treat the goal as unmet until then. (2) During that pass the
+  first browser submit returned `200` in **8ms**; real Resend calls in the same
+  log take 300–460ms. The gap was the tell: the Chrome `find` tool's element
+  refs were off by one field and had typed into the hidden `company` honeypot,
+  so the route correctly returned its decoy `{ success: true }` **without
+  sending**. Reading only the JSON would have certified a send that never
+  happened — the honeypot was working exactly as designed. Redone on a freshly
+  reloaded page it logged `457ms` and delivered. Verified with `npm run build`
+  (clean, all three locales still SSG at 1h revalidate), `npm run lint`
+  (0 warnings), and a real browser submission confirmed by the user in their
+  inbox with a correct `Reply-To` pointing at the sender's address. Out of
+  scope / deferred: the in-memory rate limiter (`src/lib/rate-limit.ts` is
+  best-effort and near-useless across serverless instances — swap for Upstash
+  Redis if spam ever becomes real), a second notification channel, persisting
+  submissions to Neon, and Resend domain verification. The root `resume.pdf`
+  remains untracked, as in the previous two features.

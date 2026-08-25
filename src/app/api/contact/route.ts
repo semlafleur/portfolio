@@ -56,20 +56,29 @@ export const POST = async (request: NextRequest) => {
   const { name, email, message } = parsed.data;
   const resend = new Resend(process.env.RESEND_API_KEY);
 
+  const failed = (error: unknown) => {
+    console.error("Failed to send contact email", error);
+    return NextResponse.json(
+      { success: false, error: "Could not send your message. Please try again." },
+      { status: 502 }
+    );
+  };
+
   try {
-    await resend.emails.send({
+    // The Resend SDK reports API-level failures via the returned `error`
+    // rather than throwing, so this must be checked or rejected sends would
+    // silently report success to the visitor. try/catch covers network errors.
+    const { error } = await resend.emails.send({
       from: process.env.RESEND_FROM_EMAIL ?? "Portfolio <onboarding@resend.dev>",
       to: process.env.CONTACT_TO_EMAIL ?? "semlafleur@hotmail.com",
       replyTo: email,
       subject: `New message from ${name}`,
       text: `From: ${name} <${email}>\n\n${message}`,
     });
+
+    if (error) return failed(error);
   } catch (error) {
-    console.error("Failed to send contact email", error);
-    return NextResponse.json(
-      { success: false, error: "Could not send your message. Please try again." },
-      { status: 502 }
-    );
+    return failed(error);
   }
 
   return NextResponse.json({ success: true });
