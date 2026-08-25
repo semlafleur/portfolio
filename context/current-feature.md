@@ -361,8 +361,11 @@ Not Started
   reloaded page it logged `457ms` and delivered. Verified with `npm run build`
   (clean, all three locales still SSG at 1h revalidate), `npm run lint`
   (0 warnings), and a real browser submission confirmed by the user in their
-  inbox with a correct `Reply-To` pointing at the sender's address. Out of
-  scope / deferred: the in-memory rate limiter (`src/lib/rate-limit.ts` is
+  inbox with a correct `Reply-To` pointing at the sender's address. Merging to
+  `main` and pushing triggered a Vercel production deploy on its own (the
+  project is Git-connected), and the live endpoint at `www.slafleur.dev`
+  (the apex 308-redirects, so `curl` needs `-L`) returned 200 with the error
+  check in place. Out of scope / deferred: the in-memory rate limiter (`src/lib/rate-limit.ts` is
   best-effort and near-useless across serverless instances — swap for Upstash
   Redis if spam ever becomes real), a second notification channel, persisting
   submissions to Neon, and Resend domain verification. The root `resume.pdf`
