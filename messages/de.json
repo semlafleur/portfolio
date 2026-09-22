@@ -1,7 +1,7 @@
 {
   "metadata": {
     "title": "Samuele La Fleur — Full Stack Software Engineer",
-    "description": "Persönliches Portfolio von Samuele La Fleur, Full Stack Software Engineer mit Sitz in der Schweiz. TypeScript, React, Next.js, Node.js, AWS."
+    "description": "Persönliches Portfolio von Samuele La Fleur, Full Stack Software Engineer mit Sitz in der Schweiz. Java, Spring Boot, Node.js, TypeScript, React, Next.js, AWS."
   },
   "nav": {
     "about": "Über mich",
@@ -15,7 +15,8 @@
   },
   "hero": {
     "role": "Full Stack Software Engineer",
-    "tagline": "Über 4 Jahre Erfahrung im Bau skalierbarer Web- und Mobile-Anwendungen in den Bereichen <b>Healthcare</b>, <b>Web3</b> und <b>SaaS</b>. TypeScript, React, Node.js, cloud-native auf AWS.",
+    "tagline": "Über 4 Jahre Berufserfahrung in den Bereichen <b>Healthcare</b>, <b>Web3</b> und <b>SaaS</b>. Backend-Schwerpunkt auf Java / Spring Boot und Node.js, Frontend auf TypeScript / React, mit Produktionserfahrung auf serverlosem AWS und Kubernetes.",
+    "availability": "Verfügbar ab 1. Januar 2027",
     "ctaPrimary": "Kontakt aufnehmen",
     "ctaSecondary": "Lebenslauf herunterladen"
   },
@@ -23,12 +24,14 @@
     "eyebrow": "Über mich",
     "heading": "Ein Entwickler, der liefert.",
     "p1": "Ich bin ein Full Stack Software Engineer mit Sitz in der Schweiz und konzentriere mich darauf, Produkte zu bauen, auf die sich Menschen wirklich verlassen — von EHR-Systemen in Krankenhausqualität bis zu Web3-Marktplätzen und serverlosen SaaS-Plattformen.",
-    "p2": "Meine Arbeit liegt an der Schnittstelle zwischen einem sauberen Frontend und einem soliden Backend: überall TypeScript, oben React und Next.js, darunter Node.js, NestJS oder Spring Boot, bereitgestellt auf AWS mit CI/CD, die ich end-to-end verantworte — gestützt auf echte Testpraxis (JUnit 5, Mockito, Jest, TDD wo es zählt).",
+    "p2": "Meine Arbeit liegt an der Schnittstelle zwischen einem sauberen Frontend und einem soliden Backend, mit dem Schwerpunkt auf dem Backend: darunter Java und Spring Boot oder Node.js und NestJS, oben TypeScript und React, in Produktion auf serverlosem AWS und Kubernetes mit CI/CD, die ich end-to-end verantworte — gestützt auf echte Testpraxis (JUnit 5, Mockito, Jest, TDD wo es zählt).",
     "aiLine": "KI-Werkzeuge sind Teil meiner Arbeitsweise: Claude und GitHub Copilot gehören zu meinem Alltag für Code-Reviews, Dokumentation und schnellere Iteration — und ich habe gelernt, wo ich mich auf sie stützen kann und wo ich alles selbst prüfe.",
-    "personalLine": "Abseits der Tastatur: Fitnessstudio und Training, Musik aller Genres, Technologie und Open Source, AC Mailand.",
+    "personalLine": "Abseits der Tastatur: Krafttraining, Musik aller Genres, Open Source und eigene Projekte, AC Mailand.",
     "quickFactsTitle": "Kurzprofil",
     "factBasedLabel": "Standort",
     "factBasedValue": "Schweiz",
+    "factAvailabilityLabel": "Verfügbar ab",
+    "factAvailabilityValue": "Januar 2027",
     "factExperienceLabel": "Erfahrung",
     "factExperienceValue": "4+ Jahre",
     "factFocusLabel": "Fokus",
@@ -36,7 +39,7 @@
     "factAiLabel": "KI-Werkzeuge",
     "factAiValue": "Claude · GitHub Copilot",
     "factLanguagesLabel": "Sprachen",
-    "factLanguagesValue": "🇮🇹 Muttersprache · 🇬🇧 C1 · 🇩🇪 A2"
+    "factLanguagesValue": "🇮🇹 Muttersprache · 🇬🇧 C1 · 🇩🇪 A2 (wird ausgebaut)"
   },
   "experience": {
     "eyebrow": "Erfahrung",

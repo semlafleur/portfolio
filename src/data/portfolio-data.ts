@@ -38,17 +38,31 @@ export type ContactChannel = {
 
 export const experiences: Experience[] = [
   {
+    company: "Zivildienst (Swiss Civilian Service)",
+    role: "Civilian service assignment",
+    location: "Switzerland",
+    startDate: "2026-01",
+    endDate: "2026-12",
+    highlights: [
+      "Mandatory Swiss civilian service. Employment contract with Goodcode SA remains active; available for a new role from 1 January 2027.",
+      "Kitchen & Activities Assistant — Basel Lighthouse, Basel (Sep – Dec 2026).",
+      "Administrative Assistant — Casa Anziani di Sementina, Sementina (Jul – Aug 2026).",
+      "Caretaker Assistant — Casa Anziani Comunale di Bellinzona, Bellinzona (Jan – Jun 2026).",
+    ],
+    stack: [],
+  },
+  {
     company: "Goodcode SA",
-    role: "Full Stack Developer",
+    role: "Full Stack Software Engineer",
     location: "Manno, Switzerland",
     startDate: "2024-04",
     endDate: null,
     highlights: [
-      "Architected EdilControl v2 on a serverless AWS stack (Lambda + SAM), with automated multi-tenant deployment via GitHub Actions that removed manual provisioning.",
-      "Contributed to Freename Web3 e-commerce: on-chain custody and multi-chain minting; redesigned the PDF invoice generation pipeline to cut bugs and improve performance.",
-      "Built a standalone microservice for dynamic PDF generation from HTML templates, reused across internal projects.",
-      "Owned release management and ongoing support for the mobile application, ensuring regular updates and stability.",
-      "Testing & QA: unit and integration tests (JUnit 5, Mockito, Jest) wired into CI/CD, with TDD in critical areas.",
+      "80% until Aug 2025 alongside the SUPSI BSc, 100% since Sep 2025.",
+      "Architected EdilControl v2, a construction site management platform, on a serverless AWS stack (Lambda + SAM). Built a fully automated multi-tenant deployment pipeline triggered by a single GitHub Actions publish, replacing a 5-minute manual process of multiple error-prone steps and provisioning backend, frontend, database and related services from one parameterizable template.",
+      "Contributed to Freename, a Web3 e-commerce platform for blockchain domain sales: implemented on-chain custody and multi-chain minting, and rebuilt the automated PDF invoice generation pipeline, eliminating recurring critical bugs and significantly improving generation time.",
+      "Built a standalone microservice for dynamic PDF generation from HTML templates, now reused across several internal projects, with unit and integration tests (JUnit 5, Mockito, Jest) wired into the CI/CD pipeline.",
+      "Owned release management and ongoing support for the company mobile application, ensuring regular updates, bug fixes and stability.",
       "AI / LLM tools: Claude used day-to-day for code review assistance and documentation generation.",
     ],
     stack: [
@@ -68,23 +82,26 @@ export const experiences: Experience[] = [
   {
     company: "Elysium (Startup)",
     role: "Front-End Developer",
-    location: "Lugano",
+    location: "Lugano, Switzerland",
     startDate: "2022-12",
     endDate: "2024-01",
-    highlights: ["Cross-platform mobile wallet (fiat + crypto)"],
+    highlights: [
+      "Part-time.",
+      "Built a cross-platform mobile wallet for Android and iOS, letting users manage fiat currencies and cryptocurrencies from a single interface.",
+    ],
     stack: ["TypeScript", "React Native", "Expo", "Redux"],
   },
   {
     company: "Ente Ospedaliero Cantonale (EOC)",
-    role: "Full Stack Developer",
-    location: "Bellinzona",
+    role: "Full Stack Software Engineer",
+    location: "Bellinzona, Switzerland",
     startDate: "2021-09",
-    endDate: "2024-03",
+    endDate: "2024-04",
     highlights: [
-      "Contributed to the Electronic Health Record (EHR) frontend and backend to improve UX, quality, and performance.",
-      "Developed an internal tooling web app (Next.js) for engineering ticket management and support workflows.",
-      "Designed and implemented the hospital-wide Flowable BPM client (50+ departments); led the backend migration from Node.js to Spring Boot for scale and reliability.",
-      "Automated tests for critical flows to support compliance and reliability in healthcare environments.",
+      "60% alongside the SUPSI BSc.",
+      "Designed and implemented a fully custom client for managing Flowable BPM processes, adopted hospital-wide across 50+ departments for medical consultations, insurance requests, inpatient management and staff task coordination. Led the backend migration from Node.js to Spring Boot to meet the resulting scale and reliability requirements.",
+      "Contributed to the Electronic Health Record (EHR) system on both frontend and backend, improving UX, code quality and performance, with automated tests on critical clinical flows to support reliability and compliance.",
+      "Developed an internal developer tooling web app (Next.js) used by the whole engineering team to manage and resolve EHR tickets, streamlining support workflows.",
     ],
     stack: [
       "TypeScript",
@@ -105,11 +122,11 @@ export const experiences: Experience[] = [
   {
     company: "Ente Ospedaliero Cantonale (EOC)",
     role: "Trainee Software Developer",
-    location: "Bellinzona",
-    startDate: "2017-05",
+    location: "Bellinzona, Switzerland",
+    startDate: "2017-09",
     endDate: "2021-08",
     highlights: [
-      "Four-year apprenticeship; final thesis digitalized REGA emergency rescue reports and integrated them into the EOC infrastructure.",
+      "Four-year apprenticeship within the EOC engineering team. Final thesis project: digitalized REGA emergency rescue reports and integrated them into the EOC internal infrastructure.",
     ],
     stack: ["TypeScript", "React", "Node.js", "MongoDB", "Redux", "Feathers", "MUI", "Docker"],
   },
@@ -118,18 +135,16 @@ export const experiences: Experience[] = [
 export const education: Education[] = [
   {
     institution: "SUPSI",
-    degree: "BSc in Computer Science",
-    location: "Lugano",
+    degree: "Bachelor of Science in Computer Science",
+    location: "Lugano, Switzerland",
     startDate: "2021-09",
     endDate: "2025-08",
-    highlights: [
-      "Evening PAP course (Professional Awareness Program), balancing academics with a full-time job — degree completed while employed.",
-    ],
+    highlights: ["Completed while working part-time as a software engineer."],
   },
   {
     institution: "Centro Professionale Tecnico (CPT)",
     degree: "AFC Software Developer with Federal Diploma",
-    location: "Locarno",
+    location: "Locarno, Switzerland",
     startDate: "2017-09",
     endDate: "2021-06",
     highlights: [],
@@ -160,6 +175,8 @@ export const skillCategories: SkillCategory[] = [
       "AngularJS",
       "React Native",
       "Redux Toolkit",
+      "Zustand",
+      "TanStack Query",
       "Tailwind CSS",
       "Material UI",
     ],
@@ -177,8 +194,8 @@ export const skillCategories: SkillCategory[] = [
     ],
   },
   {
-    category: "APIs",
-    items: ["REST", "GraphQL"],
+    category: "APIs & Architecture",
+    items: ["REST", "GraphQL", "Microservices", "Serverless", "Multi-tenant systems"],
   },
   {
     category: "Databases",
