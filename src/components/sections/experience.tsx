@@ -70,11 +70,13 @@ export const Experience = () => {
                   ))}
                 </ul>
 
-                <div className="mt-4 flex flex-wrap gap-2">
-                  {exp.stack.map((tech) => (
-                    <Chip key={tech}>{tech}</Chip>
-                  ))}
-                </div>
+                {exp.stack.length > 0 && (
+                  <div className="mt-4 flex flex-wrap gap-2">
+                    {exp.stack.map((tech) => (
+                      <Chip key={tech}>{tech}</Chip>
+                    ))}
+                  </div>
+                )}
               </article>
             </Reveal>
           </li>

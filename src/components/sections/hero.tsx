@@ -21,6 +21,10 @@ export const Hero = () => {
         <p className="mt-4 text-xl text-muted-foreground sm:text-2xl">
           {t("role")}
         </p>
+        <p className="mt-4 inline-flex items-center gap-2 rounded-full border border-primary/30 bg-primary/5 px-3 py-1 text-sm font-medium text-primary">
+          <span className="size-1.5 rounded-full bg-primary" aria-hidden />
+          {t("availability")}
+        </p>
         <p className="mt-8 max-w-2xl text-base leading-relaxed text-muted-foreground sm:text-lg">
           {t.rich("tagline", {
             b: (chunks) => (

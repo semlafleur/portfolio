@@ -1,7 +1,7 @@
 {
   "metadata": {
     "title": "Samuele La Fleur — Full Stack Software Engineer",
-    "description": "Portfolio personale di Samuele La Fleur, Full Stack Software Engineer con sede in Svizzera. TypeScript, React, Next.js, Node.js, AWS."
+    "description": "Portfolio personale di Samuele La Fleur, Full Stack Software Engineer con sede in Svizzera. Java, Spring Boot, Node.js, TypeScript, React, Next.js, AWS."
   },
   "nav": {
     "about": "Chi sono",
@@ -15,7 +15,8 @@
   },
   "hero": {
     "role": "Full Stack Software Engineer",
-    "tagline": "Oltre 4 anni a costruire applicazioni web e mobile scalabili in ambito <b>healthcare</b>, <b>Web3</b> e <b>SaaS</b>. TypeScript, React, Node.js, cloud-native su AWS.",
+    "tagline": "Oltre 4 anni di esperienza professionale in ambito <b>healthcare</b>, <b>Web3</b> e <b>SaaS</b>. Focus backend su Java / Spring Boot e Node.js, frontend su TypeScript / React, con esperienza in produzione su AWS serverless e Kubernetes.",
+    "availability": "Disponibile dal 1° gennaio 2027",
     "ctaPrimary": "Contattami",
     "ctaSecondary": "Scarica il CV"
   },
@@ -23,12 +24,14 @@
     "eyebrow": "Chi sono",
     "heading": "Uno sviluppatore che consegna.",
     "p1": "Sono un full stack software engineer con sede in Svizzera, concentrato sul creare prodotti su cui le persone contano davvero — da sistemi EHR di livello ospedaliero a marketplace Web3 e piattaforme SaaS serverless.",
-    "p2": "Il mio lavoro si colloca all'incrocio tra un frontend pulito e un backend solido: TypeScript ovunque, React e Next.js sopra, Node.js, NestJS o Spring Boot sotto, il tutto distribuito su AWS con CI/CD che gestisco end-to-end — con una pratica di testing reale alle spalle (JUnit 5, Mockito, Jest, TDD dove conta).",
+    "p2": "Il mio lavoro si colloca all'incrocio tra un frontend pulito e un backend solido, con il peso sul backend: Java e Spring Boot oppure Node.js e NestJS sotto, TypeScript e React sopra, in produzione su AWS serverless e Kubernetes con CI/CD che gestisco end-to-end — con una pratica di testing reale alle spalle (JUnit 5, Mockito, Jest, TDD dove conta).",
     "aiLine": "Gli strumenti AI fanno parte di come lavoro: Claude e GitHub Copilot sono nel mio flusso quotidiano per code review, documentazione e iterazioni più rapide — e ho imparato dove appoggiarmi a loro e dove invece verificare tutto di persona.",
-    "personalLine": "Lontano dalla tastiera: palestra e allenamento, musica di ogni genere, tecnologia e open source, il Milan.",
+    "personalLine": "Lontano dalla tastiera: allenamento in palestra, musica di ogni genere, open source e progetti personali, il Milan.",
     "quickFactsTitle": "In breve",
     "factBasedLabel": "Sede",
     "factBasedValue": "Svizzera",
+    "factAvailabilityLabel": "Disponibile da",
+    "factAvailabilityValue": "Gennaio 2027",
     "factExperienceLabel": "Esperienza",
     "factExperienceValue": "4+ anni",
     "factFocusLabel": "Focus",
@@ -36,7 +39,7 @@
     "factAiLabel": "Strumenti AI",
     "factAiValue": "Claude · GitHub Copilot",
     "factLanguagesLabel": "Lingue",
-    "factLanguagesValue": "🇮🇹 Madrelingua · 🇬🇧 C1 · 🇩🇪 A2"
+    "factLanguagesValue": "🇮🇹 Madrelingua · 🇬🇧 C1 · 🇩🇪 A2 (in crescita)"
   },
   "experience": {
     "eyebrow": "Esperienza",

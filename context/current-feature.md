@@ -370,3 +370,74 @@ Not Started
   Redis if spam ever becomes real), a second notification channel, persisting
   submissions to Neon, and Resend domain verification. The root `resume.pdf`
   remains untracked, as in the previous two features.
+
+- **Synced the portfolio with the new CV** on `feature/new-cv-sync`. Source of
+  truth was a new `resume (3).pdf` dropped at the repo root; this time the two
+  pages were read directly with the `Read` tool's `pages` parameter (renders the
+  PDF as images) rather than the macOS-PDFKit-via-`osascript` trick the previous
+  CV-parity feature needed — simpler, and worth reaching for first next time.
+  The new PDF was copied over `public/resume.pdf`; the root copy stays untracked,
+  as with the previous two features. **Four decisions were asked up front rather
+  than assumed**, because the new CV *contradicts* earlier deliberate choices:
+  it shrinks Technical Skills to 8 categories and **drops AI / LLM Tools
+  entirely** (which the site renders first, by an explicit earlier decision), and
+  its header now reads "Basel, Switzerland" (the site was deliberately made
+  generic one feature ago). User's calls: keep the site's 11 categories and the
+  `aiLine` untouched and only *add* new items; add Zivildienst **both** as a
+  timeline card and as a standalone availability line; **stay generic** on
+  location; and take **Interests only** from the CV's two new sections — no
+  References section, since it would publish a third party's email and LinkedIn
+  on a public page. **(A) New content:** a `Zivildienst (Swiss Civilian Service)`
+  entry (Jan – Dec 2026) is now the first Experience row, carrying the CV's four
+  bullets (mandatory service, Goodcode contract still active / available from
+  1 Jan 2027, and the three assignments). It is the **first entry with an empty
+  `stack`**, which exposed a latent layout bug: `experience.tsx` rendered the
+  chip container unconditionally, so an empty stack still emitted a `mt-4` spacer
+  — fixed with a `exp.stack.length > 0 &&` guard. Availability is surfaced twice:
+  a teal pill under the Hero role (`hero.availability`) and an "Available from ·
+  January 2027" quick fact. **(B) Corrections:** EOC Full Stack role end date
+  Mar → **Apr 2024**, EOC Trainee start May → **Sep 2017**, and both EOC roles
+  plus Goodcode retitled *Full Stack Developer* → *Full Stack Software Engineer*.
+  The user flagged mid-spec that **neither EOC role is senior** — "senior" turned
+  out to exist only as loose shorthand in the spec draft, never in the site, the
+  messages files, or the seed; the spec was reworded and the rule written into
+  `project-overview.md` so it cannot drift. Engagement detail (Goodcode *80%
+  until Aug 2025 alongside the SUPSI BSc, 100% since Sep 2025* — the "alongside
+  BSc" part added by the user, who noted the 80% period overlapped the degree
+  that ended the same month; EOC *60% alongside the BSc*; Elysium *part-time*)
+  went in as a **first highlight bullet rather than a new DB column** — no
+  migration, no schema change, no UI work. **(C) Copy** across
+  `messages/{en,it,de}.json`: taglines and `about.p2` rewritten to lead with the
+  new CV's backend-first summary (Java / Spring Boot and Node.js underneath,
+  TypeScript / React on top, serverless AWS **and Kubernetes**), SEO
+  `metadata.description` gained Java / Spring Boot to match, `personalLine`
+  absorbed the CV's Interests, German became *A2 (improving)*, and the SUPSI
+  education bullet replaced the evening-PAP line with "Completed while working
+  part-time as a software engineer." Skills gained **Zustand** and **TanStack
+  Query**; `APIs` was renamed **APIs & Architecture** with Microservices /
+  Serverless / Multi-tenant systems added. "Spring Boot 3.x" was deliberately
+  *not* added — the site already says "Spring Boot 3.3/6", the same fact stated
+  more precisely. **Two findings came out of `/feature review`, both fixed
+  before merge.** (1) The Elysium bullet had been written as *"Part-time
+  alongside studies and the EOC role."* — but the CV says only `part-time`. The
+  overlap is real from the dates, yet the source never states it, so the
+  inference was trimmed back to "Part-time." Worth remembering as a standing
+  rule for CV work: **the dates supporting a claim is not the same as the CV
+  making it.** (2) `context/project-overview.md` had silently gone stale in
+  seven places (old EOC dates, old role titles, the PAP bullet, the `APIs`
+  category, no Zivildienst, old tagline, German A2) — the previous CV feature
+  kept that doc in sync but this feature's spec never listed it, so it drifted.
+  Updated in full. Verified with `npm run build` (clean, all three locales still
+  SSG at 1h revalidate), `npm run lint` (0 warnings), **both** Neon branches
+  reseeded to identical counts (1 user, 1 profile, 5 experience, 2 education,
+  1 project, 11 skill categories), SSR-HTML greps across `/en`, `/it` and `/de`
+  showing the new content with **zero** `MISSING_MESSAGE`/`IntlError`, and a
+  live browser pass confirming the availability pill renders and the
+  stack-less Zivildienst card has no chip row. The only console error came from
+  a Chrome extension, not the app. **Known limitation, deliberately not coded
+  around:** the availability copy is hardcoded, so after 1 Jan 2027 the pill will
+  still read "Available from 1 January 2027" — date logic for a single one-off
+  event wasn't worth it; it is a one-line edit in three JSON files. Noted in
+  `project-overview.md`. **Pre-existing and untouched:** DB-sourced content
+  (company names, highlights, locations) still renders in English on all three
+  locales — the translation layer covers `messages/*.json` only.

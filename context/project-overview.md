@@ -45,7 +45,8 @@ A professional link to share with recruiters and contacts — showing who you ar
 #### Hero
 - **Name:** Samuele La Fleur
 - **Role:** Full Stack Software Engineer
-- **Tagline** *(from CV Professional Summary)* — e.g. *"4+ years building scalable web and mobile applications across healthcare, Web3, and SaaS. TypeScript, React, Node.js, cloud-native on AWS."*
+- **Tagline** *(from CV Professional Summary)* — e.g. *"4+ years of professional experience across healthcare, Web3, and SaaS. Backend focus on Java / Spring Boot and Node.js, frontend on TypeScript / React, with production experience on serverless AWS and Kubernetes."*
+- **Availability pill** — "Available from 1 January 2027" (hardcoded copy; see the note under Roadmap)
 - **Primary CTA:** contact / download CV
 
 #### About
@@ -54,29 +55,37 @@ Short 2–3 paragraph bio, based on the CV Professional Summary.
 #### Experience — timeline
 Faithful to the CV:
 
-**1 · Goodcode SA** — Full Stack Developer · Manno, Switzerland · *Apr 2024 – Present*
+**1 · Zivildienst (Swiss Civilian Service)** — Civilian service assignment · Switzerland · *Jan 2026 – Dec 2026*
+- Mandatory Swiss civilian service; Goodcode SA contract remains active, available for a new role from 1 Jan 2027
+- Assignments: Basel Lighthouse (Basel), Casa Anziani di Sementina, Casa Anziani Comunale di Bellinzona
+- **Stack:** *(none — the only entry with an empty stack; the timeline hides the chip row)*
+
+**2 · Goodcode SA** — Full Stack Software Engineer · Manno, Switzerland · *Apr 2024 – Present*
+- 80% until Aug 2025 (alongside the SUPSI BSc), 100% since Sep 2025
 - EdilControl v2 (serverless AWS, multi-tenant, GitHub Actions pipeline)
 - Freename (Web3 e-commerce, on-chain minting, PDF invoice pipeline)
 - PDF generation microservice
 - Mobile app release management
 - **Stack:** TypeScript · React · Next.js · NestJS · Spring Boot · AngularJS · PostgreSQL · AWS Lambda · AWS SAM · GitHub Actions · Docker
 
-**2 · Elysium (Startup)** — Front-End Developer · Lugano · *Dec 2022 – Jan 2024*
+**3 · Elysium (Startup)** — Front-End Developer · Lugano, Switzerland · *Dec 2022 – Jan 2024* · part-time
 - Cross-platform mobile wallet (fiat + crypto)
 - **Stack:** TypeScript · React Native · Expo · Redux
 
-**3 · Ente Ospedaliero Cantonale (EOC)** — Full Stack Developer · Bellinzona · *Sep 2021 – Mar 2024*
+**4 · Ente Ospedaliero Cantonale (EOC)** — Full Stack Software Engineer · Bellinzona, Switzerland · *Sep 2021 – Apr 2024* · 60% alongside the BSc
 - EHR system, developer tooling web app, custom Flowable BPM client (50+ departments), Node.js → Spring Boot migration
 - **Stack:** TypeScript · React · Next.js · Spring Boot · Node.js · MongoDB · Redux · Feathers · MUI · Jenkins · Docker · Rancher · Kubernetes
 
-**4 · Ente Ospedaliero Cantonale (EOC)** — Trainee Software Developer · Bellinzona · *May 2017 – Aug 2021*
+**5 · Ente Ospedaliero Cantonale (EOC)** — Trainee Software Developer · Bellinzona, Switzerland · *Sep 2017 – Aug 2021*
 - 4-year apprenticeship + final thesis on the REGA application
 - **Stack:** TypeScript · React · Node.js · MongoDB · Redux · Feathers · MUI · Docker
 
+> Neither EOC role is senior — titles are exactly as the CV writes them.
+
 #### Education
-- **SUPSI** — BSc in Computer Science · Lugano · *Sep 2021 – Aug 2025*
-  - Evening PAP course (Professional Awareness Program) — degree completed while employed full-time
-- **Centro Professionale Tecnico (CPT)** — AFC Software Developer with Federal Diploma · Locarno · *Sep 2017 – Jun 2021*
+- **SUPSI** — Bachelor of Science in Computer Science · Lugano, Switzerland · *Sep 2021 – Aug 2025*
+  - Completed while working part-time as a software engineer
+- **Centro Professionale Tecnico (CPT)** — AFC Software Developer with Federal Diploma · Locarno, Switzerland · *Sep 2017 – Jun 2021*
 
 #### Projects
 - **NFT Marketplace** *(course project, 2025)* — cross-chain NFT marketplace with listing, bidding/auction, and multi-chain wallet integration. TypeScript · React · Next.js · Solidity (Hardhat) · Web3.js · AWS
@@ -90,9 +99,9 @@ is deliberately first — it's a differentiator, not a footnote.
 |----------|--------------|
 | **AI / LLM Tools** | Claude · GitHub Copilot · AI-assisted code review · AI-assisted documentation |
 | **Languages** | JavaScript / TypeScript · Java · C++ · C · PHP · SQL · Bash |
-| **Frontend** | React · Next.js · AngularJS · React Native · Redux Toolkit · Tailwind CSS · Material UI |
+| **Frontend** | React · Next.js · AngularJS · React Native · Redux Toolkit · Zustand · TanStack Query · Tailwind CSS · Material UI |
 | **Backend** | Node.js · NestJS · Spring Boot 3.3/6 · Spring WebFlux · Spring Security · Hibernate/JPA · Feathers |
-| **APIs** | REST · GraphQL |
+| **APIs & Architecture** | REST · GraphQL · Microservices · Serverless · Multi-tenant systems |
 | **Databases** | PostgreSQL · MongoDB · MySQL · Oracle · SQL Server |
 | **DevOps & Cloud** | AWS · Lambda · AWS SAM · Azure · Docker · Kubernetes · Helm · Rancher · Jenkins · GitHub Actions |
 | **Testing & QA** | JUnit 5 · Mockito · Jest · TDD · Testing in CI/CD |
@@ -103,7 +112,7 @@ is deliberately first — it's a differentiator, not a footnote.
 #### Spoken languages
 - 🇮🇹 **Italian** — Native
 - 🇬🇧 **English** — Professional working proficiency (C1)
-- 🇩🇪 **German** — Basic (A2)
+- 🇩🇪 **German** — Basic (A2), actively improving
 
 #### Personal *(light touch)*
 A discreet line at the end of About:
