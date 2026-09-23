@@ -9,7 +9,6 @@ export const About = () => {
 
   const quickFacts = [
     { label: t("factBasedLabel"), value: t("factBasedValue") },
-    { label: t("factAvailabilityLabel"), value: t("factAvailabilityValue") },
     { label: t("factExperienceLabel"), value: t("factExperienceValue") },
     { label: t("factFocusLabel"), value: t("factFocusValue") },
     { label: t("factAiLabel"), value: t("factAiValue") },

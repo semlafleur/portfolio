@@ -2,24 +2,30 @@
 
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { MapPin } from "lucide-react";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { Section } from "@/components/section";
 import { SectionHeading } from "@/components/section-heading";
 import { Reveal } from "@/components/reveal";
-import type { Education as EducationEntry } from "@/data/portfolio-data";
+import {
+  toLocale,
+  type Education as EducationEntry,
+  type Locale,
+} from "@/data/portfolio-data";
 import { formatRange } from "@/lib/dates";
 import { portfolioQueryKeys } from "@/lib/query-client";
 
-const fetchEducation = async (): Promise<EducationEntry[]> => {
-  const res = await fetch("/api/portfolio/education");
+const fetchEducation = async (locale: Locale): Promise<EducationEntry[]> => {
+  const res = await fetch(`/api/portfolio/education?locale=${locale}`);
   return res.json();
 };
 
 export const Education = () => {
   const t = useTranslations("education");
+  const tCommon = useTranslations("common");
+  const locale = toLocale(useLocale());
   const { data: education } = useSuspenseQuery({
-    queryKey: portfolioQueryKeys.education,
-    queryFn: fetchEducation,
+    queryKey: portfolioQueryKeys.education(locale),
+    queryFn: () => fetchEducation(locale),
   });
 
   return (
@@ -31,7 +37,12 @@ export const Education = () => {
           <Reveal key={entry.institution} delay={index * 0.05}>
             <article className="h-full rounded-xl border border-border bg-card p-6">
               <span className="font-mono text-xs text-muted-foreground">
-                {formatRange(entry.startDate, entry.endDate)}
+                {formatRange(
+                  entry.startDate,
+                  entry.endDate,
+                  locale,
+                  tCommon("present"),
+                )}
               </span>
               <h3 className="mt-3 text-lg font-semibold">{entry.degree}</h3>
               <p className="mt-1 text-sm text-muted-foreground">

@@ -3,6 +3,9 @@
     "title": "Samuele La Fleur — Full Stack Software Engineer",
     "description": "Personal portfolio of Samuele La Fleur, Full Stack Software Engineer based in Switzerland. Java, Spring Boot, Node.js, TypeScript, React, Next.js, AWS."
   },
+  "common": {
+    "present": "Present"
+  },
   "nav": {
     "about": "About",
     "experience": "Experience",
@@ -16,7 +19,6 @@
   "hero": {
     "role": "Full Stack Software Engineer",
     "tagline": "4+ years of professional experience across <b>healthcare</b>, <b>Web3</b>, and <b>SaaS</b>. Backend focus on Java / Spring Boot and Node.js, frontend on TypeScript / React, with production experience on serverless AWS and Kubernetes.",
-    "availability": "Available from 1 January 2027",
     "ctaPrimary": "Get in touch",
     "ctaSecondary": "Download CV"
   },
@@ -30,8 +32,6 @@
     "quickFactsTitle": "Quick facts",
     "factBasedLabel": "Based in",
     "factBasedValue": "Switzerland",
-    "factAvailabilityLabel": "Available from",
-    "factAvailabilityValue": "January 2027",
     "factExperienceLabel": "Experience",
     "factExperienceValue": "4+ years",
     "factFocusLabel": "Focus",

@@ -2,25 +2,31 @@
 
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { MapPin } from "lucide-react";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { Section } from "@/components/section";
 import { SectionHeading } from "@/components/section-heading";
 import { Reveal } from "@/components/reveal";
 import { Chip } from "@/components/chip";
-import type { Experience as ExperienceEntry } from "@/data/portfolio-data";
+import {
+  toLocale,
+  type Experience as ExperienceEntry,
+  type Locale,
+} from "@/data/portfolio-data";
 import { formatRange } from "@/lib/dates";
 import { portfolioQueryKeys } from "@/lib/query-client";
 
-const fetchExperiences = async (): Promise<ExperienceEntry[]> => {
-  const res = await fetch("/api/portfolio/experience");
+const fetchExperiences = async (locale: Locale): Promise<ExperienceEntry[]> => {
+  const res = await fetch(`/api/portfolio/experience?locale=${locale}`);
   return res.json();
 };
 
 export const Experience = () => {
   const t = useTranslations("experience");
+  const tCommon = useTranslations("common");
+  const locale = toLocale(useLocale());
   const { data: experiences } = useSuspenseQuery({
-    queryKey: portfolioQueryKeys.experiences,
-    queryFn: fetchExperiences,
+    queryKey: portfolioQueryKeys.experiences(locale),
+    queryFn: () => fetchExperiences(locale),
   });
 
   return (
@@ -51,7 +57,12 @@ export const Experience = () => {
                     </p>
                   </div>
                   <span className="shrink-0 font-mono text-xs text-muted-foreground sm:pt-1">
-                    {formatRange(exp.startDate, exp.endDate)}
+                    {formatRange(
+                      exp.startDate,
+                      exp.endDate,
+                      locale,
+                      tCommon("present"),
+                    )}
                   </span>
                 </div>
 
