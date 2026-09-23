@@ -9,6 +9,16 @@ export default defineConfig({
     path: "prisma/migrations",
   },
   datasource: {
-    url: process.env["DATABASE_URL"],
+    // CLI only (migrate / introspect) — the app runtime uses the pooled
+    // DATABASE_URL via the Neon adapter in src/lib/prisma.ts.
+    //
+    // Migrations must NOT go through the Neon pooler: `prisma migrate deploy`
+    // takes a session-scoped `pg_advisory_lock`, and PgBouncer's transaction
+    // mode drops session state between transactions, so the lock times out
+    // (P1002) even with nothing else running. Measured: ~2-4s to acquire over
+    // the pooler vs ~250ms direct, against a fixed, non-configurable 10s
+    // timeout. Falls back to DATABASE_URL so a machine without DIRECT_URL set
+    // still works.
+    url: process.env["DIRECT_URL"] ?? process.env["DATABASE_URL"],
   },
 });
