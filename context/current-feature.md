@@ -1,34 +1,14 @@
-# Current Feature: Link preview (Open Graph) that actually works
+# Current Feature
 
 ## Status
 
 <!-- Not Started|In Progress|Completed -->
 
-In Progress
+Not Started
 
 ## Goals
 
-- `metadataBase` resolves to `https://www.slafleur.dev` in production, so
-  og:image, og:url, twitter:image, canonical and hreflang are absolute
-  production URLs (today they all point to `http://localhost:3000`)
-- Redesigned OG image in the site's style (dark, teal, editorial name + role,
-  per locale), content centred so a square thumbnail crop still reads
-- Replace the default Create Next App favicon with an "SL" icon + `apple-icon`
-- `og:locale` in `xx_YY` form
-- Verified live after deploy: meta tags, image returns 200, real preview check
-
 ## Notes
-
-- Full spec: `context/features/link-preview-spec.md`
-- Root cause: `layout.tsx:23` falls back to `http://localhost:3000` because
-  `NEXT_PUBLIC_SITE_URL` was never set on Vercel (deferred since Phase 3).
-  The OG image route itself already works live (200, 1200×630).
-- User decisions (2026-09-23): **logo, not a photo** (the "SL" mark in a
-  designed card); **`NEXT_PUBLIC_SITE_URL=https://www.slafleur.dev` set on
-  Vercel**, Production only — already done. `NEXT_PUBLIC_*` is inlined at build
-  time, so it only takes effect on the next production build (the merge).
-- Previews are cached by WhatsApp/LinkedIn; LinkedIn Post Inspector forces a
-  re-scrape.
 
 ## History
 
@@ -677,3 +657,47 @@ In Progress
   **Not verified by Claude, left to the user:** a real phone, and scrolling
   with the mobile menu or ⌘K dialog open (Lenis vs. the dialog scroll lock).
   The root `resume.pdf` / `resume (3).pdf` remain untracked, as before.
+
+- **Made link previews actually work, with an SL logo card and favicon** on
+  `feature/link-preview`, per `context/features/link-preview-spec.md`. The
+  request ("the thing where a shared link shows info and a small picture")
+  turned out to be **already built in Phase 3 but broken in production** —
+  found by reading the live HTML before writing any goals, not by assuming a
+  missing feature. **Root cause:** `layout.tsx` sets `metadataBase` from
+  `NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000"`, and that variable was
+  never set on Vercel (listed as deferred since Phase 3), so `og:image`,
+  `og:url`, `twitter:image`, `canonical` **and** `hreflang` all pointed to
+  `localhost` on the live site — crawlers couldn't fetch the image, and the
+  canonical was wrong for SEO too. The image route itself already returned
+  200 on the live domain. **User decisions:** a **logo** card, not a personal
+  photo; **set `NEXT_PUBLIC_SITE_URL=https://www.slafleur.dev` on Vercel**
+  rather than derive it in code (the alternative offered was Vercel's
+  `VERCEL_PROJECT_PRODUCTION_URL`). Set via `vercel env add`, **Production
+  only** — Preview deploys still fall back to localhost, which is moot since
+  `*.vercel.app` previews sit behind Vercel's SSO login page anyway. Since
+  `NEXT_PUBLIC_*` is inlined at build time, the fix only lands with the next
+  production build — so it was verified locally with the variable set on
+  the build command before merging. **Changes:** redesigned
+  `app/[locale]/opengraph-image.tsx` (dark card, fixed teal constellation kept
+  to the edges, "SL" logo, name split over two lines like the hero, role in
+  spaced teal uppercase, `slafleur.dev` footer) with everything centred so the
+  centre-square crop WhatsApp/iMessage use still shows logo, name and role
+  (checked with `sips -c 630 630`); only Geist **Regular** ships with
+  `next/og`, so hierarchy comes from size and tracking, not weight. The
+  default Create Next App `favicon.ico` was `git rm`'d and replaced by a static
+  `app/icon.svg` plus a generated `app/apple-icon.tsx` (180×180, full-bleed
+  since iOS masks its own corners). **Proxy gotcha worth recording:** the
+  next-intl matcher only skips paths containing a dot, so the extensionless
+  `/apple-icon` would have been redirected to `/en/apple-icon` and 404'd —
+  `apple-icon` was added to the matcher's exclusions. `og:locale` now uses
+  `en_US` / `it_CH` / `de_CH`. **Verified live** on `www.slafleur.dev` after
+  the production deploy: canonical, og:url and og:image absolute on the real
+  domain, zero `localhost` in the HTML, `og:locale=it_CH`, and the OG image,
+  `/icon.svg` and `/apple-icon` all 200. Also `npm run lint`,
+  `npx tsc --noEmit`, `npm run build` (pages still SSG), all three locale
+  images 200 locally, and the favicon checked legible at 256/32/16px.
+  **Known and left as-is:** `/favicon.ico` now 404s (browsers follow the
+  `<link rel="icon">`, but a few old crawlers request that path blindly — add
+  an `.ico` if it ever matters); `slafleur.dev` is hardcoded in the OG image;
+  and WhatsApp/LinkedIn cache the old empty preview — LinkedIn Post Inspector
+  forces a re-scrape, and a `?v=2` suffix sidesteps WhatsApp's cache.
