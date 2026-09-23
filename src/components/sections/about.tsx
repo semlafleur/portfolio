@@ -17,7 +17,7 @@ export const About = () => {
 
   return (
     <Section id="about">
-      <SectionHeading eyebrow={t("eyebrow")} heading={t("heading")} />
+      <SectionHeading index={1} eyebrow={t("eyebrow")} heading={t("heading")} />
       <Reveal>
         <div className="grid gap-10 lg:grid-cols-[1.6fr_1fr] lg:gap-16">
           <div className="space-y-5 text-base leading-relaxed text-muted-foreground">

@@ -1,6 +1,7 @@
 "use client";
 
 import { Command } from "cmdk";
+import { useLenis } from "lenis/react";
 import {
   Briefcase,
   Check,
@@ -21,6 +22,7 @@ import { useEffect, useState } from "react";
 import { usePathname, useRouter } from "@/i18n/navigation";
 import { GithubIcon, LinkedinIcon } from "@/components/icons/brand";
 import { useCommandPalette } from "@/components/command-palette-provider";
+import { NAV_OFFSET } from "@/components/smooth-scroll";
 import { contactChannels, cvHref } from "@/data/portfolio-data";
 import type { Locale } from "@/lib/i18n";
 
@@ -38,6 +40,7 @@ export const CommandPalette = () => {
   const router = useRouter();
   const pathname = usePathname();
   const [emailCopied, setEmailCopied] = useState(false);
+  const lenis = useLenis();
 
   const handleOpenChange = (next: boolean) => {
     if (next) setEmailCopied(false);
@@ -96,7 +99,7 @@ export const CommandPalette = () => {
           className="h-12 w-full bg-transparent text-sm outline-none placeholder:text-muted-foreground"
         />
       </div>
-      <Command.List className="max-h-80 overflow-y-auto p-2">
+      <Command.List data-lenis-prevent className="max-h-80 overflow-y-auto p-2">
         <Command.Empty className="py-6 text-center text-sm text-muted-foreground">
           {t("empty")}
         </Command.Empty>
@@ -108,9 +111,13 @@ export const CommandPalette = () => {
               className={itemClasses}
               onSelect={() =>
                 runAndClose(() => {
-                  document
-                    .getElementById(section.id)
-                    ?.scrollIntoView({ behavior: "smooth" });
+                  if (lenis) {
+                    lenis.scrollTo(`#${section.id}`, { offset: NAV_OFFSET });
+                  } else {
+                    document
+                      .getElementById(section.id)
+                      ?.scrollIntoView({ behavior: "smooth" });
+                  }
                 })
               }
             >

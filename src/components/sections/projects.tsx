@@ -28,12 +28,12 @@ export const Projects = () => {
 
   return (
     <Section id="projects">
-      <SectionHeading eyebrow={t("eyebrow")} heading={t("heading")} />
+      <SectionHeading index={5} eyebrow={t("eyebrow")} heading={t("heading")} />
 
       <div className="grid gap-5 sm:grid-cols-2">
         {projects.map((project, index) => (
           <Reveal key={project.title} delay={index * 0.05}>
-            <article className="h-full rounded-xl border border-border bg-card p-6">
+            <article className="h-full rounded-xl border border-border bg-card transition-colors duration-300 hover:border-primary/40 p-6">
               <div className="flex items-start justify-between gap-4">
                 <h3 className="text-lg font-semibold">{project.title}</h3>
                 <span className="shrink-0 font-mono text-xs text-muted-foreground">

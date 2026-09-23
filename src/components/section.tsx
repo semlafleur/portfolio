@@ -12,7 +12,7 @@ export const Section = ({ id, className, children }: SectionProps) => (
   <section
     id={id}
     className={cn(
-      "mx-auto max-w-6xl scroll-mt-16 px-4 py-20 sm:px-6 sm:py-28 lg:px-8",
+      "mx-auto max-w-6xl scroll-mt-16 px-4 py-24 sm:px-6 sm:py-36 lg:px-8",
       className
     )}
   >

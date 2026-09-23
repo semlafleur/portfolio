@@ -62,7 +62,7 @@ export const Contact = () => {
 
   return (
     <Section id="contact">
-      <SectionHeading eyebrow={t("eyebrow")} heading={t("heading")} />
+      <SectionHeading index={6} eyebrow={t("eyebrow")} heading={t("heading")} />
 
       <Reveal>
         <div className="grid gap-10 lg:grid-cols-2 lg:gap-16">
