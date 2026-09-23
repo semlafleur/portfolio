@@ -441,3 +441,78 @@ Not Started
   `project-overview.md`. **Pre-existing and untouched:** DB-sourced content
   (company names, highlights, locations) still renders in English on all three
   locales — the translation layer covers `messages/*.json` only.
+
+- **Localized the DB-sourced content and removed the availability pill** on
+  `feature/localize-db-content`. Closes the "pre-existing, not from this change"
+  item carried over from the CV-sync feature: Experience / Education / Projects /
+  Skills came from the DB and rendered in **English on all three locales**, so
+  `/it` and `/de` were UI-translated but content-English. **Research first:**
+  Prisma ships no canonical translation pattern, but next-intl's design docs
+  endorse the split actually built here — *"manage content like blog posts or
+  marketing copy in a CMS, while managing UI labels in next-intl"*, passing the
+  negotiated locale into the content query — and explicitly discourage arrays of
+  strings in message files, which is exactly what `highlights` is. That killed
+  the "move the prose into `messages/*.json`" option. Four storage designs were
+  put to the user with schema previews (locale column · translation tables ·
+  JSON columns · message files); they chose the **locale column**, translating
+  **everything** (prose, skill categories, degrees, locations **and** job
+  titles), with Claude drafting IT **and** DE. **Two extra English leaks the
+  original note had missed** were found while grounding the spec and folded in:
+  (1) `src/lib/dates.ts` hardcoded `MONTHS = ["Jan", …]` **and** the literal
+  `"Present"`, so every date range read English regardless of the DB — replaced
+  with native `Intl.DateTimeFormat` plus a `common.present` key (`Present` /
+  `Presente` / `Heute`), giving `gen 2026` and `Jan. 2026`; and (2) the React
+  Query keys were **locale-blind** (`["experiences"]`), so the moment content
+  varied by language the cache would have served one language's rows to another
+  — keys became functions of locale. That second one was the real trap: it would
+  have shipped as an intermittent, hard-to-reproduce bug. **Schema:** `locale`
+  on the four content models, `@@unique([locale, order])`, `@@index([order])`
+  widened to `[locale, order]`; `Profile` deliberately left out (nothing renders
+  it). **Source-file shape:** the arrays are *not* copied three times — shared
+  facts (dates, stack, company/institution names) stay written once and only
+  translatable fields sit under `i18n: { en, it, de }`, which the seed flattens
+  into one row per locale; a date edit is still a one-line change. The query
+  return types are byte-identical to before, so no component changed shape.
+  `SkillCategory.items` went per-locale beyond the spec, because
+  "AI-assisted code review" and "Multi-tenant systems" are prose, not product
+  names, and would otherwise have stayed English. **Migration gotcha worth
+  recording:** `prisma migrate dev` **cannot run in this non-interactive shell**
+  — it insists on prompting before adding unique constraints, and
+  `--create-only` prompts too. The way through is
+  `prisma migrate diff --from-config-datasource --to-schema prisma/schema.prisma
+  --script` (note: `--from-url` was **removed** in v7), writing the SQL into a
+  hand-made `prisma/migrations/<timestamp>_name/` folder and applying it with
+  `migrate deploy`. The generated SQL was read before applying — additive only,
+  4 columns + 8 indexes, no data-destroying drops. `@default("en")` was added to
+  the locale columns so the NOT NULL column could land on already-populated
+  tables; a seed that ever forgot `locale` would now collide on the unique
+  constraint and fail loudly rather than corrupt silently. **Review caught
+  nothing broken but proved it rather than assuming**, via throwaway `tsx`
+  scripts: no missing locale on any of the 19 entries; highlight/item counts
+  identical across locales (so no bullet was silently dropped in translation);
+  only the 2 intended prose categories diverge from the English item lists, so
+  no typo crept into the other nine tech lists; and the 10 strings still
+  identical to English are all legitimately so (`Part-time.` is the Italian
+  loanword; `Frontend`/`Backend`/`DevOps & Cloud`/`Testing & QA` are
+  untranslated in IT/DE tech usage). The message files had been rewritten with a
+  Python `json.dump`, which can mass-reformat — checked, and the diff is
+  **+3/−3 lines** each with indent and key order intact. Verified with
+  `npm run build` (clean, all three locales still SSG at 1h), `npm run lint`
+  (0 warnings), `prisma migrate status` in sync, both Neon branches migrated and
+  reseeded to identical counts (1 user, 1 profile, **15** experience, **6**
+  education, **3** project, **33** skill categories), SSR-HTML greps showing
+  **0 hits** for six English phrases across `/it` and `/de` and zero
+  `MISSING_MESSAGE`/`IntlError`, API routes returning the right language for
+  `?locale=` and falling back to `en` on missing *or* garbage input, and a live
+  browser pass switching **EN → IT → DE** and confirming the timeline re-rendered
+  in each language — the cache-key fix doing its job. Only console errors came
+  from a Chrome extension. **Also removed**, per the user: the
+  "Available from 1 January 2027" Hero pill **and** the About → Quick facts row
+  (back to 5 rows), the three dead message keys in all three locales, and the
+  stale "Availability pill" line in `context/project-overview.md`. The
+  Zivildienst timeline bullet keeps its own CV-sourced availability sentence.
+  **Known and accepted:** the German is Claude's drafting, unverified by a native
+  speaker (the user's own call — they are A2); Swiss orthography used throughout
+  (`massgeschneidert`, not `maßgeschneidert`). **Open stylistic inconsistency
+  flagged, not silently resolved:** the project title is localized in German
+  (`NFT-Marktplatz`) but left as `NFT Marketplace` in Italian.

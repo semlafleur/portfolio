@@ -1,24 +1,29 @@
 "use client";
 
 import { useSuspenseQuery } from "@tanstack/react-query";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { Section } from "@/components/section";
 import { SectionHeading } from "@/components/section-heading";
 import { Reveal } from "@/components/reveal";
 import { Chip } from "@/components/chip";
-import type { Project as ProjectEntry } from "@/data/portfolio-data";
+import {
+  toLocale,
+  type Locale,
+  type Project as ProjectEntry,
+} from "@/data/portfolio-data";
 import { portfolioQueryKeys } from "@/lib/query-client";
 
-const fetchProjects = async (): Promise<ProjectEntry[]> => {
-  const res = await fetch("/api/portfolio/projects");
+const fetchProjects = async (locale: Locale): Promise<ProjectEntry[]> => {
+  const res = await fetch(`/api/portfolio/projects?locale=${locale}`);
   return res.json();
 };
 
 export const Projects = () => {
   const t = useTranslations("projects");
+  const locale = toLocale(useLocale());
   const { data: projects } = useSuspenseQuery({
-    queryKey: portfolioQueryKeys.projects,
-    queryFn: fetchProjects,
+    queryKey: portfolioQueryKeys.projects(locale),
+    queryFn: () => fetchProjects(locale),
   });
 
   return (

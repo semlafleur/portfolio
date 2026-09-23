@@ -19,31 +19,33 @@ import {
   getSkillCategories,
 } from "@/lib/db/portfolio";
 import { getQueryClient, portfolioQueryKeys } from "@/lib/query-client";
+import { toLocale } from "@/data/portfolio-data";
 
 const Home = async ({ params }: { params: Promise<{ locale: string }> }) => {
-  const { locale } = await params;
+  const { locale: rawLocale } = await params;
   // Enable static rendering for the section tree below.
-  setRequestLocale(locale);
+  setRequestLocale(rawLocale);
+  const locale = toLocale(rawLocale);
 
   const activity = await getGithubActivity();
 
   const queryClient = getQueryClient();
   await Promise.all([
     queryClient.prefetchQuery({
-      queryKey: portfolioQueryKeys.experiences,
-      queryFn: getExperiences,
+      queryKey: portfolioQueryKeys.experiences(locale),
+      queryFn: () => getExperiences(locale),
     }),
     queryClient.prefetchQuery({
-      queryKey: portfolioQueryKeys.education,
-      queryFn: getEducation,
+      queryKey: portfolioQueryKeys.education(locale),
+      queryFn: () => getEducation(locale),
     }),
     queryClient.prefetchQuery({
-      queryKey: portfolioQueryKeys.skillCategories,
-      queryFn: getSkillCategories,
+      queryKey: portfolioQueryKeys.skillCategories(locale),
+      queryFn: () => getSkillCategories(locale),
     }),
     queryClient.prefetchQuery({
-      queryKey: portfolioQueryKeys.projects,
-      queryFn: getProjects,
+      queryKey: portfolioQueryKeys.projects(locale),
+      queryFn: () => getProjects(locale),
     }),
   ]);
 

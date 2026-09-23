@@ -2,14 +2,20 @@ import { prisma } from "@/lib/prisma";
 import type {
   Education as EducationEntry,
   Experience as ExperienceEntry,
+  Locale,
   Project as ProjectEntry,
   SkillCategory as SkillCategoryEntry,
 } from "@/data/portfolio-data";
 
 const toYearMonth = (date: Date) => date.toISOString().slice(0, 7);
 
-export const getExperiences = async (): Promise<ExperienceEntry[]> => {
-  const rows = await prisma.experience.findMany({ orderBy: { order: "asc" } });
+export const getExperiences = async (
+  locale: Locale,
+): Promise<ExperienceEntry[]> => {
+  const rows = await prisma.experience.findMany({
+    where: { locale },
+    orderBy: { order: "asc" },
+  });
   return rows.map((row) => ({
     company: row.company,
     role: row.role,
@@ -21,8 +27,13 @@ export const getExperiences = async (): Promise<ExperienceEntry[]> => {
   }));
 };
 
-export const getEducation = async (): Promise<EducationEntry[]> => {
-  const rows = await prisma.education.findMany({ orderBy: { order: "asc" } });
+export const getEducation = async (
+  locale: Locale,
+): Promise<EducationEntry[]> => {
+  const rows = await prisma.education.findMany({
+    where: { locale },
+    orderBy: { order: "asc" },
+  });
   return rows.map((row) => ({
     institution: row.institution,
     degree: row.degree,
@@ -33,8 +44,11 @@ export const getEducation = async (): Promise<EducationEntry[]> => {
   }));
 };
 
-export const getProjects = async (): Promise<ProjectEntry[]> => {
-  const rows = await prisma.project.findMany({ orderBy: { order: "asc" } });
+export const getProjects = async (locale: Locale): Promise<ProjectEntry[]> => {
+  const rows = await prisma.project.findMany({
+    where: { locale },
+    orderBy: { order: "asc" },
+  });
   return rows.map((row) => ({
     title: row.title,
     description: row.description,
@@ -44,8 +58,13 @@ export const getProjects = async (): Promise<ProjectEntry[]> => {
   }));
 };
 
-export const getSkillCategories = async (): Promise<SkillCategoryEntry[]> => {
-  const rows = await prisma.skillCategory.findMany({ orderBy: { order: "asc" } });
+export const getSkillCategories = async (
+  locale: Locale,
+): Promise<SkillCategoryEntry[]> => {
+  const rows = await prisma.skillCategory.findMany({
+    where: { locale },
+    orderBy: { order: "asc" },
+  });
   return rows.map((row) => ({
     category: row.category,
     items: row.items,

@@ -9,6 +9,7 @@ import {
   projects,
   skillCategories,
   contactChannels,
+  locales,
 } from "../src/data/portfolio-data";
 import en from "../messages/en.json";
 
@@ -51,59 +52,75 @@ const run = async () => {
     create: profileData,
   });
 
+  // Each entry is written once per locale: the locale-independent facts are
+  // shared, only the `i18n` slice differs. `locale` + `order` is unique.
   await prisma.experience.deleteMany();
   await prisma.experience.createMany({
-    data: experiences.map((e, order) => ({
-      company: e.company,
-      role: e.role,
-      location: e.location,
-      startDate: toDate(e.startDate)!,
-      endDate: toDate(e.endDate),
-      highlights: e.highlights,
-      stack: e.stack,
-      order,
-    })),
+    data: locales.flatMap((locale) =>
+      experiences.map((e, order) => ({
+        locale,
+        company: e.company,
+        role: e.i18n[locale].role,
+        location: e.i18n[locale].location,
+        startDate: toDate(e.startDate)!,
+        endDate: toDate(e.endDate),
+        highlights: e.i18n[locale].highlights,
+        stack: e.stack,
+        order,
+      })),
+    ),
   });
 
   await prisma.education.deleteMany();
   await prisma.education.createMany({
-    data: education.map((ed, order) => ({
-      institution: ed.institution,
-      degree: ed.degree,
-      location: ed.location,
-      startDate: toDate(ed.startDate)!,
-      endDate: toDate(ed.endDate),
-      highlights: ed.highlights,
-      order,
-    })),
+    data: locales.flatMap((locale) =>
+      education.map((ed, order) => ({
+        locale,
+        institution: ed.institution,
+        degree: ed.i18n[locale].degree,
+        location: ed.i18n[locale].location,
+        startDate: toDate(ed.startDate)!,
+        endDate: toDate(ed.endDate),
+        highlights: ed.i18n[locale].highlights,
+        order,
+      })),
+    ),
   });
 
   await prisma.project.deleteMany();
   await prisma.project.createMany({
-    data: projects.map((p, order) => ({
-      title: p.title,
-      description: p.description,
-      stack: p.stack,
-      year: p.year,
-      note: p.note,
-      order,
-    })),
+    data: locales.flatMap((locale) =>
+      projects.map((p, order) => ({
+        locale,
+        title: p.i18n[locale].title,
+        description: p.i18n[locale].description,
+        stack: p.stack,
+        year: p.year,
+        note: p.i18n[locale].note,
+        order,
+      })),
+    ),
   });
 
   await prisma.skillCategory.deleteMany();
   await prisma.skillCategory.createMany({
-    data: skillCategories.map((s, order) => ({
-      category: s.category,
-      items: s.items,
-      order,
-    })),
+    data: locales.flatMap((locale) =>
+      skillCategories.map((s, order) => ({
+        locale,
+        category: s.i18n[locale].category,
+        items: s.i18n[locale].items,
+        order,
+      })),
+    ),
   });
 
+  const perLocale = (n: number) => n * locales.length;
   console.log("Seed complete:", {
-    experiences: experiences.length,
-    education: education.length,
-    projects: projects.length,
-    skillCategories: skillCategories.length,
+    locales: locales.length,
+    experiences: perLocale(experiences.length),
+    education: perLocale(education.length),
+    projects: perLocale(projects.length),
+    skillCategories: perLocale(skillCategories.length),
   });
   await prisma.$disconnect();
 };

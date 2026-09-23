@@ -46,7 +46,6 @@ A professional link to share with recruiters and contacts — showing who you ar
 - **Name:** Samuele La Fleur
 - **Role:** Full Stack Software Engineer
 - **Tagline** *(from CV Professional Summary)* — e.g. *"4+ years of professional experience across healthcare, Web3, and SaaS. Backend focus on Java / Spring Boot and Node.js, frontend on TypeScript / React, with production experience on serverless AWS and Kubernetes."*
-- **Availability pill** — "Available from 1 January 2027" (hardcoded copy; see the note under Roadmap)
 - **Primary CTA:** contact / download CV
 
 #### About
