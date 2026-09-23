@@ -516,3 +516,57 @@ Not Started
   (`massgeschneidert`, not `maßgeschneidert`). **Open stylistic inconsistency
   flagged, not silently resolved:** the project title is localized in German
   (`NFT-Marktplatz`) but left as `NFT Marketplace` in Italian.
+
+- **Rewrote the About copy in a sober register** on `feature/sober-about-copy`.
+  The user rejected the existing About text outright. The request was genuinely
+  ambiguous — *"fai qualcosa di più discreto"* (tone it down) sat next to
+  *"pompa molto la mia posizione qui"*, which reads either as the **reason**
+  ("it oversells me") or as a **second, opposite instruction** ("strengthen my
+  positioning"). Those produce opposite copy, so rather than guess, three full
+  drafts were put to the user as previews (sober/factual · discreet-but-stronger
+  positioning · ultra-minimal). They chose **sober — just the facts**, plus
+  **delete the AI paragraph entirely** and **keep the personal line**. Worth
+  remembering: for a pure-copy task the tone *is* the deliverable, so guessing
+  the register would have made the whole thing useless if wrong. **The rewrite:**
+  `about.heading`, `p1` and `p2` replaced in all three locales, ~130 → **~60
+  words**. Cut: *"A developer who ships"* / *"Uno sviluppatore che consegna"* /
+  *"Ein Entwickler, der liefert"*, *"products people actually rely on"*,
+  *"CI/CD I own end-to-end"*, and the whole *"I've learned where to lean on them
+  and where to verify everything myself"* line. What remains names the domains
+  (hospital EHR, Web3 e-commerce, SaaS on AWS) and the stack, with no adjectives.
+  Every claim traces to `public/resume.pdf`; nothing invented. `about.aiLine` was
+  deleted from `messages/{en,it,de}.json` and its `<p>` removed from
+  `about.tsx` — AI / LLM Tools still renders **first** in the Skills grid and in
+  the Goodcode experience bullet, so no fact was lost. **A copy conflict the
+  approved draft would have shipped:** its heading was *"Chi sono."* — which is
+  already the **eyebrow** printed directly above it (EN `About`, IT `Chi sono`,
+  DE `Über mich`), so the section would have said the same words twice; naming
+  the role instead would have duplicated the Hero. Resolved with headings that
+  duplicate neither — `What I work on.` / `Di cosa mi occupo.` /
+  `Woran ich arbeite.` — flagged to the user rather than applied silently.
+  **Two stale lines in `context/project-overview.md`** were found while checking
+  what depended on this copy and fixed in the same pass: line 118 still quoted
+  the **pre-CV-sync** personal line ("gym & training … technology & open
+  source"), and the `#### About` description still promised a "Short 2–3
+  paragraph bio", which the rewrite makes untrue. **Dependency checked before
+  editing, not after:** `prisma/seed.ts:42` builds `Profile.bio` from
+  `` `${en.about.p1} ${en.about.p2}` `` and `personalLine` from
+  `en.about.personalLine`, but never reads `aiLine` — so deleting that key could
+  not break the seed. Both Neon branches were reseeded anyway so `Profile.bio`
+  stops holding the old promotional text (the row is still rendered nowhere).
+  Message files were edited with **targeted `Edit` calls rather than a Python
+  `json.dump`**, per the lesson from the previous feature that a dump can
+  silently mass-reformat — diffs held to **+3/−4 lines** each. Verified with
+  `npm run build` (clean, all three locales still SSG), `npm run lint`
+  (0 warnings), a grep confirming **no `aiLine` reference survives** in code or
+  messages, all three message files still valid JSON at 12 namespaces, an
+  SSR-HTML parse confirming exactly **3 paragraphs** in the About section per
+  locale with zero `MISSING_MESSAGE`/`IntlError`, and a live browser pass on
+  `/it` confirming the eyebrow and heading no longer collide. **Flagged, not
+  fixed:** halving the prose leaves the left column noticeably shorter than the
+  Quick facts card beside it, so About now sits a little asymmetric on desktop —
+  a layout tweak if it bothers the user, deliberately not "fixed" by padding the
+  copy back out. **Left in scope-adjacent but untouched:** the Hero tagline
+  (rewritten from the CV one feature earlier; the complaint was about About
+  specifically) and the compact "AI tooling · Claude · GitHub Copilot" quick
+  fact, since the ask was to drop the AI *paragraph*, not the row.

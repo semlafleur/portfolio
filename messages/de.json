@@ -24,10 +24,9 @@
   },
   "about": {
     "eyebrow": "Über mich",
-    "heading": "Ein Entwickler, der liefert.",
-    "p1": "Ich bin ein Full Stack Software Engineer mit Sitz in der Schweiz und konzentriere mich darauf, Produkte zu bauen, auf die sich Menschen wirklich verlassen — von EHR-Systemen in Krankenhausqualität bis zu Web3-Marktplätzen und serverlosen SaaS-Plattformen.",
-    "p2": "Meine Arbeit liegt an der Schnittstelle zwischen einem sauberen Frontend und einem soliden Backend, mit dem Schwerpunkt auf dem Backend: darunter Java und Spring Boot oder Node.js und NestJS, oben TypeScript und React, in Produktion auf serverlosem AWS und Kubernetes mit CI/CD, die ich end-to-end verantworte — gestützt auf echte Testpraxis (JUnit 5, Mockito, Jest, TDD wo es zählt).",
-    "aiLine": "KI-Werkzeuge sind Teil meiner Arbeitsweise: Claude und GitHub Copilot gehören zu meinem Alltag für Code-Reviews, Dokumentation und schnellere Iteration — und ich habe gelernt, wo ich mich auf sie stützen kann und wo ich alles selbst prüfe.",
+    "heading": "Woran ich arbeite.",
+    "p1": "Full Stack Software Engineer mit Sitz in der Schweiz. Seit über vier Jahren arbeite ich an Systemen im Produktivbetrieb: elektronische Patientenakten im Spitalumfeld, eine Web3-E-Commerce-Plattform, SaaS-Anwendungen auf AWS.",
+    "p2": "Backend in Java / Spring Boot und Node.js, Frontend in TypeScript und React. Deployment auf serverlosem AWS und Kubernetes, mit Tests dort, wo sie wirklich zählen (JUnit 5, Mockito, Jest).",
     "personalLine": "Abseits der Tastatur: Krafttraining, Musik aller Genres, Open Source und eigene Projekte, AC Mailand.",
     "quickFactsTitle": "Kurzprofil",
     "factBasedLabel": "Standort",
