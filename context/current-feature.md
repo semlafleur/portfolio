@@ -1,14 +1,34 @@
-# Current Feature
+# Current Feature: Link preview (Open Graph) that actually works
 
 ## Status
 
 <!-- Not Started|In Progress|Completed -->
 
-Not Started
+In Progress
 
 ## Goals
 
+- `metadataBase` resolves to `https://www.slafleur.dev` in production, so
+  og:image, og:url, twitter:image, canonical and hreflang are absolute
+  production URLs (today they all point to `http://localhost:3000`)
+- Redesigned OG image in the site's style (dark, teal, editorial name + role,
+  per locale), content centred so a square thumbnail crop still reads
+- Replace the default Create Next App favicon with an "SL" icon + `apple-icon`
+- `og:locale` in `xx_YY` form
+- Verified live after deploy: meta tags, image returns 200, real preview check
+
 ## Notes
+
+- Full spec: `context/features/link-preview-spec.md`
+- Root cause: `layout.tsx:23` falls back to `http://localhost:3000` because
+  `NEXT_PUBLIC_SITE_URL` was never set on Vercel (deferred since Phase 3).
+  The OG image route itself already works live (200, 1200×630).
+- User decisions (2026-09-23): **logo, not a photo** (the "SL" mark in a
+  designed card); **`NEXT_PUBLIC_SITE_URL=https://www.slafleur.dev` set on
+  Vercel**, Production only — already done. `NEXT_PUBLIC_*` is inlined at build
+  time, so it only takes effect on the next production build (the merge).
+- Previews are cached by WhatsApp/LinkedIn; LinkedIn Post Inspector forces a
+  re-scrape.
 
 ## History
 

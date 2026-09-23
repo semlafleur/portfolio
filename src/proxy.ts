@@ -7,6 +7,8 @@ import { routing } from "@/i18n/routing";
 export default createMiddleware(routing);
 
 export const config = {
-  // Skip API routes, Next internals, and anything with a file extension.
-  matcher: ["/((?!api|_next|_vercel|.*\\..*).*)"],
+  // Skip API routes, Next internals, the extensionless generated apple-icon
+  // (it would otherwise be redirected to /en/apple-icon and 404), and anything
+  // with a file extension.
+  matcher: ["/((?!api|_next|_vercel|apple-icon|.*\\..*).*)"],
 };

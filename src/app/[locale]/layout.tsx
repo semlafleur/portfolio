@@ -22,6 +22,9 @@ const geistMono = Geist_Mono({
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
 
+// Open Graph expects language_TERRITORY; the site targets Switzerland.
+const ogLocales: Record<string, string> = { en: "en_US", it: "it_CH", de: "de_CH" };
+
 export const generateStaticParams = () =>
   routing.locales.map((locale) => ({ locale }));
 
@@ -48,7 +51,7 @@ export const generateMetadata = async ({
       description: t("description"),
       url: `/${locale}`,
       siteName,
-      locale,
+      locale: ogLocales[locale],
       type: "website",
     },
     twitter: {
