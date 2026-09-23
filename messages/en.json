@@ -24,10 +24,9 @@
   },
   "about": {
     "eyebrow": "About",
-    "heading": "A developer who ships.",
-    "p1": "I'm a full-stack software engineer based in Switzerland, focused on building products people actually rely on — from hospital-grade EHR systems to Web3 marketplaces and serverless SaaS platforms.",
-    "p2": "My work sits at the intersection of a clean frontend and a solid backend, with the weight on the backend: Java and Spring Boot or Node.js and NestJS underneath, TypeScript and React on top, running in production on serverless AWS and Kubernetes with CI/CD I own end-to-end — backed by real testing practice (JUnit 5, Mockito, Jest, TDD where it counts).",
-    "aiLine": "AI tooling is part of how I work: Claude and GitHub Copilot are in my daily loop for code review, documentation, and faster iteration — and I've learned where to lean on them and where to verify everything myself.",
+    "heading": "What I work on.",
+    "p1": "Full stack software engineer based in Switzerland. For over four years I've worked on systems that run in production: electronic health records in a hospital setting, a Web3 e-commerce platform, SaaS applications on AWS.",
+    "p2": "Backend in Java / Spring Boot and Node.js, frontend in TypeScript and React. Deployed on serverless AWS and Kubernetes, with tests where they actually matter (JUnit 5, Mockito, Jest).",
     "personalLine": "Off the keyboard: strength training, music across genres, open source and side projects, AC Milan.",
     "quickFactsTitle": "Quick facts",
     "factBasedLabel": "Based in",

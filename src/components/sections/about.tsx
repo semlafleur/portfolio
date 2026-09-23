@@ -23,7 +23,6 @@ export const About = () => {
           <div className="space-y-5 text-base leading-relaxed text-muted-foreground">
             <p>{t("p1")}</p>
             <p>{t("p2")}</p>
-            <p>{t("aiLine")}</p>
             <p className="italic">{t("personalLine")}</p>
           </div>
 

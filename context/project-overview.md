@@ -49,7 +49,10 @@ A professional link to share with recruiters and contacts — showing who you ar
 - **Primary CTA:** contact / download CV
 
 #### About
-Short 2–3 paragraph bio, based on the CV Professional Summary.
+Two short paragraphs in a deliberately sober register — what the work was and
+what it was built with, no self-promotion. Sourced from the CV Professional
+Summary. No AI paragraph: AI / LLM tooling is surfaced in the Skills grid (first
+category) and in the Goodcode experience bullet instead.
 
 #### Experience — timeline
 Faithful to the CV:
@@ -115,7 +118,7 @@ is deliberately first — it's a differentiator, not a footnote.
 
 #### Personal *(light touch)*
 A discreet line at the end of About:
-> *"Off the keyboard: gym & training, music across genres, technology & open source, AC Milan."*
+> *"Off the keyboard: strength training, music across genres, open source and side projects, AC Milan."*
 
 #### Contact
 Integrated form + direct info:
