@@ -30,12 +30,12 @@ export const Education = () => {
 
   return (
     <Section id="education">
-      <SectionHeading eyebrow={t("eyebrow")} heading={t("heading")} />
+      <SectionHeading index={3} eyebrow={t("eyebrow")} heading={t("heading")} />
 
       <div className="grid gap-5 sm:grid-cols-2">
         {education.map((entry, index) => (
           <Reveal key={entry.institution} delay={index * 0.05}>
-            <article className="h-full rounded-xl border border-border bg-card p-6">
+            <article className="h-full rounded-xl border border-border bg-card transition-colors duration-300 hover:border-primary/40 p-6">
               <span className="font-mono text-xs text-muted-foreground">
                 {formatRange(
                   entry.startDate,

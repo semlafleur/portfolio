@@ -31,7 +31,7 @@ export const Experience = () => {
 
   return (
     <Section id="experience">
-      <SectionHeading eyebrow={t("eyebrow")} heading={t("heading")} />
+      <SectionHeading index={2} eyebrow={t("eyebrow")} heading={t("heading")} />
 
       <ol className="relative ml-1.5 space-y-6 border-l border-primary/30 pl-8 sm:pl-10">
         {experiences.map((exp, index) => (
@@ -42,7 +42,7 @@ export const Experience = () => {
               aria-hidden
             />
             <Reveal delay={index * 0.05}>
-              <article className="rounded-xl border border-border bg-card p-5 sm:p-6">
+              <article className="rounded-xl border border-border bg-card transition-colors duration-300 hover:border-primary/40 p-5 sm:p-6">
                 <div className="flex flex-col gap-1 sm:flex-row sm:items-start sm:justify-between sm:gap-4">
                   <div>
                     <h3 className="text-lg font-semibold">

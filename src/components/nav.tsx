@@ -1,6 +1,7 @@
 "use client";
 
 import { Command, Download, Menu } from "lucide-react";
+import { motion, useScroll } from "motion/react";
 import { useLocale, useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
 import {
@@ -23,6 +24,7 @@ export const Nav = () => {
   const router = useRouter();
   const pathname = usePathname();
   const { setOpen } = useCommandPalette();
+  const { scrollYProgress } = useScroll();
 
   const sectionLinks = [
     { href: "#about", label: t("about") },
@@ -53,7 +55,7 @@ export const Nav = () => {
             <a
               key={link.href}
               href={link.href}
-              className="transition-colors hover:text-foreground"
+              className="relative transition-colors after:absolute after:-bottom-1 after:left-0 after:h-px after:w-full after:origin-left after:scale-x-0 after:bg-primary after:transition-transform after:duration-300 hover:text-foreground hover:after:scale-x-100"
             >
               {link.label}
             </a>
@@ -136,6 +138,11 @@ export const Nav = () => {
           </DropdownMenu>
         </div>
       </div>
+      <motion.div
+        aria-hidden
+        className="absolute inset-x-0 bottom-0 h-px origin-left bg-primary"
+        style={{ scaleX: scrollYProgress }}
+      />
     </header>
   );
 };

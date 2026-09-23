@@ -24,12 +24,12 @@ export const Skills = () => {
 
   return (
     <Section id="skills">
-      <SectionHeading eyebrow={t("eyebrow")} heading={t("heading")} />
+      <SectionHeading index={4} eyebrow={t("eyebrow")} heading={t("heading")} />
 
       <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
         {skillCategories.map((category, index) => (
           <Reveal key={category.category} delay={index * 0.05}>
-            <article className="h-full rounded-xl border border-border bg-card p-6">
+            <article className="h-full rounded-xl border border-border bg-card transition-colors duration-300 hover:border-primary/40 p-6">
               <h3 className="text-sm font-semibold text-primary">
                 {category.category}
               </h3>

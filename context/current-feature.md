@@ -570,3 +570,90 @@ Not Started
   (rewritten from the CV one feature earlier; the complaint was about About
   specifically) and the compact "AI tooling · Claude · GitHub Copilot" quick
   fact, since the ask was to drop the AI *paragraph*, not the row.
+
+- **Redesigned the portfolio, inspired by leoparpeix.com** on
+  `feature/redesign-leoparpeix`, per
+  `context/features/redesign-leoparpeix-spec.md`. **Research constraint worth
+  recording:** the reference site could not be opened from this network —
+  Sunrise Surf Protect DNS-sinkholes `leoparpeix.com` as **Malware** (a
+  `Whalebone Sinkhole CA` cert and a "Sunrise - warning" page), and the Wayback
+  Machine timed out. The block was **not bypassed**; the stack was pieced
+  together from public write-ups (Awwwards SOTD 14 Sep 2026, mesh3d,
+  landing.love) and an unofficial GitHub clone: Three.js/WebGL + GLSL, GSAP,
+  Lenis, Vue 3 + Vite (inferred from the clone only). **User decisions up
+  front:** *inspired*, not a full redesign (same sections); evolve the existing
+  constellation into 3D rather than use models; keep dark-first + teal; `motion`
+  instead of GSAP; no sound. **(1) Editorial typography/layout:** left-aligned
+  hero with the name split over two lines at up to `text-9xl` (surname in muted
+  grey) and the role as a teal eyebrow; `SectionHeading` gained an `index` prop
+  for a numbered "01–06" marker on a full-width rule, plus a word-by-word
+  masked slide-up (`aria-label` on the `h2`, split words `aria-hidden`);
+  roomier `Section` padding; teal hover borders on cards/chips and an animated
+  underline on nav links. **(2) Scroll:** new `smooth-scroll.tsx` mounts
+  `ReactLenis root` with `anchors: { offset: -64 }` plus
+  `MotionConfig reducedMotion="user"`, and skips Lenis entirely under reduced
+  motion; the ⌘K jump-to-section routes through `lenis.scrollTo` (native
+  `scrollIntoView` fallback) and the cmdk list got `data-lenis-prevent`; a
+  `useScroll`-driven teal progress line sits under the nav; `Reveal` got a
+  longer editorial ease. **(3) 3D hero:** new `hero-constellation-3d.tsx`
+  (React Three Fiber v9 + three r186): 90 nodes as soft round point sprites
+  (custom GLSL, size/opacity fall off with depth), per-frame neighbour lines
+  with distance-based alpha, "synaptic" pulses, a gentle yaw sway and mouse
+  parallax, teal from `useThemeColor`, `frameloop="never"` while off-screen
+  via `IntersectionObserver`. New `hero-background.tsx` picks the scene: 3D
+  when WebGL2 exists, the untouched 2D canvas otherwise, and always the 2D
+  static frame under reduced motion; three/R3F load through `next/dynamic`
+  (`ssr: false`). **React Compiler lint gotcha:** building the three.js buffers
+  in `useMemo` and mutating them in `useFrame` tripped
+  `react-hooks/immutability` and `react-hooks/purity`; the clean fix (no
+  eslint-disable) was a module-level `createScene()` factory called inside an
+  effect, stored in a ref and attached to an empty `<group>` imperatively, so
+  nothing mutable is read during render. **Added after the first review, at
+  the user's request:** a procedural floating laptop (light-grey body, dark
+  screen with teal "code" lines) and a React atom logo (three flattened tori +
+  nucleus) in `hero-floating-objects.tsx`, bobbing/spinning around the name
+  and repositioned from viewport fractions (beside the name in landscape, above
+  and below it in portrait). **Two real bugs found and fixed after the user
+  reported the constellation not filling a PC screen:** (a) since the original
+  2D feature (`714ee74`) the backdrop lived *inside* the `max-w-6xl` Section, so
+  it was clipped to the 1152px content column — the hero is now a full-width
+  `relative overflow-hidden` wrapper holding the backdrop, with only the text
+  in the Section; (b) the "camera drift" was a continuous yaw, so after ~40s
+  the wide-but-shallow node volume was seen side-on and collapsed into a
+  central band — replaced by a ±0.2 rad sine sway, and the volume's half-width
+  now follows the viewport (`max(9, vw/2 + 1)`, the +1 covering the ±0.6
+  parallax shift), rescaling x on resize instead of piling nodes on the edges.
+  Line opacity was later raised 0.35 → 0.6 (3D and 2D fallback) and the laptop
+  moved to light grey with metalness 0.6 → 0.2, since a metallic material with
+  no environment map renders dark whatever its colour. **Performance —
+  measured, and accepted by the user:** Lighthouse mobile against local
+  `next start`, two to three runs each, with `main` built in a throwaway
+  worktree as the baseline: score 87–89 vs 93–96, TBT 250–300ms vs 40–60ms,
+  LCP 2.9–3.3s vs 2.8–3.2s (so the spec's < 2.5s LCP target is unmet on
+  **both** — not a regression), CLS 0, accessibility 100. Mounting the 3D on
+  `requestIdleCallback` (300ms `setTimeout` on Safari) moved its long task
+  after hydration but did **not** lower lab TBT, because TTI extends over any
+  later long task; three.js is ~900 KB raw and R3F imports all of it.
+  Loading 3D on first interaction was offered and declined (the hero would
+  start empty). New deps: `lenis`, `three`, `@react-three/fiber`,
+  `@types/three` — no `drei`, no `transpilePackages` needed. **Testing gotchas
+  worth recording:** (1) the Chrome-extension tab stayed
+  `visibilityState: hidden` with **0 rAF/s**, so animation screenshots were
+  frozen or black — verification moved to headless Chrome (`--screenshot`,
+  `--virtual-time-budget`) and a throwaway `puppeteer-core` script (needed to
+  set `localStorage.theme` for the light-theme shot); (2) headless Chrome
+  enforces a minimum window width (~500px), so a "390px" screenshot is silently
+  cropped — the nav's right side missing was the tell; (3) headless screenshots
+  of `#hash` URLs come out fully black — `main` produced the byte-identical
+  image, so it is a harness quirk, not an app bug; (4) Turbopack refuses a
+  `node_modules` symlink pointing outside the project root, so the baseline
+  worktree used an APFS clone (`cp -Rc`) instead; (5) the first Lighthouse run
+  read 44 / LCP 9s — a cold-start outlier that later runs did not reproduce.
+  Verified with `npm run lint` (0 warnings), `npx tsc --noEmit`, `npm run build`
+  (clean, `/en`, `/it`, `/de` still SSG at 1h), SSR-HTML greps with zero
+  `MISSING_MESSAGE`/`IntlError`, the Lenis anchor landing Experience exactly
+  under the 64px nav, and headless screenshots at 600, 1440, 1920 (after 45s of
+  animation) and 2560px in dark and light plus a reduced-motion run.
+  **Not verified by Claude, left to the user:** a real phone, and scrolling
+  with the mobile menu or ⌘K dialog open (Lenis vs. the dialog scroll lock).
+  The root `resume.pdf` / `resume (3).pdf` remain untracked, as before.

@@ -115,7 +115,7 @@ export const HeroConstellationBackground = ({
           const other = nodes[j];
           const dist = Math.hypot(a.x - other.x, a.y - other.y);
           if (dist >= connectionDistance) continue;
-          ctx.strokeStyle = `rgba(${r}, ${g}, ${b}, ${(1 - dist / connectionDistance) * 0.35})`;
+          ctx.strokeStyle = `rgba(${r}, ${g}, ${b}, ${(1 - dist / connectionDistance) * 0.6})`;
           ctx.lineWidth = 1;
           ctx.beginPath();
           ctx.moveTo(a.x, a.y);
